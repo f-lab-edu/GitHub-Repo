@@ -23,7 +23,7 @@ kapt = "1.5.30"
 plugin-serialization = "2.0.0"
 
 # common
-hilt = "2.44"
+hilt = "2.48"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
