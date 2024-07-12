@@ -18,12 +18,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+
+            buildConfigField("String", "GITHUB_URL", "\"https://github.com/\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField("String", "GITHUB_URL", "\"https://github.com/\"")
         }
     }
     compileOptions {
@@ -32,6 +40,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -50,6 +61,7 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.serialization.converter)
