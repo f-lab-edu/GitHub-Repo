@@ -1,23 +1,20 @@
 package com.prac.data.repository.impl
 
 import com.prac.data.entity.AccessTokenEntity
-import com.prac.data.repository.dto.AccessTokenDto
-import com.prac.data.repository.GetAccessTokenRepository
-import com.prac.data.source.GetAccessTokenDataSource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.prac.data.repository.TokenRepository
+import com.prac.data.source.GetAccessTokenApiDataSource
 import javax.inject.Inject
 
-internal class GetAccessTokenRepositoryImpl @Inject constructor(
-    private val getAccessTokenDataSource: GetAccessTokenDataSource
-) : GetAccessTokenRepository {
-    override suspend fun getAccessToken(
+internal class TokenRepositoryImpl @Inject constructor(
+    private val getAccessTokenApiDataSource: GetAccessTokenApiDataSource
+) : TokenRepository {
+    override suspend fun getAccessTokenApi(
         clientID: String,
         clientSecret: String,
         code: String
     ): Result<AccessTokenEntity> {
         try {
-            val model = getAccessTokenDataSource.getAccessToken(
+            val model = getAccessTokenApiDataSource.getAccessTokenApi(
                 clientID = clientID,
                 clientSecret = clientSecret,
                 code = code

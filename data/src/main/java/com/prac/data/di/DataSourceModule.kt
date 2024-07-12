@@ -1,21 +1,19 @@
 package com.prac.data.di
 
-import com.prac.data.source.GetAccessTokenDataSource
+import com.prac.data.source.GetAccessTokenApiDataSource
 import com.prac.data.source.api.GitHubTokenApi
-import com.prac.data.source.impl.GetAccessTokenDataSourceImpl
+import com.prac.data.source.impl.GetAccessTokenApiDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DataSourceModule {
     @Provides
-    fun provideGetAccessTokenDataSource(
+    fun provideGetAccessTokenApiDataSource(
         gitHubTokenApi: GitHubTokenApi
-    ): GetAccessTokenDataSource =
-        GetAccessTokenDataSourceImpl(gitHubTokenApi)
+    ): GetAccessTokenApiDataSource =
+        GetAccessTokenApiDataSourceImpl(gitHubTokenApi)
 }

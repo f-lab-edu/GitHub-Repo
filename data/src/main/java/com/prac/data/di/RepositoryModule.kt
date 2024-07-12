@@ -1,10 +1,8 @@
 package com.prac.data.di
 
-import com.prac.data.repository.GetAccessTokenRepository
-import com.prac.data.repository.impl.GetAccessTokenRepositoryImpl
-import com.prac.data.source.GetAccessTokenDataSource
-import com.prac.data.source.api.GitHubTokenApi
-import com.prac.data.source.impl.GetAccessTokenDataSourceImpl
+import com.prac.data.repository.TokenRepository
+import com.prac.data.repository.impl.TokenRepositoryImpl
+import com.prac.data.source.GetAccessTokenApiDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +15,7 @@ internal object RepositoryModule {
     @Provides
     @Singleton
     fun provideGetAccessTokenRepository(
-        accessTokenDataSource: GetAccessTokenDataSource
-    ): GetAccessTokenRepository =
-        GetAccessTokenRepositoryImpl(accessTokenDataSource)
+        accessTokenApiDataSource: GetAccessTokenApiDataSource
+    ): TokenRepository =
+        TokenRepositoryImpl(accessTokenApiDataSource)
 }
