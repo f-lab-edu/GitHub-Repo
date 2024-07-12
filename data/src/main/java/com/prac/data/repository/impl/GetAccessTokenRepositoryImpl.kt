@@ -11,18 +11,26 @@ import javax.inject.Inject
 internal class GetAccessTokenRepositoryImpl @Inject constructor(
     private val getAccessTokenDataSource: GetAccessTokenDataSource
 ) : GetAccessTokenRepository {
-    override fun getAccessToken(
+    override suspend fun getAccessToken(
         clientID: String,
         clientSecret: String,
         code: String
-    ): Flow<AccessTokenEntity> {
-        return getAccessTokenDataSource.getAccessToken(
-            clientID = clientID,
-            clientSecret = clientSecret,
-            code = code
-        ).map { AccessTokenEntity(
-            accessToken = it.accessToken,
-            tokenType = it.tokenType
-        ) }
+    ): Result<AccessTokenEntity> {
+        try {
+            val model = getAccessTokenDataSource.getAccessToken(
+                clientID = clientID,
+                clientSecret = clientSecret,
+                code = code
+            )
+
+            return Result.success(
+                AccessTokenEntity(
+                    accessToken = model.accessToken,
+                    tokenType = model.tokenType
+                )
+            )
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
     }
 }
