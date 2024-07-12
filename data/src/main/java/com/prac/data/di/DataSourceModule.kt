@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object DataSourceModule {
     @Provides
-    @Singleton
     fun provideGetAccessTokenDataSource(
         gitHubTokenApi: GitHubTokenApi
     ): GetAccessTokenDataSource =
