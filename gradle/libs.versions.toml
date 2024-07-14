@@ -17,6 +17,7 @@ okhttp = "4.12.0"
 retrofit = "2.11.0"
 serialization-converter = "1.0.0"
 kotlinx-serialization = "1.7.1"
+viewModel = "2.4.0"
 
 # plugins
 kapt = "1.5.30"
@@ -44,6 +45,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "serialization-converter" }
 jetbrains-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel" }
 
 
 [plugins]
