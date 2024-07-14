@@ -6,10 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="login activity"
-        android:gravity="center" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:text="@string/login_github_login"
+        android:backgroundTint="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
