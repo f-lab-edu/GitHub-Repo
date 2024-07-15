@@ -3,9 +3,11 @@ package com.prac.data.repository.impl
 import com.prac.data.entity.AccessTokenEntity
 import com.prac.data.repository.TokenRepository
 import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenLocalDataSource
 import javax.inject.Inject
 
 internal class TokenRepositoryImpl @Inject constructor(
+    private val tokenLocalDataSource: TokenLocalDataSource,
     private val getAccessTokenApiDataSource: GetAccessTokenApiDataSource
 ) : TokenRepository {
     override suspend fun getAccessTokenApi(
@@ -29,5 +31,9 @@ internal class TokenRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             return Result.failure(e)
         }
+    }
+
+    private fun setTokenLocal(accessToken: String, refreshToken: String) {
+        tokenLocalDataSource.setTokenLocal(accessToken, refreshToken)
     }
 }
