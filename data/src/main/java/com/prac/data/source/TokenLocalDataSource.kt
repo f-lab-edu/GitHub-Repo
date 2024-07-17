@@ -1,7 +1,7 @@
 package com.prac.data.source
 
 internal interface TokenLocalDataSource {
-    fun setTokenLocal(
+    fun setToken(
         accessToken: String,
         refreshToken: String
     )
