@@ -1,19 +1,17 @@
 package com.prac.data.di
 
-import android.content.Context
-import android.content.SharedPreferences
+import com.prac.data.di.binds.TokenSharedPreferences
+import com.prac.data.di.binds.impl.TokenSharedPreferencesImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SharedPreferencesModule {
-    @Provides
+abstract class SharedPreferencesModule {
+    @Binds
     @Singleton
-    fun provideTokenSharedPreferences(@ApplicationContext context: Context) : SharedPreferences =
-        context.getSharedPreferences("token", Context.MODE_PRIVATE)
+    abstract fun provideTokenSharedPreferences(tokenSharedPreferencesImpl: TokenSharedPreferencesImpl) : TokenSharedPreferences
 }
