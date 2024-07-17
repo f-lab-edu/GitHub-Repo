@@ -33,7 +33,7 @@ internal class TokenRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun setTokenLocal(accessToken: String, refreshToken: String) {
-        tokenLocalDataSource.setTokenLocal(accessToken, refreshToken)
+    private fun setToken(accessToken: String, refreshToken: String) {
+        tokenLocalDataSource.setToken(accessToken, refreshToken)
     }
 }
