@@ -1,6 +1,6 @@
 package com.prac.data.di
 
-import android.content.SharedPreferences
+import com.prac.data.di.binds.TokenSharedPreferences
 import com.prac.data.source.GetAccessTokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import com.prac.data.source.api.GitHubTokenApi
@@ -22,7 +22,7 @@ internal object DataSourceModule {
 
     @Provides
     fun provideTokenLocalDataSource(
-        tokenSharedPreferences: SharedPreferences
+        tokenSharedPreferences: TokenSharedPreferences
     ): TokenLocalDataSource =
         TokenLocalDataSourceImpl(tokenSharedPreferences)
 }
