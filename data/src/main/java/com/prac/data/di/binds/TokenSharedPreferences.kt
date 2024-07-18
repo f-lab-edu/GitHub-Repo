@@ -1,11 +1,9 @@
 package com.prac.data.di.binds
 
 interface TokenSharedPreferences {
-    enum class KEY(private val _key: String) {
+    enum class KEY(val key: String) {
         ACCESS_TOKEN("accessKey"),
-        REFRESH_TOKEN("refreshKey");
-
-        fun getKey() : String = _key
+        REFRESH_TOKEN("refreshKey")
     }
     fun putToken(key: KEY, value: String)
     fun getToken(key: KEY) : String
