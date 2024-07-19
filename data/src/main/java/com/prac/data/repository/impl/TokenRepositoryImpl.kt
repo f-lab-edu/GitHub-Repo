@@ -14,7 +14,7 @@ internal class TokenRepositoryImpl @Inject constructor(
         code: String
     ): Result<AccessTokenEntity> {
         try {
-            val model = tokenApiDataSource.getAccessTokenApi(
+            val model = tokenApiDataSource.getToken(
                 code = code
             )
 

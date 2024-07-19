@@ -8,7 +8,7 @@ import javax.inject.Inject
 internal class TokenApiDataSourceImpl @Inject constructor(
     private val gitHubTokenApi: GitHubTokenApi
 ) : TokenApiDataSource {
-    override suspend fun getAccessTokenApi(
+    override suspend fun getToken(
         code: String
     ): AccessTokenDto {
         val response = gitHubTokenApi.getAccessTokenApi(
