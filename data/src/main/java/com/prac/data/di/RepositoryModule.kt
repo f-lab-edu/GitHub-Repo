@@ -2,7 +2,8 @@ package com.prac.data.di
 
 import com.prac.data.repository.TokenRepository
 import com.prac.data.repository.impl.TokenRepositoryImpl
-import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenApiDataSource
+import com.prac.data.source.TokenLocalDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,8 +15,9 @@ import javax.inject.Singleton
 internal object RepositoryModule {
     @Provides
     @Singleton
-    fun provideGetAccessTokenRepository(
-        accessTokenApiDataSource: GetAccessTokenApiDataSource
+    fun provideTokenRepository(
+        tokenLocalDataSource: TokenLocalDataSource,
+        tokenApiDataSource: TokenApiDataSource
     ): TokenRepository =
-        TokenRepositoryImpl(accessTokenApiDataSource)
+        TokenRepositoryImpl(tokenLocalDataSource, tokenApiDataSource)
 }

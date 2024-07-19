@@ -1,3 +1,10 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
+}
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -22,6 +29,8 @@ android {
             isMinifyEnabled = false
 
             buildConfigField("String", "GITHUB_URL", "\"https://github.com/\"")
+            buildConfigField("String", "CLIENT_ID", "" + localProperties["CLIENT_ID"] + "")
+            buildConfigField("String", "CLIENT_SECRET", "" + localProperties["CLIENT_SECRET"] + "")
         }
 
         release {

@@ -2,7 +2,6 @@ package com.prac.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.prac.data.BuildConfig
-import com.prac.data.source.api.ErrorHandleInterceptor
 import com.prac.data.source.api.GitHubTokenApi
 import dagger.Module
 import dagger.Provides
@@ -32,7 +31,6 @@ internal object RetrofitModule {
                     level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
                 }
             )
-            .addInterceptor(ErrorHandleInterceptor())
             .build()
     }
 
