@@ -2,7 +2,7 @@ package com.prac.data.di
 
 import com.prac.data.repository.TokenRepository
 import com.prac.data.repository.impl.TokenRepositoryImpl
-import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import dagger.Module
 import dagger.Provides
@@ -17,7 +17,7 @@ internal object RepositoryModule {
     @Singleton
     fun provideGetAccessTokenRepository(
         tokenLocalDataSource: TokenLocalDataSource,
-        accessTokenApiDataSource: GetAccessTokenApiDataSource
+        tokenApiDataSource: TokenApiDataSource
     ): TokenRepository =
-        TokenRepositoryImpl(tokenLocalDataSource, accessTokenApiDataSource)
+        TokenRepositoryImpl(tokenLocalDataSource, tokenApiDataSource)
 }

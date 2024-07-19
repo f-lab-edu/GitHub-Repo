@@ -2,19 +2,19 @@ package com.prac.data.repository.impl
 
 import com.prac.data.entity.AccessTokenEntity
 import com.prac.data.repository.TokenRepository
-import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import javax.inject.Inject
 
 internal class TokenRepositoryImpl @Inject constructor(
     private val tokenLocalDataSource: TokenLocalDataSource,
-    private val getAccessTokenApiDataSource: GetAccessTokenApiDataSource
+    private val tokenApiDataSource: TokenApiDataSource
 ) : TokenRepository {
     override suspend fun getAccessTokenApi(
         code: String
     ): Result<AccessTokenEntity> {
         try {
-            val model = getAccessTokenApiDataSource.getAccessTokenApi(
+            val model = tokenApiDataSource.getAccessTokenApi(
                 code = code
             )
 

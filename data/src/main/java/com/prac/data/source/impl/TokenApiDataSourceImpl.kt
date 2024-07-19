@@ -1,13 +1,13 @@
 package com.prac.data.source.impl
 
 import com.prac.data.repository.dto.AccessTokenDto
-import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.api.GitHubTokenApi
 import javax.inject.Inject
 
-internal class GetAccessTokenApiDataSourceImpl @Inject constructor(
+internal class TokenApiDataSourceImpl @Inject constructor(
     private val gitHubTokenApi: GitHubTokenApi
-) : GetAccessTokenApiDataSource {
+) : TokenApiDataSource {
     override suspend fun getAccessTokenApi(
         code: String
     ): AccessTokenDto {
