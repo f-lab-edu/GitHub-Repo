@@ -1,33 +1,25 @@
 package com.prac.data.repository.impl
 
-import com.prac.data.entity.AccessTokenEntity
 import com.prac.data.repository.TokenRepository
-import com.prac.data.source.GetAccessTokenApiDataSource
+import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import javax.inject.Inject
 
 internal class TokenRepositoryImpl @Inject constructor(
     private val tokenLocalDataSource: TokenLocalDataSource,
-    private val getAccessTokenApiDataSource: GetAccessTokenApiDataSource
+    private val tokenApiDataSource: TokenApiDataSource
 ) : TokenRepository {
-    override suspend fun getAccessTokenApi(
-        clientID: String,
-        clientSecret: String,
+    override suspend fun getTokenApi(
         code: String
-    ): Result<AccessTokenEntity> {
+    ): Result<Unit> {
         try {
-            val model = getAccessTokenApiDataSource.getAccessTokenApi(
-                clientID = clientID,
-                clientSecret = clientSecret,
+            val model = tokenApiDataSource.getToken(
                 code = code
             )
 
-            return Result.success(
-                AccessTokenEntity(
-                    accessToken = model.accessToken,
-                    tokenType = model.tokenType
-                )
-            )
+            setToken(model.accessToken, model.refreshToken)
+
+            return Result.success(Unit)
         } catch (e: Exception) {
             return Result.failure(e)
         }
