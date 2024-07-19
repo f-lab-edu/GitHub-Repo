@@ -15,7 +15,7 @@ import javax.inject.Singleton
 internal object RepositoryModule {
     @Provides
     @Singleton
-    fun provideGetAccessTokenRepository(
+    fun provideTokenRepository(
         tokenLocalDataSource: TokenLocalDataSource,
         tokenApiDataSource: TokenApiDataSource
     ): TokenRepository =
