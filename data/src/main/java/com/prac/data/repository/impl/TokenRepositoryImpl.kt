@@ -11,14 +11,10 @@ internal class TokenRepositoryImpl @Inject constructor(
     private val getAccessTokenApiDataSource: GetAccessTokenApiDataSource
 ) : TokenRepository {
     override suspend fun getAccessTokenApi(
-        clientID: String,
-        clientSecret: String,
         code: String
     ): Result<AccessTokenEntity> {
         try {
             val model = getAccessTokenApiDataSource.getAccessTokenApi(
-                clientID = clientID,
-                clientSecret = clientSecret,
                 code = code
             )
 

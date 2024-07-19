@@ -9,13 +9,9 @@ internal class GetAccessTokenApiDataSourceImpl @Inject constructor(
     private val gitHubTokenApi: GitHubTokenApi
 ) : GetAccessTokenApiDataSource {
     override suspend fun getAccessTokenApi(
-        clientID: String,
-        clientSecret: String,
         code: String
     ): AccessTokenDto {
         val response = gitHubTokenApi.getAccessTokenApi(
-            clientID = clientID,
-            clientSecret = clientSecret,
             code = code
         )
 

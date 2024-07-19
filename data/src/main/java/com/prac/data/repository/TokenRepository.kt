@@ -4,8 +4,6 @@ import com.prac.data.entity.AccessTokenEntity
 
 interface TokenRepository {
     suspend fun getAccessTokenApi(
-        clientID: String,
-        clientSecret: String,
-        code: String,
+        code: String
     ) : Result<AccessTokenEntity>
 }

@@ -4,8 +4,6 @@ import com.prac.data.repository.dto.AccessTokenDto
 
 internal interface GetAccessTokenApiDataSource {
     suspend fun getAccessTokenApi(
-        clientID: String,
-        clientSecret: String,
-        code: String,
+        code: String
     ) : AccessTokenDto
 }
