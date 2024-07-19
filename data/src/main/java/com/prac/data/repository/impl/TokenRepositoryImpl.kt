@@ -1,6 +1,5 @@
 package com.prac.data.repository.impl
 
-import com.prac.data.entity.AccessTokenEntity
 import com.prac.data.repository.TokenRepository
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
@@ -12,18 +11,15 @@ internal class TokenRepositoryImpl @Inject constructor(
 ) : TokenRepository {
     override suspend fun getTokenApi(
         code: String
-    ): Result<AccessTokenEntity> {
+    ): Result<Unit> {
         try {
             val model = tokenApiDataSource.getToken(
                 code = code
             )
 
-            return Result.success(
-                AccessTokenEntity(
-                    accessToken = model.accessToken,
-                    tokenType = model.tokenType
-                )
-            )
+            setToken(model.accessToken, model.refreshToken)
+
+            return Result.success(Unit)
         } catch (e: Exception) {
             return Result.failure(e)
         }
