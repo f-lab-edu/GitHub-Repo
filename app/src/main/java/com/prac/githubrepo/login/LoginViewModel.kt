@@ -7,6 +7,7 @@ import com.prac.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,21 +18,20 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    fun fetchAccessToken(clientID: String, clientSecret: String, code: String) {
+    fun gitHubLogin(code: String) {
         viewModelScope.launch {
-            _uiState.value = LoginUIState(isLoading = true)
+            _uiState.update { LoginUIState.Loading }
 
-            tokenRepository.getAccessTokenApi(clientID = clientID, clientSecret = clientSecret, code = code)
+            tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _accessToken.value = it.accessToken
-                    _uiState.value = LoginUIState(isLoading = false)
-                }.onFailure {
-                    when (it) {
+                    _uiState.update { LoginUIState.Success }
+                }.onFailure { throwable ->
+                    when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.value = LoginUIState(isLoading = false, userMessage = it.message)
+                            _uiState.update { LoginUIState.Error(throwable.message ?: "로그인을 실패했습니다.") }
                         }
                         else -> {
-                            _uiState.value = LoginUIState(isLoading = false, userMessage = "알 수 없는 오류가 발생했습니다.")
+                            _uiState.update { LoginUIState.Error("알 수 없는 에러가 발생했습니다.") }
                         }
                     }
                 }
