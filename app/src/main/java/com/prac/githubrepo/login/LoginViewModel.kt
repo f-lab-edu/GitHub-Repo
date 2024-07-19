@@ -14,7 +14,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(LoginUIState())
+    private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
     val uiState = _uiState.asStateFlow()
 
     fun fetchAccessToken(clientID: String, clientSecret: String, code: String) {
