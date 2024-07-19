@@ -17,9 +17,6 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUIState())
     val uiState = _uiState.asStateFlow()
 
-    private val _accessToken = MutableStateFlow<String?>(null)
-    val accessToken = _accessToken.asStateFlow()
-
     fun fetchAccessToken(clientID: String, clientSecret: String, code: String) {
         viewModelScope.launch {
             _uiState.value = LoginUIState(isLoading = true)
