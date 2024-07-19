@@ -10,7 +10,7 @@ internal class TokenRepositoryImpl @Inject constructor(
     private val tokenLocalDataSource: TokenLocalDataSource,
     private val tokenApiDataSource: TokenApiDataSource
 ) : TokenRepository {
-    override suspend fun getAccessTokenApi(
+    override suspend fun getTokenApi(
         code: String
     ): Result<AccessTokenEntity> {
         try {
