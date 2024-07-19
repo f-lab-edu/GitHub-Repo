@@ -1,6 +1,6 @@
 package com.prac.data.repository.dto
 
-internal data class AccessTokenDto(
+internal data class TokenDto(
     val accessToken: String,
-    val tokenType: String
+    val refreshToken: String
 )
