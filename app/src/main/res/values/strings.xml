@@ -2,4 +2,6 @@
     <string name="app_name">Github Repo</string>
 
     <string name="login_github_login">GitHub Login</string>
+
+    <string name="main_title">Repository</string>
 </resources>
