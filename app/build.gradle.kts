@@ -27,6 +27,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+
+            buildConfigField("String", "GITHUB_OAUTH_URI", "" + localProperties["GITHUB_OAUTH_URI"] + "")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -45,8 +51,8 @@ android {
     viewBinding {
         enable = true
     }
-    defaultConfig {
-
+    buildFeatures {
+        buildConfig = true
     }
 }
 
