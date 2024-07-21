@@ -31,4 +31,16 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GITHUB_OAUTH_URI))
         startActivity(intent)
     }
+
+    private fun handleIntent(receiveIntent: Intent?) {
+        receiveIntent?.let { intent ->
+            if (intent.action == Intent.ACTION_VIEW) {
+                intent.data?.let { uri ->
+                    uri.getQueryParameter("code")?.let { code ->
+                        viewModel.loginWithGitHub(code)
+                    }
+                }
+            }
+        }
+    }
 }
