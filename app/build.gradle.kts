@@ -5,9 +5,6 @@ val localProperties = Properties().apply {
     load(FileInputStream(rootProject.file("local.properties")))
 }
 
-val callbackScheme: String = localProperties.getProperty("CALLBACK_SCHEME")
-val callbackHost : String = localProperties.getProperty("CALLBACK_HOST")
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -49,10 +46,7 @@ android {
         enable = true
     }
     defaultConfig {
-        manifestPlaceholders.apply {
-            put("callbackScheme", callbackScheme)
-            put("callbackHost", callbackHost)
-        }
+
     }
 }
 

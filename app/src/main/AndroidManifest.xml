@@ -30,8 +30,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="${callbackScheme}"
-                    android:host="${callbackHost}" />
+                    android:scheme="githubrepo"
+                    android:host="localhost" />
             </intent-filter>
         </activity>
         <activity
