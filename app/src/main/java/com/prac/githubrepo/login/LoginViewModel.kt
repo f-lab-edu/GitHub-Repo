@@ -18,7 +18,7 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    fun gitHubLogin(code: String) {
+    fun loginWithGitHub(code: String) {
         viewModelScope.launch {
             _uiState.update { LoginUIState.Loading }
 
