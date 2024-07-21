@@ -24,6 +24,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnLogin.setOnClickListener {
+            startGitHubOAuth()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
