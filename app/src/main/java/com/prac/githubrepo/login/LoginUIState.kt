@@ -7,6 +7,8 @@ sealed class LoginUIState {
 
     data object Success : LoginUIState()
 
+    data object AutoLogin : LoginUIState()
+
     data class Error(
         val errorMessage : String
     ) : LoginUIState()
