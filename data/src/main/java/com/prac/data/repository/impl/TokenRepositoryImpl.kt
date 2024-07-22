@@ -25,6 +25,10 @@ internal class TokenRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun isLoggedIn(): Boolean {
+        return tokenLocalDataSource.isLoggedIn()
+    }
+
     private fun setToken(accessToken: String, refreshToken: String) {
         tokenLocalDataSource.setToken(accessToken, refreshToken)
     }

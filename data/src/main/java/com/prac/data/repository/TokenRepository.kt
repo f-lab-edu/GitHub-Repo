@@ -4,4 +4,6 @@ interface TokenRepository {
     suspend fun getTokenApi(
         code: String
     ) : Result<Unit>
+
+    suspend fun isLoggedIn() : Boolean
 }
