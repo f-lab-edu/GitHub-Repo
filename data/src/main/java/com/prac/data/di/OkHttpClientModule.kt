@@ -1,6 +1,7 @@
 package com.prac.data.di
 
 import com.prac.data.BuildConfig
+import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.binds.TokenSharedPreferences
 import com.prac.data.source.api.AuthorizationInterceptor
@@ -34,5 +35,21 @@ object OkHttpClientModule {
                     level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
                 }
             )
+            .build()
+
+    @Provides
+    @Singleton
+    @AuthorizationInterceptorOkHttpClient
+    fun provideAuthorizationOkHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(timeout = 5, unit = TimeUnit.SECONDS)
+            .readTimeout(timeout = 5, unit = TimeUnit.SECONDS)
+            .writeTimeout(timeout = 5, unit = TimeUnit.SECONDS)
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+                }
+            )
+            .addInterceptor(authorizationInterceptor)
             .build()
 }
