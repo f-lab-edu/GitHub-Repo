@@ -29,7 +29,7 @@ internal class TokenRepositoryImpl @Inject constructor(
         return tokenLocalDataSource.isLoggedIn()
     }
 
-    private fun setToken(accessToken: String, refreshToken: String) {
+    private suspend fun setToken(accessToken: String, refreshToken: String) {
         tokenLocalDataSource.setToken(accessToken, refreshToken)
     }
 }
