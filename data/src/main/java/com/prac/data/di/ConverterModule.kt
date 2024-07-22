@@ -19,4 +19,11 @@ object ConverterModule {
     fun provideBasicConverter(): Converter.Factory {
         return Json.asConverterFactory("application/json".toMediaType())
     }
+
+    @Provides
+    @IgnoreUnknownConverter
+    fun provideIgnoreUnknownConverter(): Converter.Factory {
+        val json = Json { ignoreUnknownKeys = true }
+        return json.asConverterFactory("application/json".toMediaType())
+    }
 }
