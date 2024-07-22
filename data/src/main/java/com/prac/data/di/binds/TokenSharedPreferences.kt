@@ -7,6 +7,7 @@ interface TokenSharedPreferences {
     }
     fun putToken(key: KEY, value: String)
     fun getToken(key: KEY) : String
+    fun isLoggedIn() : Boolean
 }
 
 
