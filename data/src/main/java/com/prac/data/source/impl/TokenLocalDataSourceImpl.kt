@@ -7,14 +7,14 @@ import javax.inject.Inject
 internal class TokenLocalDataSourceImpl @Inject constructor(
     private val tokenSharedPreferences: TokenSharedPreferences
 ) : TokenLocalDataSource {
-    override fun setToken(accessToken: String, refreshToken: String) {
+    override suspend fun setToken(accessToken: String, refreshToken: String) {
         tokenSharedPreferences.apply {
             putToken(TokenSharedPreferences.KEY.ACCESS_TOKEN, accessToken)
             putToken(TokenSharedPreferences.KEY.REFRESH_TOKEN, refreshToken)
         }
     }
 
-    override fun isLoggedIn(): Boolean {
+    override suspend fun isLoggedIn(): Boolean {
         return tokenSharedPreferences.isLoggedIn()
     }
 }
