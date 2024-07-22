@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -17,6 +19,9 @@ class LoginViewModel @Inject constructor(
 ): ViewModel() {
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
     val uiState = _uiState.asStateFlow()
+
+    private val _isLoggedIn = MutableSharedFlow<Boolean>(replay = 1)
+    val isLoggedIn = _isLoggedIn.asSharedFlow()
 
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
@@ -35,6 +40,12 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    fun isLoggedIn() {
+        viewModelScope.launch {
+            _isLoggedIn.emit(tokenRepository.isLoggedIn())
         }
     }
 
