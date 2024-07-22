@@ -21,11 +21,6 @@ import javax.inject.Singleton
 internal object RetrofitModule {
     @Provides
     @Singleton
-    fun provideSerializationConverter(): Converter.Factory =
-        Json.asConverterFactory("application/json".toMediaType())
-
-    @Provides
-    @Singleton
     fun provideGitHubTokenRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
