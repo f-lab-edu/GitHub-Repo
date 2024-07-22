@@ -21,21 +21,6 @@ import javax.inject.Singleton
 internal object RetrofitModule {
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .readTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .writeTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
-                }
-            )
-            .build()
-    }
-
-    @Provides
-    @Singleton
     fun provideSerializationConverter(): Converter.Factory =
         Json.asConverterFactory("application/json".toMediaType())
 
