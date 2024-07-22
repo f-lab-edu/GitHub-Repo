@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -34,7 +35,9 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.uiState.collect {
                     when (it) {
                         is LoginUIState.Idle -> { }
-                        is LoginUIState.Loading -> { }
+                        is LoginUIState.Loading -> {
+                            binding.includeProgressBar.root.isVisible = true
+                        }
                         is LoginUIState.Success -> { }
                         is LoginUIState.Error -> { }
                     }
