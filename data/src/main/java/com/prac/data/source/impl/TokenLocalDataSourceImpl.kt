@@ -13,4 +13,8 @@ internal class TokenLocalDataSourceImpl @Inject constructor(
             putToken(TokenSharedPreferences.KEY.REFRESH_TOKEN, refreshToken)
         }
     }
+
+    override fun isLoggedIn(): Boolean {
+        return tokenSharedPreferences.isLoggedIn()
+    }
 }

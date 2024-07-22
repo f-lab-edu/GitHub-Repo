@@ -5,4 +5,6 @@ internal interface TokenLocalDataSource {
         accessToken: String,
         refreshToken: String
     )
+
+    fun isLoggedIn() : Boolean
 }
