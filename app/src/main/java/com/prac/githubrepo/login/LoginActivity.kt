@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.prac.githubrepo.BuildConfig
+import com.prac.githubrepo.MainActivity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,12 @@ class LoginActivity : AppCompatActivity() {
                         is LoginUIState.Loading -> {
                             binding.includeProgressBar.root.isVisible = true
                         }
-                        is LoginUIState.Success -> { }
+                        is LoginUIState.Success -> {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+
+                            finish()
+                        }
                         is LoginUIState.Error -> { }
                     }
                 }
