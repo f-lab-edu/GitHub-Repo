@@ -38,4 +38,13 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun checkAutoLogin() {
+        viewModelScope.launch {
+            _uiState.update { LoginUIState.Loading }
+
+            if (tokenRepository.isLoggedIn()) _uiState.update { LoginUIState.AutoLogin }
+            else _uiState.update { LoginUIState.Idle }
+        }
+    }
+
 }
