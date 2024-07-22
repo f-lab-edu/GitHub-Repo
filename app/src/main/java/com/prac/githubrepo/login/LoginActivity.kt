@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            startGitHubOAuth()
+            login()
         }
     }
 
@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         handleIntent(intent)
     }
 
-    private fun startGitHubOAuth() {
+    private fun login() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GITHUB_OAUTH_URI))
         startActivity(intent)
     }
