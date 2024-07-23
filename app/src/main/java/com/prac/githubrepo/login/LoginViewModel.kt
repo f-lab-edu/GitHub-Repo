@@ -18,6 +18,10 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
     val uiState = _uiState.asStateFlow()
 
+    init {
+        checkAutoLogin()
+    }
+
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
             _uiState.update { LoginUIState.Loading }
@@ -35,6 +39,15 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    private fun checkAutoLogin() {
+        viewModelScope.launch {
+            _uiState.update { LoginUIState.Loading }
+
+            if (tokenRepository.isLoggedIn()) _uiState.update { LoginUIState.AutoLogin }
+            else _uiState.update { LoginUIState.Idle }
         }
     }
 

@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
                         is LoginUIState.Loading -> {
                             binding.includeProgressBar.root.isVisible = true
                         }
-                        is LoginUIState.Success -> {
+                        is LoginUIState.Success, LoginUIState.AutoLogin -> {
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
 
