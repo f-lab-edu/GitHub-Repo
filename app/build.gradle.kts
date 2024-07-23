@@ -76,4 +76,5 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.runtime)
 }
