@@ -76,5 +76,6 @@ dependencies {
     implementation(libs.retrofit.serialization.converter)
 
     implementation(libs.jetbrains.kotlinx.serialization)
+    implementation(libs.androidx.lifecycle.runtime)
 
 }

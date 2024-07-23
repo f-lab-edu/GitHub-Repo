@@ -5,9 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -34,15 +36,23 @@ class LoginActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it) {
-                        is LoginUIState.AutoLogin -> {
+                        is LoginUIState.Idle -> { }
+                        is LoginUIState.Loading -> {
+                            binding.includeProgressBar.root.isVisible = true
+                        }
+                        is LoginUIState.Success, LoginUIState.AutoLogin -> {
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
 
                             finish()
                         }
-
-                        else -> {
-                            // merge
+                        is LoginUIState.Error -> {
+                            AlertDialog.Builder(this@LoginActivity)
+                                .setMessage(it.errorMessage)
+                                .setPositiveButton(R.string.check) { dialog, _ ->
+                                    dialog.cancel()
+                                }
+                                .show()
                         }
                     }
                 }

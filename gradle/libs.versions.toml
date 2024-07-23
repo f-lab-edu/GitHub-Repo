@@ -18,6 +18,7 @@ retrofit = "2.11.0"
 serialization-converter = "1.0.0"
 kotlinx-serialization = "1.7.1"
 viewModel = "2.4.0"
+runtime = "2.8.3"
 
 # plugins
 kapt = "1.5.30"
@@ -46,6 +47,7 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 retrofit-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "serialization-converter" }
 jetbrains-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "runtime" }
 
 
 [plugins]

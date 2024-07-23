@@ -17,4 +17,8 @@
         android:text="@string/login_github_login"
         android:backgroundTint="@color/black"/>
 
+    <include
+        android:id="@+id/includeProgressBar"
+        layout="@layout/layout_progress_bar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
