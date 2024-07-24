@@ -14,8 +14,9 @@ class AuthorizationInterceptor @Inject constructor(
         private const val AUTHORIZATION_TYPE = "Bearer"
     }
 
+    private val accessToken = tokenSharedPreferences.getToken(TokenSharedPreferences.KEY.ACCESS_TOKEN)
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = tokenSharedPreferences.getToken(TokenSharedPreferences.KEY.ACCESS_TOKEN)
         val request = chain.request().putTokenHeader(accessToken)
         return chain.proceed(request)
     }
