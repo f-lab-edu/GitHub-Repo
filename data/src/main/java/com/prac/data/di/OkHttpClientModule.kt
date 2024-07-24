@@ -27,9 +27,9 @@ object OkHttpClientModule {
     @BasicOkHttpClient
     fun provideBasicOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .readTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .writeTimeout(timeout = 5, unit = TimeUnit.SECONDS)
+            .connectTimeout(timeout = 10, unit = TimeUnit.SECONDS)
+            .readTimeout(timeout = 10, unit = TimeUnit.SECONDS)
+            .writeTimeout(timeout = 10, unit = TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
@@ -42,9 +42,9 @@ object OkHttpClientModule {
     @AuthorizationInterceptorOkHttpClient
     fun provideAuthorizationOkHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .readTimeout(timeout = 5, unit = TimeUnit.SECONDS)
-            .writeTimeout(timeout = 5, unit = TimeUnit.SECONDS)
+            .connectTimeout(timeout = 10, unit = TimeUnit.SECONDS)
+            .readTimeout(timeout = 10, unit = TimeUnit.SECONDS)
+            .writeTimeout(timeout = 10, unit = TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
