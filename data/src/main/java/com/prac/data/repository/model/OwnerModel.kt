@@ -1,8 +1,8 @@
-package com.prac.data.repository.dto
+package com.prac.data.repository.model
 
 import com.prac.data.di.entity.OwnerEntity
 
-internal data class OwnerDto(
+internal data class OwnerModel(
     val login: String,
     val avatarUrl: String
 ) {

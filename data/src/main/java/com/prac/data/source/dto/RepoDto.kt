@@ -1,6 +1,6 @@
 package com.prac.data.source.dto
 
-import com.prac.data.repository.dto.RepoDto
+import com.prac.data.repository.model.RepoModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,5 +13,5 @@ internal data class RepoDto(
     @SerialName("updated_at") val updatedAt: String
 ) {
     fun toModel() =
-        RepoDto(id, name, owner.toModel(), stargazersCount, updatedAt)
+        RepoModel(id, name, owner.toModel(), stargazersCount, updatedAt)
 }
