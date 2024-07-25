@@ -1,7 +1,7 @@
 package com.prac.data.source.api
 
 import com.prac.data.BuildConfig
-import com.prac.data.source.model.TokenModel
+import com.prac.data.source.dto.TokenDto
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -13,5 +13,5 @@ internal interface GitHubTokenApi {
         @Query("client_id") clientID: String = BuildConfig.CLIENT_ID,
         @Query("client_secret") clientSecret: String = BuildConfig.CLIENT_SECRET,
         @Query("code") code: String,
-    ): TokenModel
+    ): TokenDto
 }

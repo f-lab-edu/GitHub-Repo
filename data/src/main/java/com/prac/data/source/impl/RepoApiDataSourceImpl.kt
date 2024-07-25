@@ -11,6 +11,6 @@ internal class RepoApiDataSourceImpl @Inject constructor(
     override suspend fun getRepos(userName: String): List<RepoDto> {
         val response = gitHubApi.getRepos(userName)
 
-        return response.map { it.toDto() }
+        return response.map { it.toModel() }
     }
 }
