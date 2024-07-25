@@ -8,7 +8,7 @@ import javax.inject.Inject
 internal class RepoRepositoryImpl @Inject constructor(
     private val repoApiDataSource: RepoApiDataSource
 ) : RepoRepository {
-    override suspend fun getReposApi(userName: String): Result<List<RepoEntity>> {
+    override suspend fun getRepositories(userName: String): Result<List<RepoEntity>> {
         try {
             val dto = repoApiDataSource.getRepos(userName)
 
