@@ -2,6 +2,7 @@ package com.prac.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.prac.data.BuildConfig
+import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.source.api.GitHubTokenApi
 import dagger.Module
@@ -28,6 +29,18 @@ internal object RetrofitModule {
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.GITHUB_URL)
+            .client(okHttpClient)
+            .addConverterFactory(converterFactory)
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideGitHubRetrofit(
+        @AuthorizationInterceptorOkHttpClient okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.GITHUB_API_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
