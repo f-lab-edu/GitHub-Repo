@@ -20,6 +20,7 @@ import com.prac.githubrepo.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.login.LoginViewModel.UiState
+import com.prac.githubrepo.login.LoginViewModel.Event
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +33,21 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect {
+                    when (it) {
+                        is Event.Success -> {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+
+                            finish()
+                        }
+                    }
+                }
+            }
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
