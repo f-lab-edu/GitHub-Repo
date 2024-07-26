@@ -1,6 +1,6 @@
 package com.prac.data.repository.model
 
-import com.prac.data.di.entity.OwnerEntity
+import com.prac.data.entity.OwnerEntity
 
 internal data class OwnerModel(
     val login: String,

@@ -1,6 +1,6 @@
 package com.prac.data.repository.model
 
-import com.prac.data.di.entity.RepoEntity
+import com.prac.data.entity.RepoEntity
 
 internal data class RepoModel(
     val id: Int,

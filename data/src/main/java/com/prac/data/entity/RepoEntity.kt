@@ -1,4 +1,4 @@
-package com.prac.data.di.entity
+package com.prac.data.entity
 
 data class RepoEntity(
     val id: Int,
