@@ -20,10 +20,6 @@ class LoginViewModel @Inject constructor(
 
         data object Loading : UiState()
 
-        data object Success : UiState()
-
-        data object AutoLogin : UiState()
-
         data class Error(
             val errorMessage : String
         ) : UiState()
