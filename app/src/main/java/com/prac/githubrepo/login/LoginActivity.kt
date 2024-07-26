@@ -19,6 +19,7 @@ import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.prac.githubrepo.login.LoginViewModel.UiState
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -36,17 +37,11 @@ class LoginActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it) {
-                        is LoginUIState.Idle -> { }
-                        is LoginUIState.Loading -> {
+                        is UiState.Idle -> { }
+                        is UiState.Loading -> {
                             binding.includeProgressBar.root.isVisible = true
                         }
-                        is LoginUIState.Success, LoginUIState.AutoLogin -> {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-
-                            finish()
-                        }
-                        is LoginUIState.Error -> {
+                        is UiState.Error -> {
                             AlertDialog.Builder(this@LoginActivity)
                                 .setMessage(it.errorMessage)
                                 .setPositiveButton(R.string.check) { dialog, _ ->
