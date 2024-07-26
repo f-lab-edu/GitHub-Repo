@@ -63,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
                                 .setPositiveButton(R.string.check) { dialog, _ ->
                                     dialog.cancel()
                                 }
+                                .setOnDismissListener {
+                                    viewModel.setUiStateToIdle()
+                                }
                                 .show()
                         }
                     }
