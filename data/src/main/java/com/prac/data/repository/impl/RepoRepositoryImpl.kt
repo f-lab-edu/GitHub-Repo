@@ -1,6 +1,6 @@
 package com.prac.data.repository.impl
 
-import com.prac.data.di.entity.RepoEntity
+import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.data.source.RepoApiDataSource
 import javax.inject.Inject
