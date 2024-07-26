@@ -43,6 +43,8 @@ class LoginViewModel @Inject constructor(
 
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
+            if (_uiState.value != UiState.Idle) return@launch
+
             _uiState.update { UiState.Loading }
 
             tokenRepository.getTokenApi(code = code)
@@ -63,6 +65,8 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
+            if (_uiState.value != UiState.Idle) return@launch
+
             _uiState.update { UiState.Loading }
 
             if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
