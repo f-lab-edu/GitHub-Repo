@@ -39,6 +39,7 @@ internal object RetrofitModule {
 
     @Provides
     @Singleton
+    @GitHubRetrofit
     fun provideGitHubRetrofit(
         @AuthorizationInterceptorOkHttpClient okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
@@ -59,7 +60,7 @@ internal object RetrofitModule {
     @Provides
     @Singleton
     fun provideGitHubService(
-        retrofit: Retrofit
+        @GitHubRetrofit retrofit: Retrofit
     ): GitHubApi =
         retrofit.create(GitHubApi::class.java)
 }
