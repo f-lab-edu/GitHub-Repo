@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,4 +26,7 @@ class MainViewModel @Inject constructor(
             val errorMessage: String
         ) : UiState()
     }
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
+    val uiState = _uiState.asStateFlow()
 }
