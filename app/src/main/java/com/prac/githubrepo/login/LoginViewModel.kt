@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,6 +33,9 @@ class LoginViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
+
+    private val _event = MutableSharedFlow<Event>()
+    val event = _event.asSharedFlow()
 
     init {
         checkAutoLogin()
