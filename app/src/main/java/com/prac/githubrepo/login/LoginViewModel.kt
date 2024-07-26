@@ -15,7 +15,21 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
+    sealed class UiState {
+        data object Idle : UiState()
+
+        data object Loading : UiState()
+
+        data object Success : UiState()
+
+        data object AutoLogin : UiState()
+
+        data class Error(
+            val errorMessage : String
+        ) : UiState()
+    }
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -24,18 +38,18 @@ class LoginViewModel @Inject constructor(
 
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
-            _uiState.update { LoginUIState.Loading }
+            _uiState.update { UiState.Loading }
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _uiState.update { LoginUIState.Success }
+                    _uiState.update { UiState.Success }
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.update { LoginUIState.Error(throwable.message ?: "로그인을 실패했습니다.") }
+                            _uiState.update { UiState.Error(throwable.message ?: "로그인을 실패했습니다.") }
                         }
                         else -> {
-                            _uiState.update { LoginUIState.Error("알 수 없는 에러가 발생했습니다.") }
+                            _uiState.update { UiState.Error("알 수 없는 에러가 발생했습니다.") }
                         }
                     }
                 }
@@ -44,10 +58,10 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
-            _uiState.update { LoginUIState.Loading }
+            _uiState.update { UiState.Loading }
 
-            if (tokenRepository.isLoggedIn()) _uiState.update { LoginUIState.AutoLogin }
-            else _uiState.update { LoginUIState.Idle }
+            if (tokenRepository.isLoggedIn()) _uiState.update { UiState.AutoLogin }
+            else _uiState.update { UiState.Idle }
         }
     }
 
