@@ -25,6 +25,10 @@ class LoginViewModel @Inject constructor(
         ) : UiState()
     }
 
+    sealed class Event {
+        data object Success : Event()
+    }
+
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
