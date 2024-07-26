@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.prac.data.BuildConfig
 import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
+import com.prac.data.source.api.GitHubApi
 import com.prac.data.source.api.GitHubTokenApi
 import dagger.Module
 import dagger.Provides
@@ -51,4 +52,11 @@ internal object RetrofitModule {
         retrofit: Retrofit
     ): GitHubTokenApi =
         retrofit.create(GitHubTokenApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideGitHubService(
+        retrofit: Retrofit
+    ): GitHubApi =
+        retrofit.create(GitHubApi::class.java)
 }
