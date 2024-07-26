@@ -2,6 +2,7 @@ package com.prac.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.prac.data.BuildConfig
+import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.source.api.GitHubTokenApi
 import dagger.Module
 import dagger.Provides
@@ -22,7 +23,7 @@ internal object RetrofitModule {
     @Provides
     @Singleton
     fun provideGitHubTokenRetrofit(
-        okHttpClient: OkHttpClient,
+        @BasicOkHttpClient okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
     ): Retrofit =
         Retrofit.Builder()
