@@ -47,7 +47,7 @@ class LoginViewModel @Inject constructor(
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _uiState.update { UiState.Success }
+                    _event.emit(Event.Success)
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
@@ -65,7 +65,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { UiState.Loading }
 
-            if (tokenRepository.isLoggedIn()) _uiState.update { UiState.AutoLogin }
+            if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
             else _uiState.update { UiState.Idle }
         }
     }
