@@ -19,10 +19,14 @@ serialization-converter = "1.0.0"
 kotlinx-serialization = "1.7.1"
 viewModel = "2.4.0"
 runtime = "2.8.3"
+datastore = "1.0.0"
+datastore-preferences = "1.0.0"
+protobuf-javalite = "3.18.0"
 
 # plugins
 kapt = "1.5.30"
 plugin-serialization = "2.0.0"
+protobuf = "0.9.1"
 
 # common
 hilt = "2.48"
@@ -48,7 +52,9 @@ retrofit-serialization-converter = { group = "com.jakewharton.retrofit", name = 
 jetbrains-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel" }
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "runtime" }
-
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
+protobuf = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf-javalite" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -58,4 +64,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "plugin-serialization" }
-
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
