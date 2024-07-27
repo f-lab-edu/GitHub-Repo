@@ -28,4 +28,17 @@ class TokenDataStoreManager(
         ACCESS_TOKEN("accessKey"),
         REFRESH_TOKEN("refreshKey")
     }
+
+    private class TokenSerializer : Serializer<Token> {
+        override val defaultValue: Token = Token.getDefaultInstance()
+        override suspend fun readFrom(input: InputStream): Token {
+            try {
+                return Token.parseFrom(input)
+            } catch (exception: InvalidProtocolBufferException) {
+                throw CorruptionException("Cannot read proto.", exception)
+            }
+        }
+
+        override suspend fun writeTo(t: Token, output: OutputStream) = t.writeTo(output)
+    }
 }
