@@ -75,4 +75,13 @@ class TokenDataStoreManager(
                 .build()
         }
     }
+
+    suspend fun getToken(key: KEY) : String {
+        return mContext.tokenDataStore.data
+            .catch { emit(Token.getDefaultInstance()) }
+            .map {
+                if (key == KEY.ACCESS_TOKEN) it.accessToken
+                else it.refreshToken
+            }.first()
+    }
 }
