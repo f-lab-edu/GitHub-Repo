@@ -41,4 +41,28 @@ class TokenDataStoreManager(
 
         override suspend fun writeTo(t: Token, output: OutputStream) = t.writeTo(output)
     }
+
+    private val Context.tokenDataStore: DataStore<Token> by dataStore(
+        fileName = TOKEN_DATA_STORE_NAME,
+        serializer = TokenSerializer(),
+        produceMigrations = { context ->
+            listOf(
+                SharedPreferencesMigration(
+                    context = context,
+                    sharedPreferencesName = TOKEN_SHARED_PREFERENCES_NAME,
+                    shouldRunMigration = {
+                        context.getSharedPreferences(TOKEN_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).all.any {
+                            it.value != null
+                        }
+                    }
+                ) { sharedPreferences: SharedPreferencesView, token: Token ->
+                    token.toBuilder()
+                        .setAccessToken(sharedPreferences.getString(KEY.ACCESS_TOKEN.key, ""))
+                        .setRefreshToken(sharedPreferences.getString(KEY.REFRESH_TOKEN.key, ""))
+                        .setIsLoggedIn(sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false))
+                        .build()
+                }
+            )
+        }
+    )
 }
