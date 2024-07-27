@@ -43,10 +43,6 @@ class LoginViewModel @Inject constructor(
         checkAutoLogin()
     }
 
-    fun setUiStateToIdle() {
-        _uiState.update { UiState.Idle }
-    }
-
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
