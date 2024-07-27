@@ -1,6 +1,6 @@
 package com.prac.data.di
 
-import com.prac.data.di.binds.TokenSharedPreferences
+import com.prac.data.di.datastore.TokenDataStoreManager
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import com.prac.data.source.api.GitHubTokenApi
@@ -22,7 +22,7 @@ internal object DataSourceModule {
 
     @Provides
     fun provideTokenLocalDataSource(
-        tokenSharedPreferences: TokenSharedPreferences
+        tokenDataStoreManager: TokenDataStoreManager
     ): TokenLocalDataSource =
-        TokenLocalDataSourceImpl(tokenSharedPreferences)
+        TokenLocalDataSourceImpl(tokenDataStoreManager)
 }
