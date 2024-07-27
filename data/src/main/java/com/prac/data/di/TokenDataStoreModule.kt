@@ -1,7 +1,7 @@
 package com.prac.data.di
 
 import com.prac.data.di.binds.TokenSharedPreferences
-import com.prac.data.di.binds.impl.TokenSharedPreferencesImpl
+import com.prac.data.di.datastore.TokenSharedPreferencesImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
