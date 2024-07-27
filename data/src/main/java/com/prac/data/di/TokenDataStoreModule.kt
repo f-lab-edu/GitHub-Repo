@@ -1,17 +1,21 @@
 package com.prac.data.di
 
-import com.prac.data.di.binds.TokenSharedPreferences
-import com.prac.data.di.datastore.TokenSharedPreferencesImpl
+import android.content.Context
+import com.prac.data.di.datastore.TokenDataStoreManager
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class TokenSharedPreferencesModule {
-    @Binds
+internal object TokenDataStoreModule {
+    @Provides
     @Singleton
-    abstract fun provideTokenSharedPreferences(tokenSharedPreferencesImpl: TokenSharedPreferencesImpl) : TokenSharedPreferences
+    fun provideTokenDataStoreManager(@ApplicationContext context: Context) : TokenDataStoreManager {
+        return TokenDataStoreManager(context)
+    }
 }
