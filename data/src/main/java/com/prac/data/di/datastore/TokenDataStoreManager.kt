@@ -65,4 +65,14 @@ class TokenDataStoreManager(
             )
         }
     )
+
+    suspend fun putToken(accessToken: String, refreshToken: String) {
+        mContext.tokenDataStore.updateData { pref ->
+            pref.toBuilder()
+                .setAccessToken(accessToken)
+                .setRefreshToken(refreshToken)
+                .setIsLoggedIn(true)
+                .build()
+        }
+    }
 }
