@@ -84,4 +84,11 @@ class TokenDataStoreManager(
                 else it.refreshToken
             }.first()
     }
+
+    suspend fun isLoggedIn(): Boolean {
+        return mContext.tokenDataStore.data
+            .catch { emit(Token.getDefaultInstance()) }
+            .first()
+            .isLoggedIn
+    }
 }
