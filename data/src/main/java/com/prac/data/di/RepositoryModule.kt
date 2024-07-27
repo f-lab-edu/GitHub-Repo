@@ -25,7 +25,6 @@ internal object RepositoryModule {
         TokenRepositoryImpl(tokenLocalDataSource, tokenApiDataSource)
 
     @Provides
-    @Singleton
     fun provideRepoRepository(
         repoApiDataSource: RepoApiDataSource
     ): RepoRepository =
