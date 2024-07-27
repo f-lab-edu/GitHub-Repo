@@ -71,10 +71,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
-            _uiState.update { UiState.Loading }
-
             if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
-            else _uiState.update { UiState.Idle }
         }
     }
 
