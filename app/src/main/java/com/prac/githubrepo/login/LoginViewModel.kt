@@ -51,6 +51,10 @@ class LoginViewModel @Inject constructor(
         checkAutoLogin()
     }
 
+    fun setUiState(uiState: UiState) {
+        _uiState.update { uiState }
+    }
+
     fun setSideEffect(sideEffect: SideEffect) {
         _sideEffect.tryEmit(sideEffect)
     }
