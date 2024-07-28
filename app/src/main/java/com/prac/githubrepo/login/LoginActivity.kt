@@ -120,6 +120,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleEvent(event: Event) {
+        when (event) {
+            is Event.Success -> {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+
+                finish()
+            }
+        }
+    }
+
     private fun login() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GITHUB_OAUTH_URI))
         startActivity(intent)
