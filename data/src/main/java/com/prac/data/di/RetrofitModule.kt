@@ -1,24 +1,19 @@
 package com.prac.data.di
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.prac.data.BuildConfig
 import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.annotation.GitHubRetrofit
-import com.prac.data.di.annotation.GitHubTokenRetrofit
+import com.prac.data.di.annotation.BasicRetrofit
 import com.prac.data.source.api.GitHubApi
 import com.prac.data.source.api.GitHubTokenApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -26,7 +21,7 @@ import javax.inject.Singleton
 internal object RetrofitModule {
     @Provides
     @Singleton
-    @GitHubTokenRetrofit
+    @BasicRetrofit
     fun provideGitHubTokenRetrofit(
         @BasicOkHttpClient okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
@@ -53,7 +48,7 @@ internal object RetrofitModule {
     @Provides
     @Singleton
     fun provideGitHubTokenService(
-        @GitHubTokenRetrofit retrofit: Retrofit
+        @BasicRetrofit retrofit: Retrofit
     ): GitHubTokenApi =
         retrofit.create(GitHubTokenApi::class.java)
 

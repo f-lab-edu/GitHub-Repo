@@ -4,7 +4,7 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class GitHubTokenRetrofit
+annotation class BasicRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
