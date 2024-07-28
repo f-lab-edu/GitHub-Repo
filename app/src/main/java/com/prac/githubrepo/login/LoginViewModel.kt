@@ -61,9 +61,9 @@ class LoginViewModel @Inject constructor(
 
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
-            if (_uiState.value != UiState.Idle) return@launch
+            if (uiState.value != UiState.Idle) return@launch
 
-            _uiState.update { UiState.Loading }
+            setUiState(UiState.Loading)
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
@@ -71,10 +71,10 @@ class LoginViewModel @Inject constructor(
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.update { UiState.Error(throwable.message ?: "로그인을 실패했습니다.") }
+                            setUiState(UiState.Error(throwable.message ?: "로그인을 실패했습니다."))
                         }
                         else -> {
-                            _uiState.update { UiState.Error("알 수 없는 에러가 발생했습니다.") }
+                            setUiState(UiState.Error("알 수 없는 에러가 발생했습니다."))
                         }
                     }
                 }
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
-            if (_uiState.value != UiState.Idle) return@launch
+            if (uiState.value != UiState.Idle) return@launch
 
             if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
         }
