@@ -55,10 +55,10 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.sideEffect.collect {
                     when (it) {
                         is SideEffect.LoginButtonClick -> {
-
+                            login()
                         }
                         is SideEffect.ErrorAlertDialogDismiss -> {
-
+                            viewModel.setUiState(UiState.Idle)
                         }
                     }
                 }
