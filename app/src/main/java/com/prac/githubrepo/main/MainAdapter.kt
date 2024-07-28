@@ -13,20 +13,12 @@ import com.prac.githubrepo.databinding.ItemMainBinding
 class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
-            Glide.with(binding.root)
-                .load(repoEntity.owner.avatarUrl)
-                .error(R.drawable.img_glide_error)
-                .placeholder(R.drawable.img_glide_profile)
-                .into(binding.ivProfile)
-
-            binding.apply {
-                tvName.text = repoEntity.owner.login
-
-                tvTitle.text = repoEntity.name
-
-                tvStar.text = repoEntity.stargazersCount.toString()
-
-                tvLastUpdatedDate.text = repoEntity.updatedAt
+            with(repoEntity) {
+                setProfile()
+                setName()
+                setTitle()
+                setStarCount()
+                setUpdatedDate()
             }
         }
 
