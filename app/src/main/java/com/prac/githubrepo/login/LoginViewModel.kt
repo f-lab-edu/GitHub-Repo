@@ -51,6 +51,10 @@ class LoginViewModel @Inject constructor(
         checkAutoLogin()
     }
 
+    fun setSideEffect(sideEffect: SideEffect) {
+        _sideEffect.tryEmit(sideEffect)
+    }
+
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
