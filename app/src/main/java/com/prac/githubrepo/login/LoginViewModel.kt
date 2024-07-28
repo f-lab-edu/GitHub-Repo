@@ -16,8 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository,
-    private val repoRepository: RepoRepository
+    private val tokenRepository: TokenRepository
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -33,36 +32,52 @@ class LoginViewModel @Inject constructor(
         data object Success : Event()
     }
 
+    sealed class SideEffect {
+        data object LoginButtonClick : SideEffect()
+        data object ErrorAlertDialogDismiss : SideEffect()
+    }
+
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     private val _event = MutableSharedFlow<Event>()
     val event = _event.asSharedFlow()
 
+    private val _sideEffect = MutableSharedFlow<SideEffect>()
+    val sideEffect = _sideEffect.asSharedFlow()
+
     init {
         checkAutoLogin()
     }
 
-    fun setUiStateToIdle() {
-        _uiState.update { UiState.Idle }
+    fun setUiState(uiState: UiState) {
+        _uiState.update { uiState }
+    }
+
+    fun setEvent(event: Event) {
+        _event.tryEmit(event)
+    }
+
+    fun setSideEffect(sideEffect: SideEffect) {
+        _sideEffect.tryEmit(sideEffect)
     }
 
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
-            if (_uiState.value != UiState.Idle) return@launch
+            if (uiState.value != UiState.Idle) return@launch
 
-            _uiState.update { UiState.Loading }
+            setUiState(UiState.Loading)
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _event.emit(Event.Success)
+                    setEvent(Event.Success)
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.update { UiState.Error(throwable.message ?: "로그인을 실패했습니다.") }
+                            setUiState(UiState.Error(throwable.message ?: "로그인을 실패했습니다."))
                         }
                         else -> {
-                            _uiState.update { UiState.Error("알 수 없는 에러가 발생했습니다.") }
+                            setUiState(UiState.Error("알 수 없는 에러가 발생했습니다."))
                         }
                     }
                 }
@@ -71,9 +86,9 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
-            if (_uiState.value != UiState.Idle) return@launch
+            if (uiState.value != UiState.Idle) return@launch
 
-            if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
+            if (tokenRepository.isLoggedIn()) setEvent(Event.Success)
         }
     }
 
