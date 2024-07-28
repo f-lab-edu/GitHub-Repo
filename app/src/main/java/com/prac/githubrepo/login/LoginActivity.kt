@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 AlertDialog.Builder(this@LoginActivity)
                     .setMessage(uiState.errorMessage)
                     .setPositiveButton(R.string.check) { dialog, _ ->
-                        dialog.cancel()
+                        dialog.dismiss()
                     }
                     .setOnDismissListener {
                         viewModel.setSideEffect(SideEffect.ErrorAlertDialogDismiss)
