@@ -131,6 +131,17 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleSideEffect(sideEffect: SideEffect) {
+        when (sideEffect) {
+            is SideEffect.LoginButtonClick -> {
+                login()
+            }
+            is SideEffect.ErrorAlertDialogDismiss -> {
+                viewModel.setUiState(UiState.Idle)
+            }
+        }
+    }
+
     private fun login() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GITHUB_OAUTH_URI))
         startActivity(intent)
