@@ -71,7 +71,7 @@ class LoginViewModel @Inject constructor(
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _event.emit(Event.Success)
+                    setEvent(Event.Success)
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
@@ -89,7 +89,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             if (uiState.value != UiState.Idle) return@launch
 
-            if (tokenRepository.isLoggedIn()) _event.emit(Event.Success)
+            if (tokenRepository.isLoggedIn()) setEvent(Event.Success)
         }
     }
 
