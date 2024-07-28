@@ -33,11 +33,19 @@ class LoginViewModel @Inject constructor(
         data object Success : Event()
     }
 
+    sealed class SideEffect {
+        data object LoginButtonClick : SideEffect()
+        data object ErrorAlertDialogDismiss : SideEffect()
+    }
+
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     private val _event = MutableSharedFlow<Event>()
     val event = _event.asSharedFlow()
+
+    private val _sideEffect = MutableSharedFlow<SideEffect>()
+    val sideEffect = _sideEffect.asSharedFlow()
 
     init {
         checkAutoLogin()
