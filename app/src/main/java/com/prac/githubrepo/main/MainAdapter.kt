@@ -22,11 +22,6 @@ class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
             }
         }
 
-        fun clear() {
-            Glide.with(binding.root)
-                .clear(binding.ivProfile)
-        }
-
         private fun RepoEntity.setProfile() {
             Glide.with(binding.root)
                 .load(this.owner.avatarUrl)
@@ -58,10 +53,6 @@ class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
-    }
-
-    override fun onViewRecycled(holder: ViewHolder) {
-        holder.clear()
     }
 
     companion object {
