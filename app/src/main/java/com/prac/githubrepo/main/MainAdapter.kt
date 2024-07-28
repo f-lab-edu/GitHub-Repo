@@ -34,6 +34,30 @@ class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
             Glide.with(binding.root)
                 .clear(binding.ivProfile)
         }
+
+        private fun RepoEntity.setProfile() {
+            Glide.with(binding.root)
+                .load(this.owner.avatarUrl)
+                .error(R.drawable.img_glide_error)
+                .placeholder(R.drawable.img_glide_profile)
+                .into(binding.ivProfile)
+        }
+
+        private fun RepoEntity.setName() {
+            binding.tvName.text = this.owner.login
+        }
+
+        private fun RepoEntity.setTitle() {
+            binding.tvName.text = this.owner.login
+        }
+
+        private fun RepoEntity.setStarCount() {
+            binding.tvStar.text = this.stargazersCount.toString()
+        }
+
+        private fun RepoEntity.setUpdatedDate() {
+            binding.tvLastUpdatedDate.text = this.updatedAt
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
