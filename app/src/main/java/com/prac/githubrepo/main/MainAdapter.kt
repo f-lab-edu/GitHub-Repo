@@ -52,7 +52,7 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
     companion object {
