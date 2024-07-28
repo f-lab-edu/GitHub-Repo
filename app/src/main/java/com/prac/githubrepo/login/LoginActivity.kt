@@ -100,6 +100,26 @@ class LoginActivity : AppCompatActivity() {
         handleIntent(intent)
     }
 
+    private fun handleUiState(uiState: UiState) {
+        when (uiState) {
+            is UiState.Idle -> { }
+            is UiState.Loading -> {
+                binding.includeProgressBar.root.isVisible = true
+            }
+            is UiState.Error -> {
+                AlertDialog.Builder(this@LoginActivity)
+                    .setMessage(uiState.errorMessage)
+                    .setPositiveButton(R.string.check) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .setOnDismissListener {
+                        viewModel.setSideEffect(SideEffect.ErrorAlertDialogDismiss)
+                    }
+                    .show()
+            }
+        }
+    }
+
     private fun login() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.GITHUB_OAUTH_URI))
         startActivity(intent)
