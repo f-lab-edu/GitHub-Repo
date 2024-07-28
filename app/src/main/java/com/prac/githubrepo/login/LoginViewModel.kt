@@ -16,8 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository,
-    private val repoRepository: RepoRepository
+    private val tokenRepository: TokenRepository
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
