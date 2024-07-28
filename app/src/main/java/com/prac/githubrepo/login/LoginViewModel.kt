@@ -6,6 +6,7 @@ import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
 import com.prac.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -43,7 +44,7 @@ class LoginViewModel @Inject constructor(
     private val _event = MutableSharedFlow<Event>()
     val event = _event.asSharedFlow()
 
-    private val _sideEffect = MutableSharedFlow<SideEffect>()
+    private val _sideEffect = MutableSharedFlow<SideEffect>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val sideEffect = _sideEffect.asSharedFlow()
 
     init {
