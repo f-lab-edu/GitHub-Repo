@@ -38,14 +38,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect {
-                    when (it) {
-                        is Event.Success -> {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-
-                            finish()
-                        }
-                    }
+                    handleEvent(it)
                 }
             }
         }
@@ -53,14 +46,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.sideEffect.collect {
-                    when (it) {
-                        is SideEffect.LoginButtonClick -> {
-                            login()
-                        }
-                        is SideEffect.ErrorAlertDialogDismiss -> {
-                            viewModel.setUiState(UiState.Idle)
-                        }
-                    }
+                    handleSideEffect(it)
                 }
             }
         }
@@ -68,23 +54,7 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    when (it) {
-                        is UiState.Idle -> { }
-                        is UiState.Loading -> {
-                            binding.includeProgressBar.root.isVisible = true
-                        }
-                        is UiState.Error -> {
-                            AlertDialog.Builder(this@LoginActivity)
-                                .setMessage(it.errorMessage)
-                                .setPositiveButton(R.string.check) { dialog, _ ->
-                                    dialog.cancel()
-                                }
-                                .setOnDismissListener {
-                                    viewModel.setSideEffect(SideEffect.ErrorAlertDialogDismiss)
-                                }
-                                .show()
-                        }
-                    }
+                    handleUiState(it)
                 }
             }
         }
