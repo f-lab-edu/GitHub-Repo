@@ -39,8 +39,7 @@ class MainViewModel @Inject constructor(
 
             _uiState.update { UiState.Loading }
 
-            // AccessToken 으로 유저 정보 가져오는 API 추가할 예정
-            repoRepository.getRepositories("GongDoMin")
+            repoRepository.getRepositories()
                 .onSuccess { repoRepositories ->
                     _uiState.update { UiState.Success(repoRepositories) }
                 }
