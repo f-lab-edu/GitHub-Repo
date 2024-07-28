@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.login.LoginViewModel.UiState
 import com.prac.githubrepo.login.LoginViewModel.Event
+import com.prac.githubrepo.login.LoginViewModel.SideEffect
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -43,6 +44,21 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
 
                             finish()
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.sideEffect.collect {
+                    when (it) {
+                        is SideEffect.LoginButtonClick -> {
+
+                        }
+                        is SideEffect.ErrorAlertDialogDismiss -> {
+
                         }
                     }
                 }
