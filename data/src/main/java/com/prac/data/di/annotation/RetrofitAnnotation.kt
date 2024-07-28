@@ -8,4 +8,4 @@ annotation class BasicRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class GitHubRetrofit
+annotation class AuthRetrofit

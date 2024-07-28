@@ -3,7 +3,7 @@ package com.prac.data.di
 import com.prac.data.BuildConfig
 import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
-import com.prac.data.di.annotation.GitHubRetrofit
+import com.prac.data.di.annotation.AuthRetrofit
 import com.prac.data.di.annotation.BasicRetrofit
 import com.prac.data.source.api.GitHubApi
 import com.prac.data.source.api.GitHubTokenApi
@@ -34,7 +34,7 @@ internal object RetrofitModule {
 
     @Provides
     @Singleton
-    @GitHubRetrofit
+    @AuthRetrofit
     fun provideGitHubRetrofit(
         @AuthorizationInterceptorOkHttpClient okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
@@ -55,7 +55,7 @@ internal object RetrofitModule {
     @Provides
     @Singleton
     fun provideGitHubService(
-        @GitHubRetrofit retrofit: Retrofit
+        @AuthRetrofit retrofit: Retrofit
     ): GitHubApi =
         retrofit.create(GitHubApi::class.java)
 }
