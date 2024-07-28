@@ -2,6 +2,7 @@ package com.prac.githubrepo.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
@@ -22,7 +23,7 @@ class MainViewModel @Inject constructor(
         data object Loading : UiState()
 
         data class Success(
-            val repositories : List<RepoEntity>
+            val repositories : PagingData<RepoEntity>
         ) : UiState()
 
         data class Error(
