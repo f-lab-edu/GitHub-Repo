@@ -78,4 +78,5 @@ dependencies {
 
     implementation(libs.jetbrains.kotlinx.serialization)
 
+    implementation(libs.androidx.paging)
 }

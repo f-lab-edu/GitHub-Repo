@@ -19,6 +19,7 @@ serialization-converter = "1.0.0"
 kotlinx-serialization = "1.7.1"
 viewModel = "2.4.0"
 runtime = "2.8.3"
+paging = "3.3.1"
 
 # plugins
 kapt = "1.5.30"
@@ -48,7 +49,7 @@ retrofit-serialization-converter = { group = "com.jakewharton.retrofit", name = 
 jetbrains-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "viewModel" }
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "runtime" }
-
+androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
