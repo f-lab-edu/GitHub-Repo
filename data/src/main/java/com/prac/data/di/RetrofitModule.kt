@@ -1,7 +1,7 @@
 package com.prac.data.di
 
 import com.prac.data.BuildConfig
-import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
+import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.annotation.AuthRetrofit
 import com.prac.data.di.annotation.BasicRetrofit
@@ -36,7 +36,7 @@ internal object RetrofitModule {
     @Singleton
     @AuthRetrofit
     fun provideGitHubRetrofit(
-        @AuthorizationInterceptorOkHttpClient okHttpClient: OkHttpClient,
+        @AuthOkHttpClient okHttpClient: OkHttpClient,
         converterFactory: Converter.Factory
     ): Retrofit =
         Retrofit.Builder()

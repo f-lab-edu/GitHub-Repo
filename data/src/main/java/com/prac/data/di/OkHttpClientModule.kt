@@ -1,7 +1,7 @@
 package com.prac.data.di
 
 import com.prac.data.BuildConfig
-import com.prac.data.di.annotation.AuthorizationInterceptorOkHttpClient
+import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.binds.TokenSharedPreferences
 import com.prac.data.source.api.AuthorizationInterceptor
@@ -39,7 +39,7 @@ object OkHttpClientModule {
 
     @Provides
     @Singleton
-    @AuthorizationInterceptorOkHttpClient
+    @AuthOkHttpClient
     fun provideAuthorizationOkHttpClient(authorizationInterceptor: AuthorizationInterceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(timeout = 10, unit = TimeUnit.SECONDS)

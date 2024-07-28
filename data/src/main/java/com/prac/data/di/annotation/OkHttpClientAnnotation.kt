@@ -8,4 +8,4 @@ annotation class BasicOkHttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AuthorizationInterceptorOkHttpClient
+annotation class AuthOkHttpClient
