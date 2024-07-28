@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                                     dialog.cancel()
                                 }
                                 .setOnDismissListener {
-                                    viewModel.setUiStateToIdle()
+                                    viewModel.setSideEffect(SideEffect.ErrorAlertDialogDismiss)
                                 }
                                 .show()
                         }
@@ -90,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            login()
+            viewModel.setSideEffect(SideEffect.LoginButtonClick)
         }
     }
 
