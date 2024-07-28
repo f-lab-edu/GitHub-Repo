@@ -55,6 +55,10 @@ class LoginViewModel @Inject constructor(
         _uiState.update { uiState }
     }
 
+    fun setEvent(event: Event) {
+        _event.tryEmit(event)
+    }
+
     fun setSideEffect(sideEffect: SideEffect) {
         _sideEffect.tryEmit(sideEffect)
     }
