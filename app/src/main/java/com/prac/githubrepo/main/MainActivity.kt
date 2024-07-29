@@ -3,9 +3,12 @@ package com.prac.githubrepo.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.prac.githubrepo.main.MainViewModel.UiState
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,5 +23,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvMain.adapter = mainAdapter
+
+        lifecycleScope.launch {
+            viewModel.uiState.collect {
+
+            }
+        }
     }
 }
