@@ -26,8 +26,12 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.uiState.collect {
-
+                handleUiSate(it)
             }
         }
+    }
+
+    private fun handleUiSate(uiState: UiState) {
+
     }
 }
