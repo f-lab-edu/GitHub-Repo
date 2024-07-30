@@ -15,12 +15,8 @@ class AuthorizationInterceptor @Inject constructor(
         private const val AUTHORIZATION_TYPE = "Bearer"
     }
 
-    private val accessToken = runBlocking {
-        tokenDataStoreManager.getToken(TokenDataStoreManager.KEY.ACCESS_TOKEN)
-    }
-
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().putTokenHeader(accessToken)
+        val request = chain.request().putTokenHeader()
         return chain.proceed(request)
     }
 
