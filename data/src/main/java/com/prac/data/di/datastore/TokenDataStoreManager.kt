@@ -2,6 +2,7 @@ package com.prac.data.di.datastore
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
@@ -61,6 +62,19 @@ class TokenDataStoreManager(
                         .setRefreshToken(sharedPreferences.getString(KEY.REFRESH_TOKEN.key, ""))
                         .setIsLoggedIn(sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false))
                         .build()
+                },
+                object : DataMigration<Token> {
+                    override suspend fun cleanUp() { }
+
+                    override suspend fun shouldMigrate(currentData: Token): Boolean {
+                        return currentData.isLoggedIn
+                    }
+
+                    override suspend fun migrate(currentData: Token): Token {
+                        return currentData.toBuilder()
+                            .clearIsLoggedIn()
+                            .build()
+                    }
                 }
             )
         }
