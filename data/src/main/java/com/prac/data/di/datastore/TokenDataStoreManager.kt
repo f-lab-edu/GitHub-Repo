@@ -80,12 +80,13 @@ class TokenDataStoreManager(
         }
     )
 
-    suspend fun putToken(accessToken: String, refreshToken: String) {
+    suspend fun putToken(accessToken: String, refreshToken: String, accessTokenExpiresInMinute: Int, refreshTokenExpiresInMinute: Int) {
         mContext.tokenDataStore.updateData { pref ->
             pref.toBuilder()
                 .setAccessToken(accessToken)
                 .setRefreshToken(refreshToken)
-                .setIsLoggedIn(true)
+                .setAccessTokenExpiresInMinute(accessTokenExpiresInMinute)
+                .setRefreshTokenExpiresInMinute(refreshTokenExpiresInMinute)
                 .build()
         }
     }
