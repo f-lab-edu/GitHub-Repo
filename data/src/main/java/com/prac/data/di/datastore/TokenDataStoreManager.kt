@@ -80,7 +80,7 @@ class TokenDataStoreManager(
         }
     )
 
-    suspend fun putToken(accessToken: String, refreshToken: String, accessTokenExpiresInMinute: Int, refreshTokenExpiresInMinute: Int) {
+    suspend fun saveTokenData(accessToken: String, refreshToken: String, accessTokenExpiresInMinute: Int, refreshTokenExpiresInMinute: Int) {
         mContext.tokenDataStore.updateData { pref ->
             pref.toBuilder()
                 .setAccessToken(accessToken)
