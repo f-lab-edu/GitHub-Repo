@@ -91,6 +91,14 @@ class TokenDataStoreManager(
         }
     }
 
+    suspend fun getAccessToken() : String {
+        return mContext.tokenDataStore.data
+            .catch { emit(Token.getDefaultInstance()) }
+            .map {
+                it.accessToken
+            }.first()
+    }
+
     suspend fun getExpiresInMinute(key: KEY) : Int {
         return mContext.tokenDataStore.data
             .catch { emit(Token.getDefaultInstance()) }
