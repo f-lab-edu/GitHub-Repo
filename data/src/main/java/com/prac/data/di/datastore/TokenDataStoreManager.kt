@@ -122,9 +122,4 @@ class TokenDataStoreManager(
                 it.refreshTokenExpiresInMinute
             }.first()
     }
-
-    @Deprecated("This method is deprecated. Use getExpiresInMinute() instead", level = DeprecationLevel.ERROR)
-    suspend fun isLoggedIn(): Boolean {
-        throw UnsupportedOperationException()
-    }
 }
