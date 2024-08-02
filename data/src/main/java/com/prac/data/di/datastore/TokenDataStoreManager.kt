@@ -99,6 +99,14 @@ class TokenDataStoreManager(
             }.first()
     }
 
+    suspend fun getRefreshToken() : String {
+        return mContext.tokenDataStore.data
+            .catch { emit(Token.getDefaultInstance()) }
+            .map {
+                it.refreshToken
+            }.first()
+    }
+
     suspend fun getExpiresInMinute(key: KEY) : Int {
         return mContext.tokenDataStore.data
             .catch { emit(Token.getDefaultInstance()) }
