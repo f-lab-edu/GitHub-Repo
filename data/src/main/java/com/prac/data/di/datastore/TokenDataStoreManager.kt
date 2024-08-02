@@ -107,6 +107,14 @@ class TokenDataStoreManager(
             }.first()
     }
 
+    suspend fun getAccessTokenExpiresInMinute() : Int {
+        return mContext.tokenDataStore.data
+            .catch { emit(Token.getDefaultInstance()) }
+            .map {
+                it.accessTokenExpiresInMinute
+            }.first()
+    }
+
     @Deprecated("This method is deprecated. Use getExpiresInMinute() instead", level = DeprecationLevel.ERROR)
     suspend fun isLoggedIn(): Boolean {
         throw UnsupportedOperationException()
