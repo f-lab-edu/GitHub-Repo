@@ -2,15 +2,15 @@ package com.prac.githubrepo.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
 
-class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -52,7 +52,7 @@ class MainAdapter : ListAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(currentList[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
     companion object {
