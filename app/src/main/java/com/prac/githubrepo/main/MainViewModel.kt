@@ -25,10 +25,6 @@ class MainViewModel @Inject constructor(
         data class ShowPagingData(
             val repositories : PagingData<RepoEntity>
         ) : UiState()
-
-        data class Error(
-            val errorMessage: String
-        ) : UiState()
     }
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
