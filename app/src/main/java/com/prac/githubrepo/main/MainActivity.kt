@@ -3,12 +3,16 @@ package com.prac.githubrepo.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,6 +30,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvMain.adapter = conCatAdapter
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainAdapter.loadStateFlow.collect {
+                    it.handleLoadStates()
+                }
+            }
+        }
     }
 
     private fun CombinedLoadStates.handleLoadStates() {
