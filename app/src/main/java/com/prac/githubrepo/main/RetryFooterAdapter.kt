@@ -13,7 +13,11 @@ class RetryFooterAdapter(
 ) : LoadStateAdapter<RetryFooterAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemRetryFooterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
-
+            with(loadState) {
+                setErrorMessage()
+                setProgressBar()
+                setRetryButton()
+            }
         }
 
         private fun LoadState.setErrorMessage() {
