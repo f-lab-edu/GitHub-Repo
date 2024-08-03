@@ -27,6 +27,15 @@ class RetryFooterAdapter(
         private fun LoadState.setProgressBar() {
             binding.progressBar.isVisible = this is LoadState.Loading
         }
+
+        private fun LoadState.setRetryButton() {
+            binding.btnRetry.isVisible = this is LoadState.Error
+
+            binding.btnRetry.setOnClickListener {
+                retryFooterClickListener.clickRetry()
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder {
