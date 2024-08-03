@@ -2,6 +2,7 @@ package com.prac.githubrepo.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
@@ -22,7 +23,7 @@ class MainViewModel @Inject constructor(
         data object Loading : UiState()
 
         data class Success(
-            val repositories : List<RepoEntity>
+            val repositories : PagingData<RepoEntity>
         ) : UiState()
 
         data class Error(
@@ -39,8 +40,7 @@ class MainViewModel @Inject constructor(
 
             _uiState.update { UiState.Loading }
 
-            // AccessToken 으로 유저 정보 가져오는 API 추가할 예정
-            repoRepository.getRepositories("GongDoMin")
+            repoRepository.getRepositories()
                 .onSuccess { repoRepositories ->
                     _uiState.update { UiState.Success(repoRepositories) }
                 }

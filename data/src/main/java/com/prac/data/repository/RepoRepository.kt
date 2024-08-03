@@ -1,9 +1,8 @@
 package com.prac.data.repository
 
 import com.prac.data.entity.RepoEntity
+import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {
-    suspend fun getRepositories(
-        userName: String
-    ) : Result<List<RepoEntity>>
+    suspend fun getRepositories() : Flow<PagingData<RepoEntity>>
 }
