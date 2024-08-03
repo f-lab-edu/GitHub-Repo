@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
 
         data object Loading : UiState()
 
-        data class Success(
+        data class ShowPagingData(
             val repositories : PagingData<RepoEntity>
         ) : UiState()
 
