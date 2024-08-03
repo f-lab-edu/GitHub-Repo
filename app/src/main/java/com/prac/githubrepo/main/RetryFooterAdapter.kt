@@ -7,7 +7,9 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.prac.githubrepo.databinding.ItemRetryFooterBinding
 
-class RetryFooterAdapter : LoadStateAdapter<RetryFooterAdapter.ViewHolder>() {
+class RetryFooterAdapter(
+    private val retryFooterClickListener: RetryFooterClickListener
+) : LoadStateAdapter<RetryFooterAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemRetryFooterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
 
@@ -20,5 +22,9 @@ class RetryFooterAdapter : LoadStateAdapter<RetryFooterAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, loadState: LoadState) {
         holder.bind(loadState)
+    }
+
+    fun interface RetryFooterClickListener {
+        fun clickRetry()
     }
 }
