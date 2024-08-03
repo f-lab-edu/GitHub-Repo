@@ -23,6 +23,10 @@ class RetryFooterAdapter(
 
             binding.tvErrorMessage.isVisible = this is LoadState.Error
         }
+
+        private fun LoadState.setProgressBar() {
+            binding.progressBar.isVisible = this is LoadState.Loading
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder {
