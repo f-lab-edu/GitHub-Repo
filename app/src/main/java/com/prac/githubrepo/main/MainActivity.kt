@@ -13,6 +13,7 @@ import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.prac.githubrepo.main.MainViewModel.UiState
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -47,5 +48,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         retryFooterAdapter.loadState = source.append
+    }
+
+    private suspend fun UiState.handleUiState() {
+        when (this) {
+            is UiState.Idle -> { }
+            is UiState.Loading -> {
+                binding.includeProgressBar.root.isVisible = true
+            }
+            is UiState.ShowPagingData -> {
+                binding.includeProgressBar.root.isVisible = false
+
+                mainAdapter.submitData(this.repositories)
+            }
+        }
     }
 }
