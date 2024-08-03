@@ -36,20 +36,9 @@ class MainViewModel @Inject constructor(
 
             _uiState.update { UiState.Loading }
 
-            repoRepository.getRepositories()
-                .onSuccess { repoRepositories ->
-                    _uiState.update { UiState.Success(repoRepositories) }
-                }
-                .onFailure { throwable ->
-                    when (throwable) {
-                        is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.update { UiState.Error(throwable.message ?: "레파지토리를 불러오는데 실패했습니다.") }
-                        }
-                        else -> {
-                            _uiState.update { UiState.Error("알 수 없는 에러가 발생했습니다.") }
-                        }
-                    }
-                }
+            repoRepository.getRepositories().collect { pagingData ->
+                _uiState.update { UiState.ShowPagingData(pagingData) }
+            }
         }
     }
 }
