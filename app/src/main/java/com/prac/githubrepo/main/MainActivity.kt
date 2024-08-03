@@ -3,6 +3,8 @@ package com.prac.githubrepo.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
@@ -24,5 +26,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvMain.adapter = conCatAdapter
+    }
+
+    private fun CombinedLoadStates.handleLoadStates() {
+        if (source.refresh is LoadState.Error || source.refresh is LoadState.Loading) {
+            retryFooterAdapter.loadState = source.refresh
+            return
+        }
+
+        retryFooterAdapter.loadState = source.append
     }
 }
