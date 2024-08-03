@@ -2,6 +2,7 @@ package com.prac.githubrepo.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,14 @@ class RetryFooterAdapter(
     inner class ViewHolder(private val binding: ItemRetryFooterBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
 
+        }
+
+        private fun LoadState.setErrorMessage() {
+            if (this is LoadState.Error) {
+                binding.tvErrorMessage.text = this.error.localizedMessage
+            }
+
+            binding.tvErrorMessage.isVisible = this is LoadState.Error
         }
     }
 
