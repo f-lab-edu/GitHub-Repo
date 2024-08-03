@@ -27,6 +27,10 @@ class MainViewModel @Inject constructor(
         ) : UiState()
     }
 
+    init {
+        getRepositories()
+    }
+
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
