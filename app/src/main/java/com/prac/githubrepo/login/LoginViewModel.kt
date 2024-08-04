@@ -3,9 +3,13 @@ package com.prac.githubrepo.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prac.data.exception.GitHubApiException
+import com.prac.data.repository.RepoRepository
 import com.prac.data.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -15,27 +19,66 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ): ViewModel() {
-    private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
+    sealed class UiState {
+        data object Idle : UiState()
+
+        data object Loading : UiState()
+
+        data class Error(
+            val errorMessage : String
+        ) : UiState()
+    }
+
+    sealed class Event {
+        data object Success : Event()
+    }
+
+    sealed class SideEffect {
+        data object LoginButtonClick : SideEffect()
+        data object ErrorAlertDialogDismiss : SideEffect()
+    }
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
+
+    private val _event = MutableSharedFlow<Event>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val event = _event.asSharedFlow()
+
+    private val _sideEffect = MutableSharedFlow<SideEffect>(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    val sideEffect = _sideEffect.asSharedFlow()
 
     init {
         checkAutoLogin()
     }
 
+    fun setUiState(uiState: UiState) {
+        _uiState.update { uiState }
+    }
+
+    fun setEvent(event: Event) {
+        _event.tryEmit(event)
+    }
+
+    fun setSideEffect(sideEffect: SideEffect) {
+        _sideEffect.tryEmit(sideEffect)
+    }
+
     fun loginWithGitHub(code: String) {
         viewModelScope.launch {
-            _uiState.update { LoginUIState.Loading }
+            if (uiState.value != UiState.Idle) return@launch
+
+            setUiState(UiState.Loading)
 
             tokenRepository.getTokenApi(code = code)
                 .onSuccess {
-                    _uiState.update { LoginUIState.Success }
+                    setEvent(Event.Success)
                 }.onFailure { throwable ->
                     when (throwable) {
                         is GitHubApiException.NetworkException, is GitHubApiException.UnAuthorizedException -> {
-                            _uiState.update { LoginUIState.Error(throwable.message ?: "로그인을 실패했습니다.") }
+                            setUiState(UiState.Error(throwable.message ?: "로그인을 실패했습니다."))
                         }
                         else -> {
-                            _uiState.update { LoginUIState.Error("알 수 없는 에러가 발생했습니다.") }
+                            setUiState(UiState.Error("알 수 없는 에러가 발생했습니다."))
                         }
                     }
                 }
@@ -44,10 +87,9 @@ class LoginViewModel @Inject constructor(
 
     private fun checkAutoLogin() {
         viewModelScope.launch {
-            _uiState.update { LoginUIState.Loading }
+            if (uiState.value != UiState.Idle) return@launch
 
-            if (tokenRepository.isLoggedIn()) _uiState.update { LoginUIState.AutoLogin }
-            else _uiState.update { LoginUIState.Idle }
+            if (tokenRepository.isLoggedIn()) setEvent(Event.Success)
         }
     }
 

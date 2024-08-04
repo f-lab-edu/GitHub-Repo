@@ -1,7 +1,10 @@
 package com.prac.data.di
 
+import com.prac.data.repository.RepoRepository
 import com.prac.data.repository.TokenRepository
+import com.prac.data.repository.impl.RepoRepositoryImpl
 import com.prac.data.repository.impl.TokenRepositoryImpl
+import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import dagger.Module
@@ -20,4 +23,10 @@ internal object RepositoryModule {
         tokenApiDataSource: TokenApiDataSource
     ): TokenRepository =
         TokenRepositoryImpl(tokenLocalDataSource, tokenApiDataSource)
+
+    @Provides
+    fun provideRepoRepository(
+        repoApiDataSource: RepoApiDataSource
+    ): RepoRepository =
+        RepoRepositoryImpl(repoApiDataSource)
 }

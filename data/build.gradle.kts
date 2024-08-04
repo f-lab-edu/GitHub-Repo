@@ -31,6 +31,7 @@ android {
             isMinifyEnabled = false
 
             buildConfigField("String", "GITHUB_URL", "\"https://github.com/\"")
+            buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com/\"")
             buildConfigField("String", "CLIENT_ID", "" + localProperties["CLIENT_ID"] + "")
             buildConfigField("String", "CLIENT_SECRET", "" + localProperties["CLIENT_SECRET"] + "")
         }
@@ -83,6 +84,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.protobuf)
 
+    implementation(libs.androidx.paging)
 }
 
 protobuf {

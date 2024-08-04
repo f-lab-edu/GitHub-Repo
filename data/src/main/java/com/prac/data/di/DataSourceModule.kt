@@ -1,9 +1,12 @@
 package com.prac.data.di
 
 import com.prac.data.di.datastore.TokenDataStoreManager
+import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
+import com.prac.data.source.api.GitHubApi
 import com.prac.data.source.api.GitHubTokenApi
+import com.prac.data.source.impl.RepoApiDataSourceImpl
 import com.prac.data.source.impl.TokenApiDataSourceImpl
 import com.prac.data.source.impl.TokenLocalDataSourceImpl
 import dagger.Module
@@ -25,4 +28,10 @@ internal object DataSourceModule {
         tokenDataStoreManager: TokenDataStoreManager
     ): TokenLocalDataSource =
         TokenLocalDataSourceImpl(tokenDataStoreManager)
+
+    @Provides
+    fun provideRepoApiDataSource(
+        gitHubApi: GitHubApi
+    ): RepoApiDataSource =
+        RepoApiDataSourceImpl(gitHubApi)
 }
