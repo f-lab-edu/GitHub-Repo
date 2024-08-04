@@ -15,21 +15,25 @@ internal class RepoApiDataSourceImpl @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepoModel> {
-        val position = params.key ?: STARTING_PAGE_INDEX
+        try {
+            val position = params.key ?: STARTING_PAGE_INDEX
 
-        val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
+            val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
 
-        val nextKey = if (response.size < PAGE_SIZE) {
-            null
-        } else {
-            position + (params.loadSize / PAGE_SIZE)
+            val nextKey = if (response.size < PAGE_SIZE) {
+                null
+            } else {
+                position + (params.loadSize / PAGE_SIZE)
+            }
+
+            return LoadResult.Page(
+                data = response.map { it.toModel() },
+                prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
+                nextKey = nextKey
+            )
+        } catch (e: Exception) {
+            return LoadResult.Error(e)
         }
-
-        return LoadResult.Page(
-            data = response.map { it.toModel() },
-            prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-            nextKey = nextKey
-        )
     }
 
     override fun getRefreshKey(state: PagingState<Int, RepoModel>): Int? {
