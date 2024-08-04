@@ -2,6 +2,7 @@ package com.prac.githubrepo.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
@@ -21,7 +22,8 @@ class MainViewModel @Inject constructor(
         data object Idle : UiState()
 
         data class ShowPagingData(
-            val repositories : PagingData<RepoEntity>
+            val repositories : PagingData<RepoEntity>,
+            val pagingDataLoadState: LoadState?
         ) : UiState()
     }
 
@@ -37,7 +39,7 @@ class MainViewModel @Inject constructor(
             if (_uiState.value != UiState.Idle) return@launch
 
             repoRepository.getRepositories().collect { pagingData ->
-                _uiState.update { UiState.ShowPagingData(pagingData) }
+                _uiState.update { UiState.ShowPagingData(pagingData, null) }
             }
         }
     }
