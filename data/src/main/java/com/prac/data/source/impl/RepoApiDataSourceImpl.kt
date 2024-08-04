@@ -19,7 +19,7 @@ internal class RepoApiDataSourceImpl @Inject constructor(
 
         val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
 
-        val nextKey = if (response.isEmpty()) {
+        val nextKey = if (response.size < PAGE_SIZE) {
             null
         } else {
             position + (params.loadSize / PAGE_SIZE)
