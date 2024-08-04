@@ -11,7 +11,7 @@ internal class RepoApiDataSourceImpl @Inject constructor(
 ) : RepoApiDataSource() {
     companion object {
         const val STARTING_PAGE_INDEX = 1
-        const val PAGE_SIZE = 30
+        const val PAGE_SIZE = 10
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepoModel> {
