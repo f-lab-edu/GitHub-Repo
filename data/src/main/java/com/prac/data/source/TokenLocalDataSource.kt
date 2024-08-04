@@ -1,10 +1,10 @@
 package com.prac.data.source
 
 internal interface TokenLocalDataSource {
-    fun setToken(
+    suspend fun setToken(
         accessToken: String,
         refreshToken: String
     )
 
-    fun isLoggedIn() : Boolean
+    suspend fun isLoggedIn() : Boolean
 }

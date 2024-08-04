@@ -1,3 +1,4 @@
+import com.google.protobuf.gradle.id
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -11,6 +12,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -78,5 +80,25 @@ dependencies {
 
     implementation(libs.jetbrains.kotlinx.serialization)
 
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.protobuf)
+
     implementation(libs.androidx.paging)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.19.4"
+    }
+
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
