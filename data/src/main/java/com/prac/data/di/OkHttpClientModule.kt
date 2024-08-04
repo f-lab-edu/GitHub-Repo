@@ -3,7 +3,7 @@ package com.prac.data.di
 import com.prac.data.BuildConfig
 import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
-import com.prac.data.di.binds.TokenSharedPreferences
+import com.prac.data.di.datastore.TokenDataStoreManager
 import com.prac.data.source.api.AuthorizationInterceptor
 import dagger.Module
 import dagger.Provides
@@ -19,8 +19,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object OkHttpClientModule {
     @Provides
-    fun provideAuthorizationInterceptor(tokenSharedPreferences: TokenSharedPreferences) : Interceptor =
-        AuthorizationInterceptor(tokenSharedPreferences)
+    fun provideAuthorizationInterceptor(tokenDataStoreManager: TokenDataStoreManager) : Interceptor =
+        AuthorizationInterceptor(tokenDataStoreManager)
 
     @Provides
     @Singleton
