@@ -9,4 +9,5 @@ message Token {
   bool is_logged_in = 3 [deprecated = true];
   int32 access_token_expires_in_minute = 4;
   int32 refresh_token_expires_in_minute = 5;
+  int64 access_token_updated_at = 6;
 }
