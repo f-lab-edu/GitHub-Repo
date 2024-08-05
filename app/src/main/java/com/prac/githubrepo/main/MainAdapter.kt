@@ -39,6 +39,10 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
         }
 
         private fun RepoEntity.setStar() {
+            binding.ivStar.setImageResource(
+                if (this.isStarred) R.drawable.img_starred
+                else R.drawable.img_unstarred
+            )
             binding.tvStar.text = this.stargazersCount.toString()
         }
 
