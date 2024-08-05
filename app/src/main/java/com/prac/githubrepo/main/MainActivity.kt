@@ -62,7 +62,8 @@ class MainActivity : AppCompatActivity() {
         when (this) {
             is UiState.Idle -> { }
             is UiState.ShowPagingData -> {
-                mainAdapter.submitData(this.repositories)
+                if (this.pagingDataLoadState != null) retryFooterAdapter.loadState = this.pagingDataLoadState
+                else mainAdapter.submitData(this.repositories)
             }
         }
     }
