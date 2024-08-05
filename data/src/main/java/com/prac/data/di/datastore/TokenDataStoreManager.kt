@@ -86,8 +86,8 @@ internal class TokenDataStoreManager(
             pref.toBuilder()
                 .setAccessToken(token.accessToken)
                 .setRefreshToken(token.refreshToken)
-                .setAccessTokenExpiresInMinute(token.expiresIn)
-                .setRefreshTokenExpiresInMinute(token.refreshTokenExpiresIn)
+                .setAccessTokenExpiresInMinute(token.expiresInMinute)
+                .setRefreshTokenExpiresInMinute(token.refreshTokenExpiresInMinute)
                 .setAccessTokenUpdatedAt(token.updatedAt.toInstant().toEpochMilli())
                 .build()
         }
