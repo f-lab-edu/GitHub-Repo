@@ -3,7 +3,6 @@ package com.prac.data.source.api
 import com.prac.data.di.datastore.TokenDataStoreManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
 
@@ -16,7 +15,7 @@ internal class AuthorizationInterceptor @Inject constructor(
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = "" // TODO run blocking to get access token
+        val accessToken = runBlocking { tokenDataStoreManager.getToken() }
         val request = chain.request().newBuilder()
             .addHeader(AUTHORIZATION, "$AUTHORIZATION_TYPE $accessToken")
             .build()
