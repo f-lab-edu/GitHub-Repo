@@ -10,13 +10,10 @@ import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
 import com.google.protobuf.InvalidProtocolBufferException
 import com.prac.data.datastore.Token
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import java.io.InputStream
 import java.io.OutputStream
 
-class TokenDataStoreManager(
+internal class TokenDataStoreManager(
     private val mContext: Context
 ) {
     companion object {
@@ -52,7 +49,10 @@ class TokenDataStoreManager(
                     context = context,
                     sharedPreferencesName = TOKEN_SHARED_PREFERENCES_NAME,
                     shouldRunMigration = {
-                        context.getSharedPreferences(TOKEN_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).all.any {
+                        context.getSharedPreferences(
+                            TOKEN_SHARED_PREFERENCES_NAME,
+                            Context.MODE_PRIVATE
+                        ).all.any {
                             it.value != null
                         }
                     }
@@ -64,7 +64,7 @@ class TokenDataStoreManager(
                         .build()
                 },
                 object : DataMigration<Token> {
-                    override suspend fun cleanUp() { }
+                    override suspend fun cleanUp() {}
 
                     override suspend fun shouldMigrate(currentData: Token): Boolean {
                         return currentData.isLoggedIn
@@ -98,35 +98,4 @@ class TokenDataStoreManager(
         }
     }
 
-    suspend fun getAccessToken() : String {
-        return mContext.tokenDataStore.data
-            .catch { emit(Token.getDefaultInstance()) }
-            .map {
-                it.accessToken
-            }.first()
-    }
-
-    suspend fun getRefreshToken() : String {
-        return mContext.tokenDataStore.data
-            .catch { emit(Token.getDefaultInstance()) }
-            .map {
-                it.refreshToken
-            }.first()
-    }
-
-    suspend fun getAccessTokenExpiresInMinute() : Int {
-        return mContext.tokenDataStore.data
-            .catch { emit(Token.getDefaultInstance()) }
-            .map {
-                it.accessTokenExpiresInMinute
-            }.first()
-    }
-
-    suspend fun getRefreshTokenExpiresInMinute() : Int {
-        return mContext.tokenDataStore.data
-            .catch { emit(Token.getDefaultInstance()) }
-            .map {
-                it.refreshTokenExpiresInMinute
-            }.first()
-    }
 }
