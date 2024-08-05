@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
-                    it.handleUiState()
+                    launch { it.handleUiState() }
                 }
             }
         }
