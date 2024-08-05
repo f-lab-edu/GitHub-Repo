@@ -35,6 +35,14 @@
         android:maxLines="1"
         android:ellipsize="end" />
 
+    <ImageView
+        android:id="@+id/ivStar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp" />
+
     <TextView
         android:id="@+id/tvStar"
         android:layout_width="wrap_content"
