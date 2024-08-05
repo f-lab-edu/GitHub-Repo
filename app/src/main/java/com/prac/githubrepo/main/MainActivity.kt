@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity() {
         when (this) {
             is UiState.Idle -> { }
             is UiState.ShowPagingData -> {
-                binding.includeProgressBar.root.isVisible = false
-
                 mainAdapter.submitData(this.repositories)
             }
         }
