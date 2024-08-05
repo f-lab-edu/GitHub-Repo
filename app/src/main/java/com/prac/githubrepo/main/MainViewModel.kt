@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
             if (_uiState.value != UiState.Idle) return@launch
 
             repoRepository.getRepositories().collect { pagingData ->
-                _uiState.update { UiState.ShowPagingData(pagingData) }
+                _uiState.update { UiState.ShowPagingData(pagingData, null) }
             }
         }
     }
