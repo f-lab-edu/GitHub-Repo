@@ -10,8 +10,9 @@ internal data class RepoDto(
     @SerialName("name") val name: String = "",
     @SerialName("owner") val owner: OwnerDto = OwnerDto(),
     @SerialName("stargazers_count") val stargazersCount: Int = 0,
-    @SerialName("updated_at") val updatedAt: String = ""
+    @SerialName("updated_at") val updatedAt: String = "",
+    val isStarred: Boolean = false
 ) {
     fun toModel() =
-        RepoModel(id, name, owner.toModel(), stargazersCount, updatedAt)
+        RepoModel(id, name, owner.toModel(), stargazersCount, updatedAt, isStarred)
 }
