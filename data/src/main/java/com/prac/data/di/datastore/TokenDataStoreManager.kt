@@ -10,6 +10,7 @@ import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
 import com.google.protobuf.InvalidProtocolBufferException
 import com.prac.data.datastore.Token
+import com.prac.data.repository.model.TokenModel
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -80,20 +81,14 @@ internal class TokenDataStoreManager(
         }
     )
 
-    suspend fun saveTokenData(
-        accessToken: String,
-        refreshToken: String,
-        accessTokenExpiresInMinute: Int,
-        refreshTokenExpiresInMinute: Int,
-        accessTokenUpdatedAt: Long
-    ) {
+    suspend fun saveTokenData(token: TokenModel) {
         mContext.tokenDataStore.updateData { pref ->
             pref.toBuilder()
-                .setAccessToken(accessToken)
-                .setRefreshToken(refreshToken)
-                .setAccessTokenExpiresInMinute(accessTokenExpiresInMinute)
-                .setRefreshTokenExpiresInMinute(refreshTokenExpiresInMinute)
-                .setAccessTokenUpdatedAt(accessTokenUpdatedAt)
+                .setAccessToken(token.accessToken)
+                .setRefreshToken(token.refreshToken)
+                .setAccessTokenExpiresInMinute(token.expiresIn)
+                .setRefreshTokenExpiresInMinute(token.refreshTokenExpiresIn)
+                .setAccessTokenUpdatedAt(token.updatedAt.toInstant().toEpochMilli())
                 .build()
         }
     }

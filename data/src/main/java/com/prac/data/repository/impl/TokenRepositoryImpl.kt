@@ -1,6 +1,7 @@
 package com.prac.data.repository.impl
 
 import com.prac.data.repository.TokenRepository
+import com.prac.data.repository.model.TokenModel
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import javax.inject.Inject
@@ -9,15 +10,10 @@ internal class TokenRepositoryImpl @Inject constructor(
     private val tokenLocalDataSource: TokenLocalDataSource,
     private val tokenApiDataSource: TokenApiDataSource
 ) : TokenRepository {
-    override suspend fun getTokenApi(
-        code: String
-    ): Result<Unit> {
+    override suspend fun getTokenApi(code: String): Result<Unit> {
         try {
-            val model = tokenApiDataSource.getToken(
-                code = code
-            )
-
-            setToken(model.accessToken, model.refreshToken)
+            val model = tokenApiDataSource.getToken(code)
+            setToken(model)
 
             return Result.success(Unit)
         } catch (e: Exception) {
@@ -29,7 +25,7 @@ internal class TokenRepositoryImpl @Inject constructor(
         return tokenLocalDataSource.isLoggedIn()
     }
 
-    private suspend fun setToken(accessToken: String, refreshToken: String) {
-        tokenLocalDataSource.setToken(accessToken, refreshToken)
+    private suspend fun setToken(token: TokenModel) {
+        tokenLocalDataSource.setToken(token)
     }
 }
