@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun CombinedLoadStates.handleLoadStates() {
         if (source.refresh is LoadState.Error || source.refresh is LoadState.Loading) {
-            retryFooterAdapter.loadState = source.refresh
+            viewModel.setLoadState(source.refresh)
             return
         }
 
-        retryFooterAdapter.loadState = source.append
+        viewModel.setLoadState(source.append)
     }
 
     private suspend fun UiState.handleUiState() {
