@@ -34,6 +34,10 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
+    fun setLoadState(loadState: LoadState) {
+        _uiState.update { (it as UiState.ShowPagingData).copy(pagingDataLoadState = loadState) }
+    }
+
     fun getRepositories() {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
