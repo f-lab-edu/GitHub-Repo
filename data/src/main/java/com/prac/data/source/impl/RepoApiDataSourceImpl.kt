@@ -4,6 +4,8 @@ import androidx.paging.PagingState
 import com.prac.data.repository.model.RepoModel
 import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.api.GitHubApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class RepoApiDataSourceImpl @Inject constructor(
@@ -18,19 +20,21 @@ internal class RepoApiDataSourceImpl @Inject constructor(
         try {
             val position = params.key ?: STARTING_PAGE_INDEX
 
-            val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
+            return withContext(Dispatchers.IO) {
+                val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
 
-            val nextKey = if (response.size < PAGE_SIZE) {
-                null
-            } else {
-                position + (params.loadSize / PAGE_SIZE)
+                val nextKey = if (response.size < PAGE_SIZE) {
+                    null
+                } else {
+                    position + (params.loadSize / PAGE_SIZE)
+                }
+
+                LoadResult.Page(
+                    data = response.map { it.toModel() },
+                    prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
+                    nextKey = nextKey
+                )
             }
-
-            return LoadResult.Page(
-                data = response.map { it.toModel() },
-                prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = nextKey
-            )
         } catch (e: Exception) {
             return LoadResult.Error(e)
         }
