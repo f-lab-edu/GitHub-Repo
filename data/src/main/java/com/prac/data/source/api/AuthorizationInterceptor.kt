@@ -9,15 +9,6 @@ import javax.inject.Inject
 internal class AuthorizationInterceptor @Inject constructor(
     private val tokenDataStoreManager: TokenDataStoreManager
 ) : Interceptor {
-    companion object {
-        private const val AUTHORIZATION = "Authorization"
-        private const val AUTHORIZATION_TYPE = "Bearer"
-
-        private val UNAUTHORIZED = Response.Builder()
-            .code(401)
-            .message("Unauthorized")
-            .build()
-    }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = runBlocking { tokenDataStoreManager.getToken() }
@@ -32,4 +23,13 @@ internal class AuthorizationInterceptor @Inject constructor(
         return chain.proceed(request)
     }
 
+    companion object {
+        private const val AUTHORIZATION = "Authorization"
+        private const val AUTHORIZATION_TYPE = "Bearer"
+
+        private val UNAUTHORIZED = Response.Builder()
+            .code(401)
+            .message("Unauthorized")
+            .build()
+    }
 }
