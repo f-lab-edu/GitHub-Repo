@@ -62,10 +62,12 @@ class MainActivity : AppCompatActivity() {
         when (this) {
             is UiState.Idle -> { }
             is UiState.Loading -> {
-                binding.includeProgressBar.root.isVisible = true
+                // TODO Not yet implemented
+//                binding.includeProgressBar.root.isVisible = true
             }
             is UiState.ShowPagingData -> {
-                binding.includeProgressBar.root.isVisible = false
+                // TODO Not yet implemented
+//                binding.includeProgressBar.root.isVisible = false
 
                 mainAdapter.submitData(this.repositories)
             }
