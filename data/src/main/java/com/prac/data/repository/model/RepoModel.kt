@@ -7,8 +7,9 @@ internal data class RepoModel(
     val name: String,
     val owner: OwnerModel,
     val stargazersCount: Int,
-    val updatedAt: String
+    val updatedAt: String,
+    val isStarred: Boolean
 ) {
     fun toEntity() =
-        RepoEntity(id, name, owner.toEntity(), stargazersCount, updatedAt)
+        RepoEntity(id, name, owner.toEntity(), stargazersCount, updatedAt, isStarred)
 }
