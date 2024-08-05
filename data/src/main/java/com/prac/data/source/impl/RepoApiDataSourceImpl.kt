@@ -5,7 +5,10 @@ import com.prac.data.repository.model.RepoModel
 import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.api.GitHubApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 internal class RepoApiDataSourceImpl @Inject constructor(
@@ -21,7 +24,14 @@ internal class RepoApiDataSourceImpl @Inject constructor(
             val position = params.key ?: STARTING_PAGE_INDEX
 
             return withContext(Dispatchers.IO) {
-                val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position)
+                val response = gitHubApi.getRepos("GongDoMin", params.loadSize, position).map { repoDto ->
+                    async {
+                        val starredResponse = gitHubApi.checkStarred("GongDoMin", repoDto.name)
+
+                        if (starredResponse.code() == 204) repoDto.copy(isStarred = true)
+                        else repoDto
+                    }
+                }.awaitAll()
 
                 val nextKey = if (response.size < PAGE_SIZE) {
                     null
