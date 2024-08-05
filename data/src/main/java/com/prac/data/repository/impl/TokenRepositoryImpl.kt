@@ -22,7 +22,8 @@ internal class TokenRepositoryImpl @Inject constructor(
     }
 
     override suspend fun isLoggedIn(): Boolean {
-        return tokenLocalDataSource.isLoggedIn()
+        val token = tokenLocalDataSource.getToken()
+        return token.accessToken.isNotEmpty()
     }
 
     private suspend fun setToken(token: TokenModel) {

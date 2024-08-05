@@ -12,7 +12,7 @@ internal class TokenLocalDataSourceImpl @Inject constructor(
         tokenDataStoreManager.saveTokenData(token)
     }
 
-    override suspend fun isLoggedIn(): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun getToken(): TokenModel {
+        return tokenDataStoreManager.getToken()
     }
 }
