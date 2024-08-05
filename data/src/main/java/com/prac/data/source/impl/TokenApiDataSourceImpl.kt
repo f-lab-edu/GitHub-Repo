@@ -17,7 +17,9 @@ internal class TokenApiDataSourceImpl @Inject constructor(
 
         return TokenModel(
             accessToken = response.accessToken,
-            refreshToken = response.refreshToken
+            refreshToken = response.refreshToken,
+            expiresIn = response.expiresIn,
+            refreshTokenExpiresIn = response.refreshTokenExpiresIn
         )
     }
 }
