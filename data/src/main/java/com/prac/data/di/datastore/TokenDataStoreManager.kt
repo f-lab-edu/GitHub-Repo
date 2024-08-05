@@ -11,8 +11,11 @@ import androidx.datastore.migrations.SharedPreferencesView
 import com.google.protobuf.InvalidProtocolBufferException
 import com.prac.data.datastore.Token
 import com.prac.data.repository.model.TokenModel
+import kotlinx.coroutines.flow.first
 import java.io.InputStream
 import java.io.OutputStream
+import java.time.Instant
+import java.time.ZoneId
 
 internal class TokenDataStoreManager(
     private val mContext: Context
@@ -90,6 +93,18 @@ internal class TokenDataStoreManager(
                 .setRefreshTokenExpiresInMinute(token.refreshTokenExpiresInMinute)
                 .setAccessTokenUpdatedAt(token.updatedAt.toInstant().toEpochMilli())
                 .build()
+        }
+    }
+
+    suspend fun getToken(): TokenModel {
+        return mContext.tokenDataStore.data.first().let {
+            TokenModel(
+                accessToken = it.accessToken,
+                refreshToken = it.refreshToken,
+                expiresInMinute = it.accessTokenExpiresInMinute,
+                refreshTokenExpiresInMinute = it.refreshTokenExpiresInMinute,
+                updatedAt = Instant.ofEpochMilli(it.accessTokenUpdatedAt).atZone(ZoneId.systemDefault())
+            )
         }
     }
 
