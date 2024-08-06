@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object OkHttpClientModule {
+internal object OkHttpClientModule {
     @Provides
     fun provideAuthorizationInterceptor(tokenDataStoreManager: TokenDataStoreManager) : Interceptor =
         AuthorizationInterceptor(tokenDataStoreManager)

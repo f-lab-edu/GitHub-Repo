@@ -3,6 +3,7 @@ package com.prac.data.source.impl
 import com.prac.data.repository.model.TokenModel
 import com.prac.data.source.TokenApiDataSource
 import com.prac.data.source.api.GitHubTokenApi
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 internal class TokenApiDataSourceImpl @Inject constructor(
@@ -17,7 +18,10 @@ internal class TokenApiDataSourceImpl @Inject constructor(
 
         return TokenModel(
             accessToken = response.accessToken,
-            refreshToken = response.refreshToken
+            refreshToken = response.refreshToken,
+            expiresInMinute = response.expiresIn,
+            refreshTokenExpiresInMinute = response.refreshTokenExpiresIn,
+            updatedAt = ZonedDateTime.now()
         )
     }
 }

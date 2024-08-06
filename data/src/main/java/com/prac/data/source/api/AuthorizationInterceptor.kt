@@ -7,7 +7,7 @@ import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
 
-class AuthorizationInterceptor @Inject constructor(
+internal class AuthorizationInterceptor @Inject constructor(
     private val tokenDataStoreManager: TokenDataStoreManager
 ) : Interceptor {
     companion object {
