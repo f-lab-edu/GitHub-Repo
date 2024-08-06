@@ -16,13 +16,11 @@ class AuthorizationInterceptor @Inject constructor(
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request().putTokenHeader()
+        val accessToken = "" // TODO run blocking to get access token
+        val request = chain.request().newBuilder()
+            .addHeader(AUTHORIZATION, "$AUTHORIZATION_TYPE $accessToken")
+            .build()
         return chain.proceed(request)
     }
 
-    private fun Request.putTokenHeader(accessToken: String) : Request {
-        return this.newBuilder()
-            .addHeader(AUTHORIZATION, "$AUTHORIZATION_TYPE $accessToken")
-            .build()
-    }
 }
