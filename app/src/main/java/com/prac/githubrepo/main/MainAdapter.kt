@@ -17,6 +17,7 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
                 setProfile()
                 setName()
                 setTitle()
+                setStarImage()
                 setStarCount()
                 setUpdatedDate()
             }
@@ -36,6 +37,13 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
 
         private fun RepoEntity.setTitle() {
             binding.tvName.text = this.owner.login
+        }
+
+        private fun RepoEntity.setStarImage() {
+            binding.ivStar.setImageResource(
+                if (this.isStarred == true) R.drawable.img_star
+                else R.drawable.img_unstar
+            )
         }
 
         private fun RepoEntity.setStarCount() {
