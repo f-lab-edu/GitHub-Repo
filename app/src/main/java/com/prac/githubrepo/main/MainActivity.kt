@@ -14,6 +14,7 @@ import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
+import com.prac.githubrepo.main.MainViewModel.Event
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
@@ -70,6 +71,19 @@ class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
 //                binding.includeProgressBar.root.isVisible = false
 
                 mainAdapter.submitData(this.repositories)
+            }
+        }
+    }
+
+    private fun Event.handleEvent() {
+        when (this) {
+            is Event.StartIsStarredUpdate -> {
+                if (isStarred) {
+                    mainAdapter.snapshot().items[position].isStarred = true
+                    mainAdapter.notifyItemChanged(position)
+                } else {
+                    mainAdapter.snapshot().items[position].isStarred = false
+                }
             }
         }
     }
