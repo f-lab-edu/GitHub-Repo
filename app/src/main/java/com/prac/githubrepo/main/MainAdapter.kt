@@ -11,12 +11,16 @@ import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
 
 class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+    private val starImageResID = R.drawable.img_star
+    private val unStarImageResID = R.drawable.img_unstar
+
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
                 setName()
                 setTitle()
+                setStarImage()
                 setStarCount()
                 setUpdatedDate()
             }
@@ -36,6 +40,13 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
 
         private fun RepoEntity.setTitle() {
             binding.tvName.text = this.owner.login
+        }
+
+        private fun RepoEntity.setStarImage() {
+            binding.ivStar.setImageResource(
+                if (this.isStarred == true) starImageResID
+                else unStarImageResID
+            )
         }
 
         private fun RepoEntity.setStarCount() {
