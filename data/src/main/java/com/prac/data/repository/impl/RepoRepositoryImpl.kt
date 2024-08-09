@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.prac.data.entity.OwnerEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.data.source.RepoApiDataSource
@@ -25,7 +26,7 @@ internal class RepoRepositoryImpl @Inject constructor(
         ).flow
             .map { pagingData ->
                 pagingData.map { repoModel ->
-                    repoModel.toEntity()
+                    RepoEntity(repoModel.id, repoModel.name, OwnerEntity(repoModel.owner.login, repoModel.owner.avatarUrl), repoModel.stargazersCount, repoModel.updatedAt)
                 }
             }
 }
