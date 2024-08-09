@@ -10,7 +10,7 @@ import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
 
-class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     private val starImageResID = R.drawable.img_star
     private val unStarImageResID = R.drawable.img_unstar
 
