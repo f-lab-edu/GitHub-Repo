@@ -48,6 +48,14 @@ class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect {
+                    it.handleEvent()
+                }
+            }
+        }
     }
 
     private fun CombinedLoadStates.handleLoadStates() {
