@@ -75,4 +75,9 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
                 oldItem == newItem
         }
     }
+
+    interface JobManager {
+        fun startJob(position: Int, repoName: String)
+        fun cancelJob(position: Int)
+    }
 }
