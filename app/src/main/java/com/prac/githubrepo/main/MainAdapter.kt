@@ -22,12 +22,19 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
             mPosition = position
 
             with(repoEntity) {
+                startJob(position)
                 setProfile()
                 setName()
                 setTitle()
                 setStarImage()
                 setStarCount()
                 setUpdatedDate()
+            }
+        }
+
+        private fun RepoEntity.startJob(position: Int) {
+            binding.root.post {
+                jobManager.startJob(position, name)
             }
         }
 
