@@ -61,6 +61,10 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
         private fun RepoEntity.setUpdatedDate() {
             binding.tvLastUpdatedDate.text = this.updatedAt
         }
+
+        fun cancelJob() {
+            jobManager.cancelJob(mPosition)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,6 +73,12 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it, position) }
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+
+        holder.cancelJob()
     }
 
     companion object {
