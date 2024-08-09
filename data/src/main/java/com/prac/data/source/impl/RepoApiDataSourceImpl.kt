@@ -1,6 +1,7 @@
 package com.prac.data.source.impl
 
 import androidx.paging.PagingState
+import com.prac.data.repository.model.OwnerModel
 import com.prac.data.repository.model.RepoModel
 import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.api.GitHubApi
@@ -27,7 +28,9 @@ internal class RepoApiDataSourceImpl @Inject constructor(
             }
 
             return LoadResult.Page(
-                data = response.map { it.toModel() },
+                data = response.map {
+                    RepoModel(it.id, it.name, OwnerModel(it.owner.login, it.owner.avatarUrl), it.stargazersCount, it.updatedAt)
+                },
                 prevKey = if (position == STARTING_PAGE_INDEX) null else position - 1,
                 nextKey = nextKey
             )
