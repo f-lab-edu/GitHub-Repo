@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {
     suspend fun getRepositories() : Flow<PagingData<RepoEntity>>
+
+    suspend fun checkRepositoryIsStarred(repoName: String) : Result<Boolean>
 }

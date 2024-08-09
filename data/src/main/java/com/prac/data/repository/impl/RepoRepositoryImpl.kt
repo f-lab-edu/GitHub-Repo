@@ -10,7 +10,6 @@ import com.prac.data.repository.RepoRepository
 import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.RepoStarApiDataSource
 import com.prac.data.source.impl.RepoApiDataSourceImpl.Companion.PAGE_SIZE
-import com.prac.data.source.impl.RepoStarApiDataSourceImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -32,5 +31,10 @@ internal class RepoRepositoryImpl @Inject constructor(
                     RepoEntity(repoModel.id, repoModel.name, OwnerEntity(repoModel.owner.login, repoModel.owner.avatarUrl), repoModel.stargazersCount, repoModel.updatedAt, null)
                 }
             }
+
+    override suspend fun checkRepositoryIsStarred(repoName: String): Result<Boolean> {
+        // TODO call repoStarApiDataSource checkRepositoryIsStarred
+        return Result.success(false)
+    }
 }
 
