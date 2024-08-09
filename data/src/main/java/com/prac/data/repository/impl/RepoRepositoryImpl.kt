@@ -33,8 +33,13 @@ internal class RepoRepositoryImpl @Inject constructor(
             }
 
     override suspend fun checkRepositoryIsStarred(repoName: String): Result<Boolean> {
-        // TODO call repoStarApiDataSource checkRepositoryIsStarred
-        return Result.success(false)
+        return try {
+            val result = repoStarApiDataSource.checkRepositoryIsStarred(repoName)
+
+            Result.success(result)
+        } catch (e: Exception) {
+            Result.success(false)
+        }
     }
 }
 
