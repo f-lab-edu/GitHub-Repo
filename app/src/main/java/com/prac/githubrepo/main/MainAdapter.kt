@@ -9,13 +9,18 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
+import kotlin.properties.Delegates
 
 class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     private val starImageResID = R.drawable.img_star
     private val unStarImageResID = R.drawable.img_unstar
 
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(repoEntity: RepoEntity) {
+        private var mPosition by Delegates.notNull<Int>()
+
+        fun bind(repoEntity: RepoEntity, position: Int) {
+            mPosition = position
+
             with(repoEntity) {
                 setProfile()
                 setName()
@@ -63,7 +68,7 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        getItem(position)?.let { holder.bind(it, position) }
     }
 
     companion object {
