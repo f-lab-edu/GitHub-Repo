@@ -9,6 +9,7 @@ import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,6 +56,24 @@ class MainViewModel @Inject constructor(
             repoRepository.getRepositories().collect { pagingData ->
                 _uiState.update { UiState.ShowPagingData(pagingData) }
             }
+        }
+    }
+
+    fun putAndStartJob(position: Int, repoName: String) {
+        viewModelScope.launch {
+            _jobSparseArray[position] = launch(Dispatchers.IO) {
+                val result = repoRepository.checkRepositoryIsStarred(repoName)
+
+                result.onSuccess {
+                    _event.emit(Event.StartIsStarredUpdate(position, it))
+                }.onFailure {
+                    _event.emit(Event.StartIsStarredUpdate(position, false))
+                }
+            }
+
+            _jobSparseArray[position].join()
+
+            _jobSparseArray[position] = null
         }
     }
 }
