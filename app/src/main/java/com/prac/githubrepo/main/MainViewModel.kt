@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
@@ -47,6 +48,18 @@ class MainViewModel @Inject constructor(
             repoRepository.getRepositories().collect { pagingData ->
                 _uiState.update { UiState.ShowPagingData(pagingData) }
             }
+        }
+    }
+
+    fun transformPagingData(id: Int, isStarred: Boolean) {
+        _uiState.update {
+            UiState.ShowPagingData(
+                (it as UiState.ShowPagingData).repositories
+                    .map { repoEntity ->
+                        if (repoEntity.id == id) repoEntity.copy(isStarred = isStarred)
+                        else repoEntity
+                    }
+            )
         }
     }
 }
