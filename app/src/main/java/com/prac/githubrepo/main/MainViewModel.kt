@@ -58,8 +58,4 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
-    fun cancelJob(position: Int) {
-        if (_jobSparseArray[position].isActive) _jobSparseArray[position].cancel()
-    }
 }
