@@ -14,7 +14,6 @@ import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
-import com.prac.githubrepo.main.MainViewModel.Event
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
@@ -48,14 +47,6 @@ class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.event.collect {
-                    it.handleEvent()
-                }
-            }
-        }
     }
 
     private fun CombinedLoadStates.handleLoadStates() {
@@ -83,24 +74,11 @@ class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
         }
     }
 
-    private fun Event.handleEvent() {
-        when (this) {
-            is Event.StartIsStarredUpdate -> {
-                if (isStarred) {
-                    mainAdapter.snapshot().items[position].isStarred = true
-                    mainAdapter.notifyItemChanged(position)
-                } else {
-                    mainAdapter.snapshot().items[position].isStarred = false
-                }
-            }
-        }
-    }
-
     override fun startJob(position: Int, repoName: String) {
-        viewModel.putAndStartJob(position, repoName)
+
     }
 
     override fun cancelJob(position: Int) {
-        viewModel.cancelJob(position)
+
     }
 }
