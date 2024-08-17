@@ -47,8 +47,6 @@ class MainViewModel @Inject constructor(
     private val _event = MutableSharedFlow<Event>()
     val event = _event.asSharedFlow()
 
-    private val _jobSparseArray = SparseArray<Job>()
-
     private fun getRepositories() {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
