@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
@@ -45,7 +46,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
-            repoRepository.getRepositories().collect { pagingData ->
+            repoRepository.getRepositories().cachedIn(viewModelScope).collect { pagingData ->
                 _uiState.update { UiState.ShowPagingData(pagingData) }
             }
         }
