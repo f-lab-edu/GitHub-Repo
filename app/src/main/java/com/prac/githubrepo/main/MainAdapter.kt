@@ -80,12 +80,6 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
         getItem(position)?.let { holder.bind(it, position) }
     }
 
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-
-        holder.cancelJob()
-    }
-
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<RepoEntity>() {
             override fun areItemsTheSame(oldItem: RepoEntity, newItem: RepoEntity): Boolean =
