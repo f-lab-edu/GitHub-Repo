@@ -62,4 +62,18 @@ class ViewStateTracker private constructor(
             it.cancel()
         }
     }
+
+    private fun maybeAddListener() {
+        if (isAttachedStateListenerAdded || repoEntity.isStarred != null) return
+
+        view.addOnAttachStateChangeListener(attachedStateListener)
+        isAttachedStateListenerAdded = true
+    }
+
+    private fun maybeRemoveListener() {
+        if (!isAttachedStateListenerAdded) return
+
+        view.removeOnAttachStateChangeListener(attachedStateListener)
+        isAttachedStateListenerAdded = false
+    }
 }
