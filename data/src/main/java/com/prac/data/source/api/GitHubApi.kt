@@ -19,5 +19,5 @@ internal interface GitHubApi {
     suspend fun checkRepositoryIsStarred(
         @Path("userName") userName: String,
         @Path("repoName") repoName: String
-    ): Response<Unit>
+    )
 }
