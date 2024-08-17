@@ -27,7 +27,7 @@ class ViewStateTracker private constructor(
         }
 
         override fun onViewDetachedFromWindow(view: View) {
-
+            view.clearCheckIsStarredJob()
         }
     }
 
@@ -53,5 +53,12 @@ class ViewStateTracker private constructor(
                     }
             }
         )
+    }
+
+    private fun View.clearCheckIsStarredJob() {
+        getJob()?.let {
+            setTag(jobID, null)
+            it.cancel()
+        }
     }
 }
