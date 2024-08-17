@@ -6,6 +6,8 @@ import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class ViewStateTracker private constructor(
     private val repoRepository: RepoRepository,
@@ -21,11 +23,35 @@ class ViewStateTracker private constructor(
     private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) {
-
+            view.setCheckIsStarredJob()
         }
 
         override fun onViewDetachedFromWindow(view: View) {
 
         }
+    }
+
+    private fun View.getJob() : Job? {
+        val tag = getTag(jobID)
+
+        if (tag is Job) {
+            return tag
+        }
+
+        return null
+    }
+
+    private fun View.setCheckIsStarredJob() {
+        setTag(
+            jobID,
+            scope.launch {
+                repoRepository.isStarred(repoEntity.name)
+                    .onSuccess {
+                        uiStateUpdater.updateIsStarred(repoEntity.id, it)
+                    }.onFailure {
+                        uiStateUpdater.updateIsStarred(repoEntity.id, false)
+                    }
+            }
+        )
     }
 }
