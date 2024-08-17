@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
 
     private val _jobSparseArray = SparseArray<Job>()
 
-    fun getRepositories() {
+    private fun getRepositories() {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
