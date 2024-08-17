@@ -59,24 +59,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun putAndStartJob(position: Int, repoName: String) {
-        viewModelScope.launch {
-            _jobSparseArray[position] = launch(Dispatchers.IO) {
-                val result = repoRepository.checkRepositoryIsStarred(repoName)
-
-                result.onSuccess {
-                    _event.emit(Event.StartIsStarredUpdate(position, it))
-                }.onFailure {
-                    _event.emit(Event.StartIsStarredUpdate(position, false))
-                }
-            }
-
-            _jobSparseArray[position].join()
-
-            _jobSparseArray[position] = null
-        }
-    }
-
     fun cancelJob(position: Int) {
         if (_jobSparseArray[position].isActive) _jobSparseArray[position].cancel()
     }
