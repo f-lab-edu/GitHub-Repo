@@ -38,7 +38,7 @@ internal class RepoRepositoryImpl @Inject constructor(
 
             Result.success(result)
         } catch (e: Exception) {
-            Result.success(false)
+            Result.failure(e)
         }
     }
 }
