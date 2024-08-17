@@ -33,19 +33,12 @@ class MainViewModel @Inject constructor(
         ) : UiState()
     }
 
-    sealed class Event {
-        data class StartIsStarredUpdate(val position: Int, val isStarred: Boolean) : Event()
-    }
-
     init {
         getRepositories()
     }
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
-
-    private val _event = MutableSharedFlow<Event>()
-    val event = _event.asSharedFlow()
 
     private fun getRepositories() {
         viewModelScope.launch {
