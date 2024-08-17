@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter(this) }
+    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 
@@ -72,13 +72,5 @@ class MainActivity : AppCompatActivity(), MainAdapter.JobManager {
                 mainAdapter.submitData(this.repositories)
             }
         }
-    }
-
-    override fun startJob(position: Int, repoName: String) {
-
-    }
-
-    override fun cancelJob(position: Int) {
-
     }
 }

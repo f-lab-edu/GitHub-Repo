@@ -11,7 +11,7 @@ import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
 import kotlin.properties.Delegates
 
-class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     private val starImageResID = R.drawable.img_star
     private val unStarImageResID = R.drawable.img_unstar
 
@@ -33,9 +33,7 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
         }
 
         private fun RepoEntity.startJob(position: Int) {
-            binding.root.post {
-                jobManager.startJob(position, name)
-            }
+
         }
 
         private fun RepoEntity.setProfile() {
@@ -70,7 +68,7 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
         }
 
         fun cancelJob() {
-            jobManager.cancelJob(mPosition)
+
         }
     }
 
@@ -96,10 +94,5 @@ class MainAdapter(private val jobManager: JobManager) : PagingDataAdapter<RepoEn
             override fun areContentsTheSame(oldItem: RepoEntity, newItem: RepoEntity): Boolean =
                 oldItem == newItem
         }
-    }
-
-    interface JobManager {
-        fun startJob(position: Int, repoName: String)
-        fun cancelJob(position: Int)
     }
 }
