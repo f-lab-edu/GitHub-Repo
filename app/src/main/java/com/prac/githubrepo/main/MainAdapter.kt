@@ -16,11 +16,7 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
     private val unStarImageResID = R.drawable.img_unstar
 
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-        private var mPosition by Delegates.notNull<Int>()
-
-        fun bind(repoEntity: RepoEntity, position: Int) {
-            mPosition = position
-
+        fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
                 setName()
@@ -68,7 +64,7 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it, position) }
+        getItem(position)?.let { holder.bind(it) }
     }
 
     companion object {
