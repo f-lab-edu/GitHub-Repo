@@ -22,7 +22,6 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
             mPosition = position
 
             with(repoEntity) {
-                startJob(position)
                 setProfile()
                 setName()
                 setTitle()
@@ -30,10 +29,6 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
                 setStarCount()
                 setUpdatedDate()
             }
-        }
-
-        private fun RepoEntity.startJob(position: Int) {
-
         }
 
         private fun RepoEntity.setProfile() {
@@ -65,10 +60,6 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
 
         private fun RepoEntity.setUpdatedDate() {
             binding.tvLastUpdatedDate.text = this.updatedAt
-        }
-
-        fun cancelJob() {
-
         }
     }
 
