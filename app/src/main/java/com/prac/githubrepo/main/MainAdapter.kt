@@ -12,9 +12,6 @@ import com.prac.githubrepo.databinding.ItemMainBinding
 import kotlin.properties.Delegates
 
 class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
-    private val starImageResID = R.drawable.img_star
-    private val unStarImageResID = R.drawable.img_unstar
-
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -45,8 +42,8 @@ class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diff
 
         private fun RepoEntity.setStarImage() {
             binding.ivStar.setImageResource(
-                if (this.isStarred == true) starImageResID
-                else unStarImageResID
+                if (this.isStarred == true) R.drawable.img_star
+                else R.drawable.img_unstar
             )
         }
 
