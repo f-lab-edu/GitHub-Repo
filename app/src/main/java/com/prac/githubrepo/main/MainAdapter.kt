@@ -12,7 +12,7 @@ import com.prac.githubrepo.databinding.ItemMainBinding
 import kotlin.properties.Delegates
 
 class MainAdapter() : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
