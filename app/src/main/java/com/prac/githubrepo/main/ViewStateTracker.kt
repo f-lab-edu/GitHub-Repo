@@ -61,6 +61,8 @@ class ViewStateTracker private constructor(
             setTag(jobID, null)
             it.cancel()
         }
+
+        maybeRemoveListener()
     }
 
     private fun maybeAddListener() {
@@ -68,6 +70,12 @@ class ViewStateTracker private constructor(
 
         view.addOnAttachStateChangeListener(attachedStateListener)
         isAttachedStateListenerAdded = true
+    }
+
+    private fun updateAndMaybeAddListener(repoEntity: RepoEntity) {
+        this.repoEntity = repoEntity
+
+        maybeAddListener()
     }
 
     private fun maybeRemoveListener() {
