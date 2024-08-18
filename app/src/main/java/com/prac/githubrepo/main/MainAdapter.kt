@@ -30,6 +30,7 @@ class MainAdapter @AssistedInject constructor(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
+                setViewStateTracker()
                 setProfile()
                 setName()
                 setTitle()
@@ -37,6 +38,13 @@ class MainAdapter @AssistedInject constructor(
                 setStarCount()
                 setUpdatedDate()
             }
+        }
+
+        private fun RepoEntity.setViewStateTracker() {
+            viewStateTrackerBuilder
+                .setView(binding.root)
+                .setRepoEntity(this)
+                .build()
         }
 
         private fun RepoEntity.setProfile() {
