@@ -9,9 +9,22 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlin.properties.Delegates
 
-class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+class MainAdapter @AssistedInject constructor(
+    private val viewStateTrackerBuilder: ViewStateTracker.Builder,
+    @Assisted private val uiStateUpdater: UiStateUpdater
+) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(uiStateUpdater: UiStateUpdater): MainAdapter
+    }
+
+    class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
