@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), UiStateUpdater {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
+                viewModel.uiState.collectLatest {
                     it.handleUiState()
                 }
             }
