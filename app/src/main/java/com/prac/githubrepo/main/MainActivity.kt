@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    @Inject private lateinit var mainAdapterFactory: MainAdapter.Factory
+    @Inject lateinit var mainAdapterFactory: MainAdapter.Factory
     private val mainAdapter: MainAdapter by lazy { mainAdapterFactory.create(this) }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }

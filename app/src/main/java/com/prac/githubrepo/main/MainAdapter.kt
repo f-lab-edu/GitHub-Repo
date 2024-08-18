@@ -24,7 +24,10 @@ class MainAdapter @AssistedInject constructor(
         fun create(uiStateUpdater: UiStateUpdater): MainAdapter
     }
 
-    class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemMainBinding,
+        private val viewStateTrackerBuilder: ViewStateTracker.Builder
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
@@ -69,7 +72,10 @@ class MainAdapter @AssistedInject constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            viewStateTrackerBuilder.setUiStateUpdater(uiStateUpdater)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
