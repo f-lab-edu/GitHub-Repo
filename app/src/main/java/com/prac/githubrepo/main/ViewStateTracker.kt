@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class ViewStateTracker private constructor(
     private val repoRepository: RepoRepository,
@@ -82,5 +83,28 @@ class ViewStateTracker private constructor(
 
         view.removeOnAttachStateChangeListener(attachedStateListener)
         isAttachedStateListenerAdded = false
+    }
+
+    class Builder @Inject constructor(
+        private val repoRepository: RepoRepository,
+    ) {
+        companion object {
+            private val viewStateTrackerID = R.string.viewStateTrackerID
+        }
+        private var uiStateUpdater: UiStateUpdater? = null
+        private var repoEntity: RepoEntity? = null
+        private var view: View? = null
+
+        fun setUiStateUpdater(uiStateUpdater: UiStateUpdater) = apply {
+            this.uiStateUpdater = uiStateUpdater
+        }
+
+        fun setRepoEntity(repoEntity: RepoEntity) = apply {
+            this.repoEntity = repoEntity
+        }
+
+        fun setView(view: View) = apply {
+            this.view = view
+        }
     }
 }
