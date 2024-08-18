@@ -106,5 +106,25 @@ class ViewStateTracker private constructor(
         fun setView(view: View) = apply {
             this.view = view
         }
+
+        fun build() {
+            val uiStateUpdater = checkNotNull(uiStateUpdater) { "uiStateUpdater is null" }
+            val repoEntity = checkNotNull(repoEntity) { "repoEntity is null" }
+            val view = checkNotNull(view) { "view is null" }
+
+            if (hasViewStateTracker()) {
+                val viewStateTracker = view.getTag(viewStateTrackerID) as ViewStateTracker
+                viewStateTracker.updateAndMaybeAddListener(repoEntity)
+                return
+            }
+
+            val viewStateTracker = ViewStateTracker(repoRepository, view, repoEntity, uiStateUpdater)
+            view.setTag(viewStateTrackerID, viewStateTracker)
+            viewStateTracker.maybeAddListener()
+        }
+
+        private fun hasViewStateTracker() : Boolean {
+            return view?.getTag(viewStateTrackerID) != null
+        }
     }
 }
