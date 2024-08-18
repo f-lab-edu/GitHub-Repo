@@ -16,13 +16,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
+    @Inject private lateinit var mainAdapterFactory: MainAdapter.Factory
+    private val mainAdapter: MainAdapter by lazy { mainAdapterFactory.create(this) }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 
