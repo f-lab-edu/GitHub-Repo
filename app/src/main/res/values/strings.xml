@@ -8,4 +8,7 @@
     <string name="login_github_login">GitHub Login</string>
 
     <string name="main_title">Repository</string>
+
+    <string name="jobID">jobID</string>
+    <string name="viewStateTrackerID">viewStateTrackerID</string>
 </resources>
