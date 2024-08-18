@@ -9,6 +9,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,11 @@ class MainActivity : AppCompatActivity(), UiStateUpdater {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvMain.adapter = conCatAdapter
+        binding.rvMain.apply {
+            adapter = conCatAdapter
+            itemAnimator = null
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
