@@ -17,7 +17,7 @@ class RequestBuilder @AssistedInject constructor(
     @Assisted private val lifecycleScope: CoroutineScope
 ) {
     companion object {
-        private val tagID = R.string.viewStateTrackerID
+        private val tagID = R.string.RepoStartUpdater
     }
 
     @AssistedFactory
