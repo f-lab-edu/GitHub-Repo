@@ -5,6 +5,7 @@ import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.main.UiStateUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class RepositoryStarRequest(
     private val repoRepository: RepoRepository,
@@ -15,15 +16,23 @@ class RepositoryStarRequest(
     private var job: Job? = null
 
     override fun begin() {
+        if (repoEntity.isStarred != null) return
 
+        job = lifecycleScope.launch {
+            repoRepository.isStarred(repoEntity.name)
+                .onSuccess { uiStateUpdater.updateIsStarred(repoEntity.id, it) }
+                .onFailure { uiStateUpdater.updateIsStarred(repoEntity.id, false) }
+        }
     }
 
     override fun cancel() {
-
+        job?.let {
+            it.cancel()
+            job = null
+        }
     }
 
     override fun isComplete(): Boolean {
-        // TODO
-        return false
+        return job?.isActive != true
     }
 }
