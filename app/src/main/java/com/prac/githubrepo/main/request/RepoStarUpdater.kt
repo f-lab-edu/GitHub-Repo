@@ -1,4 +1,4 @@
-package com.prac.githubrepo.main
+package com.prac.githubrepo.main.request
 
 import android.view.View
 import com.prac.data.entity.RepoEntity

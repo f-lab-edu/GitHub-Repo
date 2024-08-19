@@ -4,7 +4,6 @@ import android.view.View
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
-import com.prac.githubrepo.main.RepoStarUpdater
 import com.prac.githubrepo.main.UiStateUpdater
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
