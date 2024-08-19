@@ -35,7 +35,7 @@ class RepoStarUpdater (
         maybeRemoveListener()
     }
 
-    private fun maybeAddListener() {
+    fun maybeAddListener() {
         if (isAttachedStateListenerAdded) return
 
         view.addOnAttachStateChangeListener(attachedStateListener)
