@@ -43,6 +43,8 @@ class RepoStarUpdater (
     }
 
     fun addOrUpdateListener(request: Request) {
+        reset()
+
         this.request = request
 
         maybeAddListener()
@@ -53,5 +55,14 @@ class RepoStarUpdater (
 
         view.removeOnAttachStateChangeListener(attachedStateListener)
         isAttachedStateListenerAdded = false
+    }
+
+    private fun reset() {
+        request.cancel()
+
+        if (isAttachedStateListenerAdded) {
+            view.removeOnAttachStateChangeListener(attachedStateListener)
+            isAttachedStateListenerAdded = false
+        }
     }
 }
