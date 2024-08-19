@@ -9,17 +9,42 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlin.properties.Delegates
 
-class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+class MainAdapter @AssistedInject constructor(
+    private val viewStateTrackerBuilder: ViewStateTracker.Builder,
+    @Assisted private val uiStateUpdater: UiStateUpdater
+) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(uiStateUpdater: UiStateUpdater): MainAdapter
+    }
+
+    class ViewHolder(
+        private val binding: ItemMainBinding,
+        private val viewStateTrackerBuilder: ViewStateTracker.Builder
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
+                setViewStateTracker()
                 setProfile()
                 setName()
                 setTitle()
+                setStarImage()
                 setStarCount()
                 setUpdatedDate()
             }
+        }
+
+        private fun RepoEntity.setViewStateTracker() {
+            viewStateTrackerBuilder
+                .setView(binding.root)
+                .setRepoEntity(this)
+                .build()
         }
 
         private fun RepoEntity.setProfile() {
@@ -38,6 +63,13 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
             binding.tvName.text = this.owner.login
         }
 
+        private fun RepoEntity.setStarImage() {
+            binding.ivStar.setImageResource(
+                if (this.isStarred == true) R.drawable.img_star
+                else R.drawable.img_unstar
+            )
+        }
+
         private fun RepoEntity.setStarCount() {
             binding.tvStar.text = this.stargazersCount.toString()
         }
@@ -48,7 +80,10 @@ class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            viewStateTrackerBuilder.setUiStateUpdater(uiStateUpdater)
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
