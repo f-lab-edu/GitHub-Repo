@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,25 +44,29 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
+    private val _isStarredUpdate = MutableSharedFlow<Pair<Int, Boolean>>()
+
     private fun getRepositories() {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
-            repoRepository.getRepositories().cachedIn(viewModelScope).collect { pagingData ->
-                _uiState.update { UiState.ShowPagingData(pagingData) }
+            combine(
+                repoRepository.getRepositories().cachedIn(viewModelScope),
+                _isStarredUpdate.scan(emptyMap<Int, Boolean>()) { acc, (id, isStarred) ->
+                    acc + (id to isStarred)
+                }) { pagingData, starredMap ->
+                pagingData.map { repoEntity ->
+                    repoEntity.copy(isStarred = starredMap[repoEntity.id] ?: repoEntity.isStarred)
+                }
+            }.collect { transformedPagingData ->
+                _uiState.update { UiState.ShowPagingData(transformedPagingData) }
             }
         }
     }
 
-    fun transformPagingData(id: Int, isStarred: Boolean) {
-        _uiState.update {
-            UiState.ShowPagingData(
-                (it as UiState.ShowPagingData).repositories
-                    .map { repoEntity ->
-                        if (repoEntity.id == id) repoEntity.copy(isStarred = isStarred)
-                        else repoEntity
-                    }
-            )
+    fun updateIsStarred(id: Int, isStarred: Boolean) {
+        viewModelScope.launch {
+            _isStarredUpdate.emit(Pair(id, isStarred))
         }
     }
 }
