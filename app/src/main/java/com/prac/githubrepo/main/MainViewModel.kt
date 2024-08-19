@@ -42,6 +42,8 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
+    private val _isStarredUpdate = MutableSharedFlow<Pair<Int, Boolean>>()
+
     private fun getRepositories() {
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
