@@ -22,7 +22,7 @@ class RepoStarUpdater (
         }
 
         override fun onViewDetachedFromWindow(view: View) {
-            view.clearCheckIsStarredJob()
+            cancelRequest()
         }
     }
 
@@ -30,7 +30,8 @@ class RepoStarUpdater (
         request.begin()
     }
 
-    private fun View.clearCheckIsStarredJob() {
+    private fun cancelRequest() {
+        request.cancel()
         maybeRemoveListener()
     }
 
