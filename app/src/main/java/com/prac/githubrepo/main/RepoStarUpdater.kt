@@ -16,11 +16,6 @@ class RepoStarUpdater private constructor(
     private var repoEntity: RepoEntity,
     private val uiStateUpdater: UiStateUpdater
 ) {
-    companion object {
-        private val jobID = R.string.jobID
-    }
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) {
@@ -32,36 +27,11 @@ class RepoStarUpdater private constructor(
         }
     }
 
-    private fun View.getJob() : Job? {
-        val tag = getTag(jobID)
-
-        if (tag is Job) {
-            return tag
-        }
-
-        return null
-    }
-
     private fun View.setCheckIsStarredJob() {
-        setTag(
-            jobID,
-            scope.launch {
-                repoRepository.isStarred(repoEntity.name)
-                    .onSuccess {
-                        uiStateUpdater.updateIsStarred(repoEntity.id, it)
-                    }.onFailure {
-                        uiStateUpdater.updateIsStarred(repoEntity.id, false)
-                    }
-            }
-        )
+
     }
 
     private fun View.clearCheckIsStarredJob() {
-        getJob()?.let {
-            setTag(jobID, null)
-            it.cancel()
-        }
-
         maybeRemoveListener()
     }
 
