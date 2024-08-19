@@ -18,7 +18,7 @@ class RepoStarUpdater (
     private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) {
-            view.setCheckIsStarredJob()
+            beginRequest()
         }
 
         override fun onViewDetachedFromWindow(view: View) {
@@ -26,8 +26,8 @@ class RepoStarUpdater (
         }
     }
 
-    private fun View.setCheckIsStarredJob() {
-
+    private fun beginRequest() {
+        request.begin()
     }
 
     private fun View.clearCheckIsStarredJob() {
