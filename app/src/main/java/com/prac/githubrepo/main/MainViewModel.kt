@@ -54,7 +54,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun transformPagingData(id: Int, isStarred: Boolean) {
+    fun updateIsStarred(id: Int, isStarred: Boolean) {
         _uiState.update {
             UiState.ShowPagingData(
                 (it as UiState.ShowPagingData).repositories
