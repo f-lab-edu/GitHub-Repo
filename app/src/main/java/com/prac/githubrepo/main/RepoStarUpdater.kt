@@ -9,9 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class ViewStateTracker private constructor(
+class RepoStarUpdater private constructor(
     private val repoRepository: RepoRepository,
     private val view: View,
     private var repoEntity: RepoEntity,
