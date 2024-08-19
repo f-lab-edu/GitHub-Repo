@@ -85,47 +85,4 @@ class ViewStateTracker private constructor(
         view.removeOnAttachStateChangeListener(attachedStateListener)
         isAttachedStateListenerAdded = false
     }
-
-    class Builder @Inject constructor(
-        private val repoRepository: RepoRepository,
-    ) {
-        companion object {
-            private val viewStateTrackerID = R.string.viewStateTrackerID
-        }
-        private var uiStateUpdater: UiStateUpdater? = null
-        private var repoEntity: RepoEntity? = null
-        private var view: View? = null
-
-        fun setUiStateUpdater(uiStateUpdater: UiStateUpdater) = apply {
-            this.uiStateUpdater = uiStateUpdater
-        }
-
-        fun setRepoEntity(repoEntity: RepoEntity) = apply {
-            this.repoEntity = repoEntity
-        }
-
-        fun setView(view: View) = apply {
-            this.view = view
-        }
-
-        fun build() {
-            val uiStateUpdater = checkNotNull(uiStateUpdater) { "uiStateUpdater is null" }
-            val repoEntity = checkNotNull(repoEntity) { "repoEntity is null" }
-            val view = checkNotNull(view) { "view is null" }
-
-            if (hasViewStateTracker()) {
-                val viewStateTracker = view.getTag(viewStateTrackerID) as ViewStateTracker
-                viewStateTracker.updateAndMaybeAddListener(repoEntity)
-                return
-            }
-
-            val viewStateTracker = ViewStateTracker(repoRepository, view, repoEntity, uiStateUpdater)
-            view.setTag(viewStateTrackerID, viewStateTracker)
-            viewStateTracker.maybeAddListener()
-        }
-
-        private fun hasViewStateTracker() : Boolean {
-            return view?.getTag(viewStateTrackerID) != null
-        }
-    }
 }
