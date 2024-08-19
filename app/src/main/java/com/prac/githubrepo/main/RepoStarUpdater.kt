@@ -4,17 +4,16 @@ import android.view.View
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
+import com.prac.githubrepo.main.request.Request
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class RepoStarUpdater private constructor(
-    private val repoRepository: RepoRepository,
+class RepoStarUpdater (
+    private var request: Request,
     private val view: View,
-    private var repoEntity: RepoEntity,
-    private val uiStateUpdater: UiStateUpdater
 ) {
     private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
@@ -36,14 +35,14 @@ class RepoStarUpdater private constructor(
     }
 
     private fun maybeAddListener() {
-        if (isAttachedStateListenerAdded || repoEntity.isStarred != null) return
+        if (isAttachedStateListenerAdded) return
 
         view.addOnAttachStateChangeListener(attachedStateListener)
         isAttachedStateListenerAdded = true
     }
 
-    private fun updateAndMaybeAddListener(repoEntity: RepoEntity) {
-        this.repoEntity = repoEntity
+    private fun updateAndMaybeAddListener(request: Request) {
+        this.request = request
 
         maybeAddListener()
     }
