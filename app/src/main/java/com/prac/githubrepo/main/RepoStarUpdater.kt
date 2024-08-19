@@ -42,7 +42,7 @@ class RepoStarUpdater (
         isAttachedStateListenerAdded = true
     }
 
-    private fun updateAndMaybeAddListener(request: Request) {
+    fun addOrUpdateListener(request: Request) {
         this.request = request
 
         maybeAddListener()
