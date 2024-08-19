@@ -55,14 +55,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateIsStarred(id: Int, isStarred: Boolean) {
-        _uiState.update {
-            UiState.ShowPagingData(
-                (it as UiState.ShowPagingData).repositories
-                    .map { repoEntity ->
-                        if (repoEntity.id == id) repoEntity.copy(isStarred = isStarred)
-                        else repoEntity
-                    }
-            )
+        viewModelScope.launch {
+            _isStarredUpdate.emit(Pair(id, isStarred))
         }
     }
 }
