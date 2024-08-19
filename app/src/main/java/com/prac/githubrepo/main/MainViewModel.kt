@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,8 +50,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
-            repoRepository.getRepositories().cachedIn(viewModelScope).collect { pagingData ->
-                _uiState.update { UiState.ShowPagingData(pagingData) }
+            combine(
+                repoRepository.getRepositories().cachedIn(viewModelScope),
+                _isStarredUpdate.scan(emptyMap<Int, Boolean>()) { acc, (id, isStarred) ->
+                    acc + (id to isStarred)
+                }) { pagingData, starredMap ->
+                pagingData.map { repoEntity ->
+                    repoEntity.copy(isStarred = starredMap[repoEntity.id] ?: repoEntity.isStarred)
+                }
+            }.collect { transformedPagingData ->
+                _uiState.update { UiState.ShowPagingData(transformedPagingData) }
             }
         }
     }
