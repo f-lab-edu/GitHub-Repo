@@ -27,4 +27,9 @@ class RequestBuilder @AssistedInject constructor(
     fun setRepoEntity(repoEntity: RepoEntity) = apply {
         this.repoEntity = repoEntity
     }
+
+    private fun clear() = apply {
+        this.view = null
+        this.repoEntity = null
+    }
 }
