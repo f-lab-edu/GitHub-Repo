@@ -3,6 +3,7 @@ package com.prac.githubrepo.main.request
 import android.view.View
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
+import com.prac.githubrepo.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,6 +13,10 @@ class RequestBuilder @AssistedInject constructor(
     private val repoRepository: RepoRepository,
     @Assisted private val scope: CoroutineScope
 ) {
+    companion object {
+        private val tagID = R.string.requestID
+    }
+
     @AssistedFactory
     interface Factory {
         fun create(scope: CoroutineScope): RequestBuilder
