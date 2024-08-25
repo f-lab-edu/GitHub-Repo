@@ -1,5 +1,6 @@
 package com.prac.githubrepo.main.request
 
+import android.view.View
 import com.prac.data.repository.RepoRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -13,5 +14,11 @@ class RequestBuilder @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(scope: CoroutineScope): RequestBuilder
+    }
+
+    private var view: View? = null
+
+    fun setView(view: View) : RequestBuilder = apply {
+        this.view = view
     }
 }
