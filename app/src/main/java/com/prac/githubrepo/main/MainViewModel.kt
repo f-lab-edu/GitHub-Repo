@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    private val _isStarredUpdate = MutableStateFlow<List<Pair<Int, Boolean>>>(emptyList())
+    private val _isStarredList = MutableStateFlow<List<Pair<Int, Boolean>>>(emptyList())
 
     private fun getRepositories() {
         viewModelScope.launch {
@@ -52,8 +52,8 @@ class MainViewModel @Inject constructor(
 
             combine(
                 repoRepository.getRepositories().cachedIn(viewModelScope),
-                _isStarredUpdate
-                ) { pagingData, starredMap ->
+                _isStarredList
+                ) { pagingData, isStarredList ->
 
             }
         }
