@@ -53,9 +53,17 @@ class MainViewModel @Inject constructor(
             combine(
                 repoRepository.getRepositories().cachedIn(viewModelScope),
                 _isStarredList
-                ) { pagingData, isStarredList ->
-
+            ) { pagingData, isStarredList ->
+                isStarredList.fold(pagingData) { acc, pair ->
+                    acc.map { repoEntity ->
+                        if (repoEntity.id == pair.first) repoEntity.copy(isStarred = pair.second)
+                        else repoEntity
+                    }
+                }
+            }.collect { transformedPagingData ->
+                _uiState.update { UiState.ShowPagingData(transformedPagingData) }
             }
+
         }
     }
 
