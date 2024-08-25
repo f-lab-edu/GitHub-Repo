@@ -33,6 +33,14 @@ class RequestBuilder @AssistedInject constructor(
         this.repoEntity = repoEntity
     }
 
+    private fun View.hasUpdaterTag() : Boolean {
+        val tag = getTag(tagID) ?: return false
+
+        if (tag !is Request) throw IllegalStateException("Tag is not of type Request")
+
+        return true
+    }
+
     private fun clear() = apply {
         this.view = null
         this.repoEntity = null
