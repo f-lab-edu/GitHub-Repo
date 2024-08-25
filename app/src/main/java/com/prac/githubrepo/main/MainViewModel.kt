@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    private val _isStarredUpdate = MutableSharedFlow<Pair<Int, Boolean>>()
+    private val _isStarredUpdate = MutableStateFlow<List<Pair<Int, Boolean>>>(emptyList())
 
     private fun getRepositories() {
         viewModelScope.launch {
@@ -52,21 +52,16 @@ class MainViewModel @Inject constructor(
 
             combine(
                 repoRepository.getRepositories().cachedIn(viewModelScope),
-                _isStarredUpdate.scan(emptyMap<Int, Boolean>()) { acc, (id, isStarred) ->
-                    acc + (id to isStarred)
-                }) { pagingData, starredMap ->
-                pagingData.map { repoEntity ->
-                    repoEntity.copy(isStarred = starredMap[repoEntity.id] ?: repoEntity.isStarred)
-                }
-            }.collect { transformedPagingData ->
-                _uiState.update { UiState.ShowPagingData(transformedPagingData) }
+                _isStarredUpdate
+                ) { pagingData, starredMap ->
+
             }
         }
     }
 
     fun updateIsStarred(id: Int, isStarred: Boolean) {
         viewModelScope.launch {
-            _isStarredUpdate.emit(Pair(id, isStarred))
+
         }
     }
 }
