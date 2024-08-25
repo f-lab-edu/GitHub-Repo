@@ -34,7 +34,6 @@ class StarRequest internal constructor(
     }
 
     override fun isCompleted() : Boolean {
-        // TODO Not yet implemented
-        return false
+        return job?.isCompleted == true
     }
 }
