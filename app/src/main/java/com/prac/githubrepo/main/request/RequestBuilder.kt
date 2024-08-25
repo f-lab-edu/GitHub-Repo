@@ -4,6 +4,7 @@ import android.view.View
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
+import com.prac.githubrepo.main.RepoStarUpdater
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,6 +32,28 @@ class RequestBuilder @AssistedInject constructor(
 
     fun setRepoEntity(repoEntity: RepoEntity) = apply {
         this.repoEntity = repoEntity
+    }
+
+    fun build() {
+        val view = checkNotNull(view)
+        val repoEntity = checkNotNull(repoEntity)
+
+        val updater = RepoStarUpdater(
+            request = StarRequest(
+                repoRepository = repoRepository,
+                repoEntity = repoEntity,
+                scope = scope
+            ),
+            view = view
+        )
+
+        if (view.hasUpdaterTag()) (view.getTag(tagID) as RepoStarUpdater).maybeRemoveListener()
+
+        view.setTag(tagID, updater)
+
+        if (repoEntity.isStarred == null) updater.maybeAddListener()
+
+        clear()
     }
 
     private fun View.hasUpdaterTag() : Boolean {
