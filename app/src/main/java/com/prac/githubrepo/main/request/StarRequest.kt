@@ -4,6 +4,7 @@ import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class StarRequest internal constructor(
     private val repoRepository: RepoRepository,
@@ -13,7 +14,16 @@ class StarRequest internal constructor(
     private var job: Job? = null
 
     override fun checkStarredState() {
+        cancel()
 
+        job = scope.launch {
+            repoRepository.isStarred(repoEntity.name)
+                .onSuccess {
+                    // TODO Add Ui Update Interface
+                }.onFailure {
+                    // TODO Add Ui Update Interface
+                }
+        }
     }
 
     override fun cancel() {
