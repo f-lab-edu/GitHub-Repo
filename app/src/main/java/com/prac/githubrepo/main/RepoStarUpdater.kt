@@ -24,5 +24,14 @@ class RepoStarUpdater(
 
     private fun cancelUpdatingStarState() {
         request.cancel()
+
+        maybeRemoveListener()
+    }
+
+    fun maybeRemoveListener() {
+        if (!isAttachedStateListenerAdded) return
+
+        isAttachedStateListenerAdded = false
+        view.removeOnAttachStateChangeListener(attachedStateListener)
     }
 }
