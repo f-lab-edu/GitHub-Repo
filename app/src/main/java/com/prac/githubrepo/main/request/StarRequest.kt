@@ -17,7 +17,10 @@ class StarRequest internal constructor(
     }
 
     override fun cancel() {
-
+        job?.let {
+            if (!isCompleted()) it.cancel()
+            job = null
+        }
     }
 
     override fun isCompleted() : Boolean {
