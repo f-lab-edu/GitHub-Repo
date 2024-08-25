@@ -10,6 +10,8 @@ class StarRequest internal constructor(
     private val repoEntity: RepoEntity,
     private val scope: CoroutineScope,
 ) : Request {
+    private var job: Job? = null
+
     override fun checkStarredState() {
 
     }
