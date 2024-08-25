@@ -10,11 +10,15 @@ class RepoStarUpdater(
     private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) {
-
+            startUpdatingStarState()
         }
 
         override fun onViewDetachedFromWindow(view: View) {
 
         }
+    }
+
+    private fun startUpdatingStarState() {
+        request.checkStarredState()
     }
 }
