@@ -14,11 +14,15 @@ class RepoStarUpdater(
         }
 
         override fun onViewDetachedFromWindow(view: View) {
-
+            cancelUpdatingStarState()
         }
     }
 
     private fun startUpdatingStarState() {
         request.checkStarredState()
+    }
+
+    private fun cancelUpdatingStarState() {
+        request.cancel()
     }
 }
