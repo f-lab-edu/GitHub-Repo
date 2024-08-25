@@ -60,8 +60,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateIsStarred(id: Int, isStarred: Boolean) {
-        viewModelScope.launch {
-
+        _isStarredList.update {
+            it + Pair(id, isStarred)
         }
     }
 }
