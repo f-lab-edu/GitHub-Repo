@@ -14,7 +14,10 @@ import com.prac.githubrepo.main.request.RequestBuilder
 class MainAdapter(
     private val requestBuilder: RequestBuilder
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
-    class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemMainBinding,
+        private val requestBuilder: RequestBuilder
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
                 setProfile()
@@ -59,7 +62,10 @@ class MainAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            requestBuilder
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
