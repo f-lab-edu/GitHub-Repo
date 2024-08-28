@@ -47,7 +47,7 @@ class RequestBuilder @AssistedInject constructor(
             view = view
         )
 
-        if (view.hasUpdaterTag()) (view.getTag(tagID) as RepoStarUpdater).maybeRemoveListener()
+        if (view.hasUpdaterTag()) (view.getTag(tagID) as RepoStarUpdater).removeListener()
 
         view.setTag(tagID, updater)
 

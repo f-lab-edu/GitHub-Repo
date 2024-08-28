@@ -24,7 +24,7 @@ class RepoStarUpdater(
     private fun cancelUpdatingStarState() {
         request.cancel()
 
-        maybeRemoveListener()
+        removeListener()
     }
 
     fun addListener() {
@@ -32,7 +32,7 @@ class RepoStarUpdater(
         view.addOnAttachStateChangeListener(attachedStateListener)
     }
 
-    fun maybeRemoveListener() {
+    fun removeListener() {
         view.removeOnAttachStateChangeListener(attachedStateListener)
     }
 }
