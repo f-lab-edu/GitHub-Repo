@@ -1,6 +1,7 @@
 package com.prac.githubrepo.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -20,6 +21,7 @@ class MainAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
+                setRequestBuilder(binding.root, this)
                 setProfile()
                 setName()
                 setTitle()
@@ -27,6 +29,12 @@ class MainAdapter(
                 setStarCount()
                 setUpdatedDate()
             }
+        }
+
+        private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
+            requestBuilder.setView(view)
+                .setRepoEntity(repoEntity)
+                .build()
         }
 
         private fun RepoEntity.setProfile() {
