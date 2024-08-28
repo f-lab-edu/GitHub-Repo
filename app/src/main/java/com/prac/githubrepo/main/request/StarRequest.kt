@@ -3,6 +3,7 @@ package com.prac.githubrepo.main.request
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -16,7 +17,7 @@ class StarRequest internal constructor(
     override fun checkStarredState() {
         cancel()
 
-        job = scope.launch {
+        job = scope.launch(Dispatchers.IO) {
             repoRepository.isStarred(repoEntity.name)
                 .onSuccess {
                     // TODO Add Ui Update Interface
