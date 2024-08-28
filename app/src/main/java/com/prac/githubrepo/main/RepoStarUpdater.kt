@@ -7,7 +7,6 @@ class RepoStarUpdater(
     private val request: Request,
     private val view: View
 ) {
-    private var isAttachedStateListenerAdded = false
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
         override fun onViewAttachedToWindow(view: View) {
             startUpdatingStarState()
@@ -34,9 +33,6 @@ class RepoStarUpdater(
     }
 
     fun maybeRemoveListener() {
-        if (!isAttachedStateListenerAdded) return
-
-        isAttachedStateListenerAdded = false
         view.removeOnAttachStateChangeListener(attachedStateListener)
     }
 }
