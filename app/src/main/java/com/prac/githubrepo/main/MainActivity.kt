@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), StarStateUpdater {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
@@ -72,5 +72,9 @@ class MainActivity : AppCompatActivity() {
                 mainAdapter.submitData(this.repositories)
             }
         }
+    }
+
+    override fun updateStarState(id: Int, isStarred: Boolean) {
+        viewModel.updateIsStarred(id, isStarred)
     }
 }
