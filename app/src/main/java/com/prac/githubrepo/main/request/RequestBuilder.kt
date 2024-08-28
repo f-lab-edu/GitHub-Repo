@@ -51,7 +51,7 @@ class RequestBuilder @AssistedInject constructor(
 
         view.setTag(tagID, updater)
 
-        if (repoEntity.isStarred == null) updater.maybeAddListener()
+        if (repoEntity.isStarred == null) updater.addListener()
 
         clear()
     }
