@@ -14,13 +14,16 @@ import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
+import com.prac.githubrepo.main.request.RequestBuilder
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), StarStateUpdater {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
+    @Inject lateinit var requestBuilderFactory: RequestBuilder.Factory
+    private val mainAdapter: MainAdapter by lazy { MainAdapter(requestBuilderFactory.create(this.lifecycleScope, this)) }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 

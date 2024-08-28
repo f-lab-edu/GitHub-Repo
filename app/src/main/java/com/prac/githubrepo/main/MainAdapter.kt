@@ -9,8 +9,11 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
+import com.prac.githubrepo.main.request.RequestBuilder
 
-class MainAdapter : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
+class MainAdapter(
+    private val requestBuilder: RequestBuilder
+) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
