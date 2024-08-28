@@ -22,9 +22,9 @@ class StarRequest internal constructor(
         job = scope.launch(Dispatchers.IO) {
             repoRepository.isStarred(repoEntity.name)
                 .onSuccess {
-                    // TODO Add Ui Update Interface
+                    starStateUpdater.updateStarState(repoEntity.id, it)
                 }.onFailure {
-                    // TODO Add Ui Update Interface
+                    starStateUpdater.updateStarState(repoEntity.id, false)
                 }
         }
     }
