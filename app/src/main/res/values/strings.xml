@@ -8,4 +8,6 @@
     <string name="login_github_login">GitHub Login</string>
 
     <string name="main_title">Repository</string>
+
+    <string name="requestID">requestID</string>
 </resources>
