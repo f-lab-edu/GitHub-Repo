@@ -14,7 +14,7 @@ class StarStateRequestImpl internal constructor(
 ) : StarStateRequest {
     private var job: Job? = null
 
-    override fun checkStarredState() {
+    override fun fetchStarState() {
         cancel()
 
         job = scope.launch(Dispatchers.IO) {

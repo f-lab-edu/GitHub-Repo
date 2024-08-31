@@ -18,7 +18,7 @@ class RepoStarUpdater(
     }
 
     private fun startUpdatingStarState() {
-        starStateRequest.checkStarredState()
+        starStateRequest.fetchStarState()
     }
 
     private fun cancelUpdatingStarState() {
