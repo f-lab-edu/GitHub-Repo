@@ -83,6 +83,6 @@ class MainActivity : AppCompatActivity(), StarStateUpdater {
     }
 
     override fun updateStarState(id: Int, isStarred: Boolean) {
-        viewModel.updateIsStarred(id, isStarred)
+
     }
 }
