@@ -5,6 +5,7 @@ import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
 import com.prac.githubrepo.main.RepoStarUpdater
+import com.prac.githubrepo.main.StarStateUpdater
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,7 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 
 class RequestBuilder @AssistedInject constructor(
     private val repoRepository: RepoRepository,
-    @Assisted private val scope: CoroutineScope
+    @Assisted private val scope: CoroutineScope,
+    @Assisted private val starStateUpdater: StarStateUpdater
 ) {
     companion object {
         private val tagID = R.string.requestID
@@ -20,7 +22,7 @@ class RequestBuilder @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(scope: CoroutineScope): RequestBuilder
+        fun create(scope: CoroutineScope, starStateUpdater: StarStateUpdater): RequestBuilder
     }
 
     private var view: View? = null
@@ -41,6 +43,7 @@ class RequestBuilder @AssistedInject constructor(
         val updater = RepoStarUpdater(
             request = StarRequest(
                 repoRepository = repoRepository,
+                starStateUpdater = starStateUpdater,
                 repoEntity = repoEntity,
                 scope = scope
             ),

@@ -9,18 +9,23 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
+import com.prac.githubrepo.main.request.RequestBuilder
+import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), StarStateUpdater {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val mainAdapter: MainAdapter by lazy { MainAdapter() }
+    @Inject lateinit var requestBuilderFactory: RequestBuilder.Factory
+    private val mainAdapter: MainAdapter by lazy { MainAdapter(requestBuilderFactory.create(this.lifecycleScope, this)) }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 
@@ -30,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.rvMain.adapter = conCatAdapter
+        binding.rvMain.apply {
+            adapter = conCatAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -42,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
+                viewModel.uiState.collectLatest {
                     it.handleUiState()
                 }
             }
@@ -72,5 +80,9 @@ class MainActivity : AppCompatActivity() {
                 mainAdapter.submitData(this.repositories)
             }
         }
+    }
+
+    override fun updateStarState(id: Int, isStarred: Boolean) {
+        viewModel.updateIsStarred(id, isStarred)
     }
 }
