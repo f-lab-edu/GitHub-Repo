@@ -18,7 +18,7 @@ class StarModule {
         starStateMediator: StarStateMediator
     ) : StarStateFetcher {
         return object : StarStateFetcher {
-            override suspend fun updateStarState(repoEntity: RepoEntity) {
+            override suspend fun fetchStarState(repoEntity: RepoEntity) {
                 repoRepository.isStarred(repoEntity.name)
                     .onSuccess {
                         starStateMediator.addStarState(repoEntity.id, it)

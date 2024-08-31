@@ -3,5 +3,5 @@ package com.prac.githubrepo.main.star
 import com.prac.data.entity.RepoEntity
 
 interface StarStateFetcher {
-    suspend fun updateStarState(repoEntity: RepoEntity)
+    suspend fun fetchStarState(repoEntity: RepoEntity)
 }

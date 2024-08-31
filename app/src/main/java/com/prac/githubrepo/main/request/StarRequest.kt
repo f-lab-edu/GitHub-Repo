@@ -18,7 +18,7 @@ class StarRequest internal constructor(
         cancel()
 
         job = scope.launch(Dispatchers.IO) {
-            starStateFetcher.updateStarState(repoEntity)
+            starStateFetcher.fetchStarState(repoEntity)
         }
     }
 
