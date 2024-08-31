@@ -59,7 +59,7 @@ class RequestBuilder @AssistedInject constructor(
     private fun View.hasUpdaterTag() : Boolean {
         val tag = getTag(tagID) ?: return false
 
-        if (tag !is Request) throw IllegalStateException("Tag is not of type Request")
+        if (tag !is RepoStarUpdater) throw IllegalStateException("Tag is not of type RepoStarUpdater")
 
         return true
     }
