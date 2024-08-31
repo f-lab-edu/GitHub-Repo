@@ -22,9 +22,9 @@ class StarRequest internal constructor(
         job = scope.launch(Dispatchers.IO) {
             repoRepository.isStarred(repoEntity.name)
                 .onSuccess {
-                    starStateUpdater.updateStarState(repoEntity.id, it)
+                    starStateUpdater.updateStarState(repoEntity)
                 }.onFailure {
-                    starStateUpdater.updateStarState(repoEntity.id, false)
+                    starStateUpdater.updateStarState(repoEntity)
                 }
         }
     }

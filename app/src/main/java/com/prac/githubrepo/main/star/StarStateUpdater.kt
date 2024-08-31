@@ -1,5 +1,7 @@
 package com.prac.githubrepo.main.star
 
+import com.prac.data.entity.RepoEntity
+
 interface StarStateUpdater {
-    fun updateStarState(id: Int, isStarred: Boolean)
+    suspend fun updateStarState(repoEntity: RepoEntity)
 }
