@@ -10,12 +10,12 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 import com.prac.githubrepo.main.request.RequestBuilder
+import com.prac.githubrepo.main.star.StarStateUpdater
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 

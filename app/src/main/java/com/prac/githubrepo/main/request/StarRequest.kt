@@ -2,7 +2,7 @@ package com.prac.githubrepo.main.request
 
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
-import com.prac.githubrepo.main.StarStateUpdater
+import com.prac.githubrepo.main.star.StarStateUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
