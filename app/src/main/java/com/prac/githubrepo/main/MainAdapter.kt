@@ -10,14 +10,14 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ItemMainBinding
-import com.prac.githubrepo.main.request.RequestBuilder
+import com.prac.githubrepo.main.request.StarStateRequestBuilder
 
 class MainAdapter(
-    private val requestBuilder: RequestBuilder
+    private val starStateRequestBuilder: StarStateRequestBuilder
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
-        private val requestBuilder: RequestBuilder
+        private val starStateRequestBuilder: StarStateRequestBuilder
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -32,7 +32,7 @@ class MainAdapter(
         }
 
         private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
-            requestBuilder.setView(view)
+            starStateRequestBuilder.setView(view)
                 .setRepoEntity(repoEntity)
                 .build()
         }
@@ -72,7 +72,7 @@ class MainAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            requestBuilder
+            starStateRequestBuilder
         )
     }
 

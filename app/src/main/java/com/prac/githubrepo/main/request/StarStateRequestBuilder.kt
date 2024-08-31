@@ -10,7 +10,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 
-class RequestBuilder @AssistedInject constructor(
+class StarStateRequestBuilder @AssistedInject constructor(
     private val starStateFetcher: StarStateFetcher,
     @Assisted private val scope: CoroutineScope,
 ) {
@@ -20,13 +20,13 @@ class RequestBuilder @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(scope: CoroutineScope): RequestBuilder
+        fun create(scope: CoroutineScope): StarStateRequestBuilder
     }
 
     private var view: View? = null
     private var repoEntity: RepoEntity? = null
 
-    fun setView(view: View) : RequestBuilder = apply {
+    fun setView(view: View) : StarStateRequestBuilder = apply {
         this.view = view
     }
 
