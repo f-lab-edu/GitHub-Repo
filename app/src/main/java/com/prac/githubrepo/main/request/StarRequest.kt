@@ -1,15 +1,14 @@
 package com.prac.githubrepo.main.request
 
 import com.prac.data.entity.RepoEntity
-import com.prac.data.repository.RepoRepository
-import com.prac.githubrepo.main.star.StarStateUpdater
+import com.prac.githubrepo.main.star.StarStateFetcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class StarRequest internal constructor(
-    private val starStateUpdater: StarStateUpdater,
+    private val starStateFetcher: StarStateFetcher,
     private val repoEntity: RepoEntity,
     private val scope: CoroutineScope,
 ) : Request {
@@ -19,7 +18,7 @@ class StarRequest internal constructor(
         cancel()
 
         job = scope.launch(Dispatchers.IO) {
-            starStateUpdater.updateStarState(repoEntity)
+            starStateFetcher.updateStarState(repoEntity)
         }
     }
 

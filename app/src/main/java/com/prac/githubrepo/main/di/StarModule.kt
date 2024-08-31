@@ -3,7 +3,7 @@ package com.prac.githubrepo.main.di
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.main.StarStateMediator
-import com.prac.githubrepo.main.star.StarStateUpdater
+import com.prac.githubrepo.main.star.StarStateFetcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +16,8 @@ class StarModule {
     fun provideStarStateFetcher(
         repoRepository: RepoRepository,
         starStateMediator: StarStateMediator
-    ) : StarStateUpdater {
-        return object : StarStateUpdater {
+    ) : StarStateFetcher {
+        return object : StarStateFetcher {
             override suspend fun updateStarState(repoEntity: RepoEntity) {
                 repoRepository.isStarred(repoEntity.name)
                     .onSuccess {

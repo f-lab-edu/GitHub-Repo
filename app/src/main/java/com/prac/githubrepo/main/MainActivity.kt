@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 import com.prac.githubrepo.main.request.RequestBuilder
-import com.prac.githubrepo.main.star.StarStateUpdater
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
