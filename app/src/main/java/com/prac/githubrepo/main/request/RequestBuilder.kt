@@ -12,7 +12,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 
 class RequestBuilder @AssistedInject constructor(
-    private val repoRepository: RepoRepository,
     private val starStateUpdater: StarStateUpdater,
     @Assisted private val scope: CoroutineScope,
 ) {
@@ -42,7 +41,6 @@ class RequestBuilder @AssistedInject constructor(
 
         val updater = RepoStarUpdater(
             request = StarRequest(
-                repoRepository = repoRepository,
                 starStateUpdater = starStateUpdater,
                 repoEntity = repoEntity,
                 scope = scope

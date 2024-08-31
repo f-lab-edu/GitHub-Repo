@@ -9,7 +9,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class StarRequest internal constructor(
-    private val repoRepository: RepoRepository,
     private val starStateUpdater: StarStateUpdater,
     private val repoEntity: RepoEntity,
     private val scope: CoroutineScope,
@@ -20,12 +19,7 @@ class StarRequest internal constructor(
         cancel()
 
         job = scope.launch(Dispatchers.IO) {
-            repoRepository.isStarred(repoEntity.name)
-                .onSuccess {
-                    starStateUpdater.updateStarState(repoEntity)
-                }.onFailure {
-                    starStateUpdater.updateStarState(repoEntity)
-                }
+            starStateUpdater.updateStarState(repoEntity)
         }
     }
 
