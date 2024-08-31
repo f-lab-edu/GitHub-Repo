@@ -25,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repoRepository: RepoRepository
+    private val repoRepository: RepoRepository,
+    private val starStateMediator: StarStateMediator
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
