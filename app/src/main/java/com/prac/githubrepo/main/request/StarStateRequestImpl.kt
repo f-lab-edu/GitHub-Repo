@@ -7,11 +7,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class StarRequest internal constructor(
+class StarStateRequestImpl internal constructor(
     private val starStateFetcher: StarStateFetcher,
     private val repoEntity: RepoEntity,
     private val scope: CoroutineScope,
-) : Request {
+) : StarStateRequest {
     private var job: Job? = null
 
     override fun checkStarredState() {

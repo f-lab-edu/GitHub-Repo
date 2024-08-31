@@ -39,7 +39,7 @@ class RequestBuilder @AssistedInject constructor(
         val repoEntity = checkNotNull(repoEntity)
 
         val updater = RepoStarUpdater(
-            request = StarRequest(
+            starStateRequest = StarStateRequestImpl(
                 starStateFetcher = starStateFetcher,
                 repoEntity = repoEntity,
                 scope = scope
