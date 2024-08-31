@@ -13,8 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 
 class RequestBuilder @AssistedInject constructor(
     private val repoRepository: RepoRepository,
+    private val starStateUpdater: StarStateUpdater,
     @Assisted private val scope: CoroutineScope,
-    @Assisted private val starStateUpdater: StarStateUpdater
 ) {
     companion object {
         private val tagID = R.string.requestID
@@ -22,7 +22,7 @@ class RequestBuilder @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(scope: CoroutineScope, starStateUpdater: StarStateUpdater): RequestBuilder
+        fun create(scope: CoroutineScope): RequestBuilder
     }
 
     private var view: View? = null

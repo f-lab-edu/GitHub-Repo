@@ -20,12 +20,12 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), StarStateUpdater {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     @Inject lateinit var requestBuilderFactory: RequestBuilder.Factory
-    private val mainAdapter: MainAdapter by lazy { MainAdapter(requestBuilderFactory.create(this.lifecycleScope, this)) }
+    private val mainAdapter: MainAdapter by lazy { MainAdapter(requestBuilderFactory.create(this.lifecycleScope)) }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 
@@ -80,9 +80,5 @@ class MainActivity : AppCompatActivity(), StarStateUpdater {
                 mainAdapter.submitData(this.repositories)
             }
         }
-    }
-
-    override fun updateStarState(id: Int, isStarred: Boolean) {
-
     }
 }
