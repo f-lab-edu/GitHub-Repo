@@ -89,4 +89,8 @@ class MainAdapter(
                 oldItem == newItem
         }
     }
+
+    interface StarClickListener {
+        fun star(repoEntity: RepoEntity)
+    }
 }
