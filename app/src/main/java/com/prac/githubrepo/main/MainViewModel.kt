@@ -83,6 +83,27 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun unStarRepository(repoEntity: RepoEntity) {
+        starStateMediator.updateStarState(
+            id = repoEntity.id,
+            isStarred = false,
+            stargazersCount = repoEntity.stargazersCount - 1
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
+                .onFailure {
+                    starStateMediator.updateStarState(
+                        id = repoEntity.id,
+                        isStarred = true,
+                        stargazersCount = repoEntity.stargazersCount
+                    )
+
+                    //TODO show alert dialog
+                }
+        }
+    }
+
     init {
         getRepositories()
     }
