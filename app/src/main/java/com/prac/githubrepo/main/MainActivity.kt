@@ -10,6 +10,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -78,6 +79,14 @@ class MainActivity : AppCompatActivity() {
 
                 mainAdapter.submitData(this.repositories)
             }
+        }
+    }
+
+    private class StarClickListenerImpl(
+         private val mainViewModel: MainViewModel
+    ) : MainAdapter.StarClickListener {
+        override fun star(repoEntity: RepoEntity) {
+            TODO("Not yet implemented")
         }
     }
 }
