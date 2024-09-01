@@ -13,7 +13,8 @@ import com.prac.githubrepo.databinding.ItemMainBinding
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 
 class MainAdapter(
-    private val starStateRequestBuilder: StarStateRequestBuilder
+    private val starStateRequestBuilder: StarStateRequestBuilder,
+    private val starClickListener: StarClickListener
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
