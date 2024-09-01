@@ -41,5 +41,15 @@ internal class RepoRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun starRepository(userName: String, repoName: String): Result<Unit> {
+        return try {
+            repoStarApiDataSource.starRepository(userName, repoName)
+
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
 

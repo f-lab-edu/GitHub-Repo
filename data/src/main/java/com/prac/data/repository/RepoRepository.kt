@@ -8,4 +8,6 @@ interface RepoRepository {
     suspend fun getRepositories() : Flow<PagingData<RepoEntity>>
 
     suspend fun isStarred(repoName: String) : Result<Boolean>
+
+    suspend fun starRepository(userName: String, repoName: String) : Result<Unit>
 }
