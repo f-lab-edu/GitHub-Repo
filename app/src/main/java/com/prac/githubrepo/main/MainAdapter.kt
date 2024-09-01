@@ -18,7 +18,8 @@ class MainAdapter(
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
-        private val starStateRequestBuilder: StarStateRequestBuilder
+        private val starStateRequestBuilder: StarStateRequestBuilder,
+        private val starClickListener: StarClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -73,7 +74,8 @@ class MainAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            starStateRequestBuilder
+            starStateRequestBuilder,
+            starClickListener
         )
     }
 
