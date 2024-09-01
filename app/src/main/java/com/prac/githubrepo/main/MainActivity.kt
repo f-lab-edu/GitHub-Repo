@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
          private val mainViewModel: MainViewModel
     ) : MainAdapter.StarClickListener {
         override fun star(repoEntity: RepoEntity) {
-            TODO("Not yet implemented")
+            mainViewModel.starRepository(repoEntity)
         }
     }
 }
