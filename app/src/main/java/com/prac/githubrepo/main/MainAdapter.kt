@@ -106,5 +106,6 @@ class MainAdapter(
 
     interface StarClickListener {
         fun star(repoEntity: RepoEntity)
+        fun unStar(repoEntity: RepoEntity)
     }
 }
