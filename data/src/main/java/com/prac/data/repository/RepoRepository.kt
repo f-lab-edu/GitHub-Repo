@@ -10,4 +10,6 @@ interface RepoRepository {
     suspend fun isStarred(repoName: String) : Result<Boolean>
 
     suspend fun starRepository(userName: String, repoName: String) : Result<Unit>
+
+    suspend fun unStarRepository(userName: String, repoName: String) : Result<Unit>
 }
