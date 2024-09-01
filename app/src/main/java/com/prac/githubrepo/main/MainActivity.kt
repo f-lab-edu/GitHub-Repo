@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun unStar(repoEntity: RepoEntity) {
-            TODO("Not yet implemented")
+            mainViewModel.unStarRepository(repoEntity)
         }
     }
 }
