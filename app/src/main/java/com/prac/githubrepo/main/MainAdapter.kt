@@ -31,6 +31,8 @@ class MainAdapter(
                 setStarCount()
                 setUpdatedDate()
             }
+
+            binding.ivStar.setStarClickListener(repoEntity, starClickListener)
         }
 
         private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
@@ -68,6 +70,15 @@ class MainAdapter(
 
         private fun RepoEntity.setUpdatedDate() {
             binding.tvLastUpdatedDate.text = this.updatedAt
+        }
+
+        private fun View.setStarClickListener(
+            repoEntity: RepoEntity,
+            starClickListener: StarClickListener
+        ) {
+            setOnClickListener {
+                if (repoEntity.isStarred == false) starClickListener.star(repoEntity)
+            }
         }
     }
 
