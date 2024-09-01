@@ -24,7 +24,7 @@ class MediatorModule {
             override val starStates: StateFlow<List<StarState>>
                 get() = _starStates.asStateFlow()
 
-            override fun addStarState(id: Int, isStarred: Boolean) {
+            override fun addStarState(id: Int, isStarred: Boolean, stargazersCount: Int) {
                 _starStates.update {
                     // TODO("Not yet implemented")
                     it
