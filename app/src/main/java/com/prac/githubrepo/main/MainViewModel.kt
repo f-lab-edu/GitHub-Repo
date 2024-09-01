@@ -52,10 +52,10 @@ class MainViewModel @Inject constructor(
             combine(
                 repoRepository.getRepositories().cachedIn(viewModelScope),
                 starStateMediator.starStates
-            ) { pagingData, isStarredList ->
-                isStarredList.fold(pagingData) { acc, pair ->
+            ) { pagingData, starStates ->
+                starStates.fold(pagingData) { acc, item ->
                     acc.map { repoEntity ->
-                        if (repoEntity.id == pair.first) repoEntity.copy(isStarred = pair.second)
+                        if (repoEntity.id == item.id) repoEntity.copy(isStarred = item.isStarred, stargazersCount = item.stargazersCount)
                         else repoEntity
                     }
                 }
