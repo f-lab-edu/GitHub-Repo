@@ -26,8 +26,7 @@ class MediatorModule {
 
             override fun addStarState(id: Int, isStarred: Boolean, stargazersCount: Int) {
                 _starStates.update {
-                    // TODO("Not yet implemented")
-                    it
+                    it + StarState(id, isStarred, stargazersCount)
                 }
             }
         }
