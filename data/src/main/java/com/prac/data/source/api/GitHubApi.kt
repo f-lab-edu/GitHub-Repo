@@ -2,6 +2,7 @@ package com.prac.data.source.api
 
 import com.prac.data.source.dto.RepoDto
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -24,6 +25,12 @@ internal interface GitHubApi {
 
     @PUT("user/starred/{userName}/{repoName}")
     suspend fun starRepository(
+        @Path("userName") userName: String,
+        @Path("repoName") repoName: String
+    )
+
+    @DELETE("user/starred/{userName}/{repoName}")
+    suspend fun unStarRepository(
         @Path("userName") userName: String,
         @Path("repoName") repoName: String
     )
