@@ -1,6 +1,7 @@
 package com.prac.githubrepo.main.di
 
 import com.prac.githubrepo.main.StarStateMediator
+import com.prac.githubrepo.main.StarStateMediator.StarState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,14 +19,23 @@ class MediatorModule {
     @ActivityRetainedScoped
     fun provideStarStateMediator() : StarStateMediator {
         return object : StarStateMediator {
-            private val _starStates = MutableStateFlow<List<Pair<Int, Boolean>>>(emptyList())
+            private val _starStates = MutableStateFlow<List<StarState>>(emptyList())
 
-            override val starStates: StateFlow<List<Pair<Int, Boolean>>>
+            override val starStates: StateFlow<List<StarState>>
                 get() = _starStates.asStateFlow()
 
-            override fun addStarState(id: Int, isStarred: Boolean) {
+            override fun addStarState(id: Int, isStarred: Boolean, stargazersCount: Int) {
                 _starStates.update {
-                    it + Pair(id, isStarred)
+                    it + StarState(id, isStarred, stargazersCount)
+                }
+            }
+
+            override fun updateStarState(id: Int, isStarred: Boolean, stargazersCount: Int) {
+                _starStates.update {
+                    it.map { starState ->
+                        if (starState.id == id) starState.copy(isStarred = isStarred, stargazersCount = stargazersCount)
+                        else starState
+                    }
                 }
             }
         }

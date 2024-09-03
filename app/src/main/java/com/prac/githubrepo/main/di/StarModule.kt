@@ -21,9 +21,9 @@ class StarModule {
             override suspend fun fetchStarState(repoEntity: RepoEntity) {
                 repoRepository.isStarred(repoEntity.name)
                     .onSuccess {
-                        starStateMediator.addStarState(repoEntity.id, it)
+                        starStateMediator.addStarState(repoEntity.id, it, repoEntity.stargazersCount)
                     }.onFailure {
-                        starStateMediator.addStarState(repoEntity.id, false)
+                        starStateMediator.addStarState(repoEntity.id, false, repoEntity.stargazersCount)
                     }
             }
 

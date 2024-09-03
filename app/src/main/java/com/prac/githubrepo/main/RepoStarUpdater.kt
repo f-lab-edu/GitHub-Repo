@@ -1,10 +1,10 @@
 package com.prac.githubrepo.main
 
 import android.view.View
-import com.prac.githubrepo.main.request.Request
+import com.prac.githubrepo.main.request.StarStateRequest
 
 class RepoStarUpdater(
-    private val request: Request,
+    private val starStateRequest: StarStateRequest,
     private val view: View
 ) {
     private val attachedStateListener = object : View.OnAttachStateChangeListener {
@@ -18,11 +18,11 @@ class RepoStarUpdater(
     }
 
     private fun startUpdatingStarState() {
-        request.checkStarredState()
+        starStateRequest.fetchStarState()
     }
 
     private fun cancelUpdatingStarState() {
-        request.cancel()
+        starStateRequest.cancel()
 
         removeListener()
     }

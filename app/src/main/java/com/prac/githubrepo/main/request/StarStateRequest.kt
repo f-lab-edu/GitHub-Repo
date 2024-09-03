@@ -1,7 +1,7 @@
 package com.prac.githubrepo.main.request
 
-interface Request {
-    fun checkStarredState()
+interface StarStateRequest {
+    fun fetchStarState()
     fun cancel()
     fun isCompleted() : Boolean
 }
