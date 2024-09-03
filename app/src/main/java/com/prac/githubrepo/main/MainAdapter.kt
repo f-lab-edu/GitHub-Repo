@@ -13,11 +13,13 @@ import com.prac.githubrepo.databinding.ItemMainBinding
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 
 class MainAdapter(
-    private val starStateRequestBuilder: StarStateRequestBuilder
+    private val starStateRequestBuilder: StarStateRequestBuilder,
+    private val onStarClickListener: OnStarClickListener
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
-        private val starStateRequestBuilder: StarStateRequestBuilder
+        private val starStateRequestBuilder: StarStateRequestBuilder,
+        private val onStarClickListener: OnStarClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -29,6 +31,8 @@ class MainAdapter(
                 setStarCount()
                 setUpdatedDate()
             }
+
+            binding.ivStar.setStarClickListener(repoEntity, onStarClickListener)
         }
 
         private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
@@ -67,12 +71,27 @@ class MainAdapter(
         private fun RepoEntity.setUpdatedDate() {
             binding.tvLastUpdatedDate.text = this.updatedAt
         }
+
+        private fun View.setStarClickListener(
+            repoEntity: RepoEntity,
+            onStarClickListener: OnStarClickListener
+        ) {
+            setOnClickListener {
+                if (repoEntity.isStarred == true) {
+                    onStarClickListener.unStar(repoEntity)
+                    return@setOnClickListener
+                }
+
+                onStarClickListener.star(repoEntity)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            starStateRequestBuilder
+            starStateRequestBuilder,
+            onStarClickListener
         )
     }
 
@@ -88,5 +107,10 @@ class MainAdapter(
             override fun areContentsTheSame(oldItem: RepoEntity, newItem: RepoEntity): Boolean =
                 oldItem == newItem
         }
+    }
+
+    interface OnStarClickListener {
+        fun star(repoEntity: RepoEntity)
+        fun unStar(repoEntity: RepoEntity)
     }
 }

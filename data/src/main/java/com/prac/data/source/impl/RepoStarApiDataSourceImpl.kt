@@ -15,4 +15,12 @@ internal class RepoStarApiDataSourceImpl @Inject constructor(
             false
         }
     }
+
+    override suspend fun starRepository(userName: String, repoName: String) {
+        gitHubApi.starRepository(userName, repoName)
+    }
+
+    override suspend fun unStarRepository(userName: String, repoName: String) {
+        gitHubApi.unStarRepository(userName, repoName)
+    }
 }
