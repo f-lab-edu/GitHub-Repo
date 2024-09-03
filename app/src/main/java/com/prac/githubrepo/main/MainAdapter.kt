@@ -77,7 +77,12 @@ class MainAdapter(
             starClickListener: StarClickListener
         ) {
             setOnClickListener {
-                if (repoEntity.isStarred == false) starClickListener.star(repoEntity)
+                if (repoEntity.isStarred == true) {
+                    starClickListener.unStar(repoEntity)
+                    return@setOnClickListener
+                }
+
+                starClickListener.star(repoEntity)
             }
         }
     }
@@ -106,5 +111,6 @@ class MainAdapter(
 
     interface StarClickListener {
         fun star(repoEntity: RepoEntity)
+        fun unStar(repoEntity: RepoEntity)
     }
 }

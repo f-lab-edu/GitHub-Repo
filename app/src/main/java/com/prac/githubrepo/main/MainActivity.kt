@@ -93,5 +93,9 @@ class MainActivity : AppCompatActivity() {
         override fun star(repoEntity: RepoEntity) {
             mainViewModel.starRepository(repoEntity)
         }
+
+        override fun unStar(repoEntity: RepoEntity) {
+            mainViewModel.unStarRepository(repoEntity)
+        }
     }
 }
