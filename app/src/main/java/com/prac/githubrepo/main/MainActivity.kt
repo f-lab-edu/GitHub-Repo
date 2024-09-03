@@ -10,22 +10,27 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.prac.githubrepo.R
+import com.prac.data.entity.RepoEntity
 import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
-import com.prac.githubrepo.main.request.RequestBuilder
+import com.prac.githubrepo.main.request.StarStateRequestBuilder
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), StarStateUpdater {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    @Inject lateinit var requestBuilderFactory: RequestBuilder.Factory
-    private val mainAdapter: MainAdapter by lazy { MainAdapter(requestBuilderFactory.create(this.lifecycleScope, this)) }
+    @Inject lateinit var starStateRequestBuilderFactory: StarStateRequestBuilder.Factory
+    private val mainAdapter: MainAdapter by lazy {
+        MainAdapter(
+            starStateRequestBuilderFactory.create(this.lifecycleScope),
+            OnStarClickListenerImpl(viewModel)
+        )
+    }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
     private val conCatAdapter: ConcatAdapter by lazy { ConcatAdapter(mainAdapter, retryFooterAdapter) }
 
@@ -82,7 +87,15 @@ class MainActivity : AppCompatActivity(), StarStateUpdater {
         }
     }
 
-    override fun updateStarState(id: Int, isStarred: Boolean) {
-        viewModel.updateIsStarred(id, isStarred)
+    private class OnStarClickListenerImpl(
+         private val mainViewModel: MainViewModel
+    ) : MainAdapter.OnStarClickListener {
+        override fun star(repoEntity: RepoEntity) {
+            mainViewModel.starRepository(repoEntity)
+        }
+
+        override fun unStar(repoEntity: RepoEntity) {
+            mainViewModel.unStarRepository(repoEntity)
+        }
     }
 }

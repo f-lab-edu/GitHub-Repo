@@ -25,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repoRepository: RepoRepository
+    private val repoRepository: RepoRepository,
+    private val starStateMediator: StarStateMediator
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -37,14 +38,8 @@ class MainViewModel @Inject constructor(
         ) : UiState()
     }
 
-    init {
-        getRepositories()
-    }
-
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState = _uiState.asStateFlow()
-
-    private val _isStarredList = MutableStateFlow<List<Pair<Int, Boolean>>>(emptyList())
 
     private fun getRepositories() {
         viewModelScope.launch {
@@ -52,11 +47,11 @@ class MainViewModel @Inject constructor(
 
             combine(
                 repoRepository.getRepositories().cachedIn(viewModelScope),
-                _isStarredList
-            ) { pagingData, isStarredList ->
-                isStarredList.fold(pagingData) { acc, pair ->
+                starStateMediator.starStates
+            ) { pagingData, starStates ->
+                starStates.fold(pagingData) { acc, item ->
                     acc.map { repoEntity ->
-                        if (repoEntity.id == pair.first) repoEntity.copy(isStarred = pair.second)
+                        if (repoEntity.id == item.id) repoEntity.copy(isStarred = item.isStarred, stargazersCount = item.stargazersCount)
                         else repoEntity
                     }
                 }
@@ -67,9 +62,49 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateIsStarred(id: Int, isStarred: Boolean) {
-        _isStarredList.update {
-            it + Pair(id, isStarred)
+    fun starRepository(repoEntity: RepoEntity) {
+        starStateMediator.updateStarState(
+            id = repoEntity.id,
+            isStarred = true,
+            stargazersCount = repoEntity.stargazersCount + 1
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.starRepository(repoEntity.owner.login, repoEntity.name)
+                .onFailure {
+                    starStateMediator.updateStarState(
+                        id = repoEntity.id,
+                        isStarred = false,
+                        stargazersCount = repoEntity.stargazersCount
+                    )
+
+                    //TODO show alert dialog
+                }
         }
+    }
+
+    fun unStarRepository(repoEntity: RepoEntity) {
+        starStateMediator.updateStarState(
+            id = repoEntity.id,
+            isStarred = false,
+            stargazersCount = repoEntity.stargazersCount - 1
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
+                .onFailure {
+                    starStateMediator.updateStarState(
+                        id = repoEntity.id,
+                        isStarred = true,
+                        stargazersCount = repoEntity.stargazersCount
+                    )
+
+                    //TODO show alert dialog
+                }
+        }
+    }
+
+    init {
+        getRepositories()
     }
 }

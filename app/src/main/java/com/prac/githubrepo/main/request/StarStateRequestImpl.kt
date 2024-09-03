@@ -1,31 +1,24 @@
 package com.prac.githubrepo.main.request
 
 import com.prac.data.entity.RepoEntity
-import com.prac.data.repository.RepoRepository
-import com.prac.githubrepo.main.StarStateUpdater
+import com.prac.githubrepo.main.star.StarStateFetcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class StarRequest internal constructor(
-    private val repoRepository: RepoRepository,
-    private val starStateUpdater: StarStateUpdater,
+internal class StarStateRequestImpl internal constructor(
+    private val starStateFetcher: StarStateFetcher,
     private val repoEntity: RepoEntity,
     private val scope: CoroutineScope,
-) : Request {
+) : StarStateRequest {
     private var job: Job? = null
 
-    override fun checkStarredState() {
+    override fun fetchStarState() {
         cancel()
 
         job = scope.launch(Dispatchers.IO) {
-            repoRepository.isStarred(repoEntity.name)
-                .onSuccess {
-                    starStateUpdater.updateStarState(repoEntity.id, it)
-                }.onFailure {
-                    starStateUpdater.updateStarState(repoEntity.id, false)
-                }
+            starStateFetcher.fetchStarState(repoEntity)
         }
     }
 
