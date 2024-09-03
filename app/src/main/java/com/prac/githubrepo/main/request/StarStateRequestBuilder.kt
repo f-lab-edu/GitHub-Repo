@@ -2,19 +2,17 @@ package com.prac.githubrepo.main.request
 
 import android.view.View
 import com.prac.data.entity.RepoEntity
-import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.R
 import com.prac.githubrepo.main.RepoStarUpdater
-import com.prac.githubrepo.main.StarStateUpdater
+import com.prac.githubrepo.main.star.StarStateFetcher
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 
-class RequestBuilder @AssistedInject constructor(
-    private val repoRepository: RepoRepository,
+class StarStateRequestBuilder @AssistedInject constructor(
+    private val starStateFetcher: StarStateFetcher,
     @Assisted private val scope: CoroutineScope,
-    @Assisted private val starStateUpdater: StarStateUpdater
 ) {
     companion object {
         private val tagID = R.string.requestID
@@ -22,13 +20,13 @@ class RequestBuilder @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(scope: CoroutineScope, starStateUpdater: StarStateUpdater): RequestBuilder
+        fun create(scope: CoroutineScope): StarStateRequestBuilder
     }
 
     private var view: View? = null
     private var repoEntity: RepoEntity? = null
 
-    fun setView(view: View) : RequestBuilder = apply {
+    fun setView(view: View) : StarStateRequestBuilder = apply {
         this.view = view
     }
 
@@ -41,9 +39,8 @@ class RequestBuilder @AssistedInject constructor(
         val repoEntity = checkNotNull(repoEntity)
 
         val updater = RepoStarUpdater(
-            request = StarRequest(
-                repoRepository = repoRepository,
-                starStateUpdater = starStateUpdater,
+            starStateRequest = StarStateRequestImpl(
+                starStateFetcher = starStateFetcher,
                 repoEntity = repoEntity,
                 scope = scope
             ),
