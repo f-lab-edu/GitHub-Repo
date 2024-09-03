@@ -29,6 +29,15 @@ class MediatorModule {
                     it + StarState(id, isStarred, stargazersCount)
                 }
             }
+
+            override fun updateStarState(id: Int, isStarred: Boolean, stargazersCount: Int) {
+                _starStates.update {
+                    it.map { starState ->
+                        if (starState.id == id) starState.copy(isStarred = isStarred, stargazersCount = stargazersCount)
+                        else starState
+                    }
+                }
+            }
         }
     }
 }
