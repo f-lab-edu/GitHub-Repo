@@ -14,12 +14,12 @@ import com.prac.githubrepo.main.request.StarStateRequestBuilder
 
 class MainAdapter(
     private val starStateRequestBuilder: StarStateRequestBuilder,
-    private val starClickListener: StarClickListener
+    private val onStarClickListener: OnStarClickListener
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
         private val starStateRequestBuilder: StarStateRequestBuilder,
-        private val starClickListener: StarClickListener
+        private val onStarClickListener: OnStarClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -32,7 +32,7 @@ class MainAdapter(
                 setUpdatedDate()
             }
 
-            binding.ivStar.setStarClickListener(repoEntity, starClickListener)
+            binding.ivStar.setStarClickListener(repoEntity, onStarClickListener)
         }
 
         private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
@@ -74,15 +74,15 @@ class MainAdapter(
 
         private fun View.setStarClickListener(
             repoEntity: RepoEntity,
-            starClickListener: StarClickListener
+            onStarClickListener: OnStarClickListener
         ) {
             setOnClickListener {
                 if (repoEntity.isStarred == true) {
-                    starClickListener.unStar(repoEntity)
+                    onStarClickListener.unStar(repoEntity)
                     return@setOnClickListener
                 }
 
-                starClickListener.star(repoEntity)
+                onStarClickListener.star(repoEntity)
             }
         }
     }
@@ -91,7 +91,7 @@ class MainAdapter(
         return ViewHolder(
             ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             starStateRequestBuilder,
-            starClickListener
+            onStarClickListener
         )
     }
 
@@ -109,7 +109,7 @@ class MainAdapter(
         }
     }
 
-    interface StarClickListener {
+    interface OnStarClickListener {
         fun star(repoEntity: RepoEntity)
         fun unStar(repoEntity: RepoEntity)
     }
