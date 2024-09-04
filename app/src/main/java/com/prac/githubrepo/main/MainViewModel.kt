@@ -61,6 +61,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun updateLoadState(loadState: LoadState) {
+        if (_uiState.value !is UiState.ShowPagingData) return
+
+        _uiState.update {
+            (it as UiState.ShowPagingData).copy(loadState = loadState)
+        }
+    }
+
     fun starRepository(repoEntity: RepoEntity) {
         starStateMediator.updateStarState(
             id = repoEntity.id,
