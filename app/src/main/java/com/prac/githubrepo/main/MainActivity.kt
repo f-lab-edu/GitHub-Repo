@@ -74,10 +74,6 @@ class MainActivity : AppCompatActivity() {
     private suspend fun UiState.handleUiState() {
         when (this) {
             is UiState.Idle -> { }
-            is UiState.Loading -> {
-                // TODO Not yet implemented
-//                binding.includeProgressBar.root.isVisible = true
-            }
             is UiState.ShowPagingData -> {
                 // TODO Not yet implemented
 //                binding.includeProgressBar.root.isVisible = false
