@@ -75,8 +75,7 @@ class MainActivity : AppCompatActivity() {
         when (this) {
             is UiState.Idle -> { }
             is UiState.ShowPagingData -> {
-                // TODO Not yet implemented
-//                binding.includeProgressBar.root.isVisible = false
+                this.loadState?.let { retryFooterAdapter.loadState = it }
 
                 mainAdapter.submitData(this.repositories)
             }
