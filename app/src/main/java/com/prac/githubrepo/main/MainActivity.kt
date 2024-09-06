@@ -28,7 +28,15 @@ class MainActivity : AppCompatActivity() {
     private val mainAdapter: MainAdapter by lazy {
         MainAdapter(
             starStateRequestBuilderFactory.create(this.lifecycleScope),
-            OnRepositoryClickListenerImpl(viewModel)
+            object : MainAdapter.OnRepositoryClickListener {
+                override fun star(repoEntity: RepoEntity) {
+                    viewModel.starRepository(repoEntity)
+                }
+
+                override fun unStar(repoEntity: RepoEntity) {
+                    viewModel.unStarRepository(repoEntity)
+                }
+            }
         )
     }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
@@ -79,18 +87,6 @@ class MainActivity : AppCompatActivity() {
 
                 mainAdapter.submitData(this.repositories)
             }
-        }
-    }
-
-    private class OnRepositoryClickListenerImpl(
-         private val mainViewModel: MainViewModel
-    ) : MainAdapter.OnRepositoryClickListener {
-        override fun star(repoEntity: RepoEntity) {
-            mainViewModel.starRepository(repoEntity)
-        }
-
-        override fun unStar(repoEntity: RepoEntity) {
-            mainViewModel.unStarRepository(repoEntity)
         }
     }
 }
