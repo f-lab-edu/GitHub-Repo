@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity() {
             object : MainAdapter.OnRepositoryClickListener {
                 override fun repository(repoEntity: RepoEntity) {
                     val intent = Intent(this@MainActivity, DetailActivity::class.java)
+
+                    intent.apply {
+                        putExtra(USER_NAME, repoEntity.owner.login)
+                        putExtra(REPO_NAME, repoEntity.name)
+                    }
+
                     startActivity(intent)
                 }
 
@@ -95,5 +101,10 @@ class MainActivity : AppCompatActivity() {
                 mainAdapter.submitData(this.repositories)
             }
         }
+    }
+
+    companion object {
+        const val USER_NAME = "userName"
+        const val REPO_NAME = "repoName"
     }
 }
