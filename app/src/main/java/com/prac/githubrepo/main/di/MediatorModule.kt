@@ -5,18 +5,18 @@ import com.prac.githubrepo.main.StarStateMediator.StarState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 class MediatorModule {
     @Provides
-    @ActivityRetainedScoped
+    @Singleton
     fun provideStarStateMediator() : StarStateMediator {
         return object : StarStateMediator {
             private val _starStates = MutableStateFlow<List<StarState>>(emptyList())
