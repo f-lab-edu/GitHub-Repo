@@ -1,5 +1,6 @@
 package com.prac.data.source.api
 
+import com.prac.data.source.dto.RepoDetailDto
 import com.prac.data.source.dto.RepoDto
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -16,6 +17,11 @@ internal interface GitHubApi {
         @Query("page") page: Int
     ): List<RepoDto>
 
+    @GET("repos/{userName}/{repoName}")
+    suspend fun getRepo(
+        @Path("userName") userName: String,
+        @Path("repoName") repoName: String
+    ): RepoDetailDto
 
     @GET("user/starred/{userName}/{repoName}")
     suspend fun checkRepositoryIsStarred(
