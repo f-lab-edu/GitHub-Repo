@@ -98,4 +98,16 @@ class DetailViewModel @Inject constructor(
             repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
         }
     }
+
+    fun unStarRepository(repoDetailEntity: RepoDetailEntity) {
+        starStateMediator.updateStarState(
+            id = repoDetailEntity.id,
+            isStarred = false,
+            stargazersCount = repoDetailEntity.stargazersCount - 1
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.unStarRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
+        }
+    }
 }
