@@ -32,6 +32,7 @@ class MainAdapter(
                 setUpdatedDate()
             }
 
+            binding.root.setRepositoryClickListener(repoEntity, onRepositoryClickListener)
             binding.ivStar.setStarClickListener(repoEntity, onRepositoryClickListener)
         }
 
@@ -83,6 +84,15 @@ class MainAdapter(
                 }
 
                 onRepositoryClickListener.star(repoEntity)
+            }
+        }
+
+        private fun View.setRepositoryClickListener(
+            repoEntity: RepoEntity,
+            onRepositoryClickListener: OnRepositoryClickListener
+        ) {
+            setOnClickListener {
+                onRepositoryClickListener.repository(repoEntity)
             }
         }
     }
