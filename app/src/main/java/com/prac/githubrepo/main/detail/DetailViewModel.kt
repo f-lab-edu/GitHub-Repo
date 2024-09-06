@@ -86,4 +86,16 @@ class DetailViewModel @Inject constructor(
                 }
         }
     }
+
+    fun starRepository(repoDetailEntity: RepoDetailEntity) {
+        starStateMediator.updateStarState(
+            id = repoDetailEntity.id,
+            isStarred = true,
+            stargazersCount = repoDetailEntity.stargazersCount + 1
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
+        }
+    }
 }
