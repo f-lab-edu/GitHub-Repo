@@ -5,6 +5,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.prac.githubrepo.databinding.ActivityDetailBinding
+import com.prac.githubrepo.main.MainActivity.Companion.REPO_NAME
+import com.prac.githubrepo.main.MainActivity.Companion.USER_NAME
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +22,11 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         handleOnBackPressed()
+
+        viewModel.getRepository(
+            intent.getStringExtra(USER_NAME),
+            intent.getStringExtra(REPO_NAME)
+        )
     }
 
     private fun handleOnBackPressed() {
