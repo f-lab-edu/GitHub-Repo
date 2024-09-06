@@ -3,6 +3,7 @@ package com.prac.githubrepo.main.detail
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -68,7 +69,15 @@ class DetailActivity : AppCompatActivity() {
             is UiState.Error -> {
                 binding.includeProgressBar.root.isVisible = false
 
-                // TODO UIState update to Error
+                AlertDialog.Builder(this@DetailActivity)
+                    .setMessage(this.errorMessage)
+                    .setPositiveButton(R.string.check) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setOnDismissListener {
+                        finish()
+                    }
+                    .show()
             }
         }
     }
