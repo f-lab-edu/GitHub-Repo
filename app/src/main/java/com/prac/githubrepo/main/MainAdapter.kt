@@ -14,12 +14,12 @@ import com.prac.githubrepo.main.request.StarStateRequestBuilder
 
 class MainAdapter(
     private val starStateRequestBuilder: StarStateRequestBuilder,
-    private val onStarClickListener: OnStarClickListener
+    private val onRepositoryClickListener: OnRepositoryClickListener
 ) : PagingDataAdapter<RepoEntity, MainAdapter.ViewHolder>(diffUtil) {
     class ViewHolder(
         private val binding: ItemMainBinding,
         private val starStateRequestBuilder: StarStateRequestBuilder,
-        private val onStarClickListener: OnStarClickListener
+        private val onRepositoryClickListener: OnRepositoryClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(repoEntity: RepoEntity) {
             with(repoEntity) {
@@ -32,7 +32,7 @@ class MainAdapter(
                 setUpdatedDate()
             }
 
-            binding.ivStar.setStarClickListener(repoEntity, onStarClickListener)
+            binding.ivStar.setStarClickListener(repoEntity, onRepositoryClickListener)
         }
 
         private fun setRequestBuilder(view: View, repoEntity: RepoEntity) {
@@ -74,15 +74,15 @@ class MainAdapter(
 
         private fun View.setStarClickListener(
             repoEntity: RepoEntity,
-            onStarClickListener: OnStarClickListener
+            onRepositoryClickListener: OnRepositoryClickListener
         ) {
             setOnClickListener {
                 if (repoEntity.isStarred == true) {
-                    onStarClickListener.unStar(repoEntity)
+                    onRepositoryClickListener.unStar(repoEntity)
                     return@setOnClickListener
                 }
 
-                onStarClickListener.star(repoEntity)
+                onRepositoryClickListener.star(repoEntity)
             }
         }
     }
@@ -91,7 +91,7 @@ class MainAdapter(
         return ViewHolder(
             ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             starStateRequestBuilder,
-            onStarClickListener
+            onRepositoryClickListener
         )
     }
 
@@ -109,7 +109,7 @@ class MainAdapter(
         }
     }
 
-    interface OnStarClickListener {
+    interface OnRepositoryClickListener {
         fun star(repoEntity: RepoEntity)
         fun unStar(repoEntity: RepoEntity)
     }

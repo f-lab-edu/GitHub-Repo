@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private val mainAdapter: MainAdapter by lazy {
         MainAdapter(
             starStateRequestBuilderFactory.create(this.lifecycleScope),
-            OnStarClickListenerImpl(viewModel)
+            OnRepositoryClickListenerImpl(viewModel)
         )
     }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
@@ -82,9 +82,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private class OnStarClickListenerImpl(
+    private class OnRepositoryClickListenerImpl(
          private val mainViewModel: MainViewModel
-    ) : MainAdapter.OnStarClickListener {
+    ) : MainAdapter.OnRepositoryClickListener {
         override fun star(repoEntity: RepoEntity) {
             mainViewModel.starRepository(repoEntity)
         }
