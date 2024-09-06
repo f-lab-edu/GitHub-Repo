@@ -2,6 +2,7 @@ package com.prac.data.source.impl
 
 import androidx.paging.PagingState
 import com.prac.data.repository.model.OwnerModel
+import com.prac.data.repository.model.RepoDetailModel
 import com.prac.data.repository.model.RepoModel
 import com.prac.data.source.RepoApiDataSource
 import com.prac.data.source.api.GitHubApi
@@ -44,6 +45,12 @@ internal class RepoApiDataSourceImpl @Inject constructor(
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+    }
+
+    override suspend fun getRepository(userName: String, repoName: String): RepoDetailModel {
+        val response = gitHubApi.getRepo(userName, repoName)
+
+        return RepoDetailModel(response.id, response.name, OwnerModel(response.owner.login, response.owner.avatarUrl), response.stargazersCount, response.forksCount)
     }
 
 }
