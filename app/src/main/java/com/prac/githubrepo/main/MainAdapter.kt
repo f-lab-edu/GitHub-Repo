@@ -110,6 +110,7 @@ class MainAdapter(
     }
 
     interface OnRepositoryClickListener {
+        fun repository(repoEntity: RepoEntity)
         fun star(repoEntity: RepoEntity)
         fun unStar(repoEntity: RepoEntity)
     }

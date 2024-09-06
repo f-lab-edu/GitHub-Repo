@@ -1,5 +1,6 @@
 package com.prac.githubrepo.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
+import com.prac.githubrepo.main.detail.DetailActivity
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -29,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         MainAdapter(
             starStateRequestBuilderFactory.create(this.lifecycleScope),
             object : MainAdapter.OnRepositoryClickListener {
+                override fun repository(repoEntity: RepoEntity) {
+                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                    startActivity(intent)
+                }
+
                 override fun star(repoEntity: RepoEntity) {
                     viewModel.starRepository(repoEntity)
                 }
