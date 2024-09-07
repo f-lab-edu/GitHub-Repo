@@ -5,10 +5,13 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.prac.githubrepo.main.work.StarWorkManager.StarWorker.Companion.KEY_REPO_NAME
+import com.prac.githubrepo.main.work.StarWorkManager.StarWorker.Companion.KEY_USER_NAME
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
@@ -20,6 +23,23 @@ class StarWorkManager @Inject constructor(
     private val workManager: WorkManager,
     private val constraints: Constraints
 ) {
+
+    fun enqueueStarWorker(id: String, userName: String, repoName: String) {
+        val data = Data.Builder()
+            .putString(KEY_USER_NAME, userName)
+            .putString(KEY_REPO_NAME, repoName)
+            .build()
+
+        val workRequestList = makeWorkRequestList(data)
+
+        workManager.beginUniqueWork(
+            id,
+            ExistingWorkPolicy.REPLACE,
+            workRequestList[0]
+        ).then(workRequestList[1])
+            .then(workRequestList[2])
+            .enqueue()
+    }
 
     /**
      * delay 시간이 30초, 60초, 120초인 [OneTimeWorkRequest] 리스트를 생성하는 메서드
