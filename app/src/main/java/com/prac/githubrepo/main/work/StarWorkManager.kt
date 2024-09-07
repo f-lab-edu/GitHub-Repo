@@ -22,8 +22,20 @@ class StarWorkManager @Inject constructor(
         @Assisted private val params: WorkerParameters,
         private val starRequest: StarRequest
     ) : CoroutineWorker(context, params) {
+
+        companion object {
+            const val KEY_USER_NAME = "userName"
+            const val KEY_REPO_NAME = "repoName"
+        }
+
         override suspend fun doWork(): Result {
-            // TODO doWork
+            val userName = params.inputData.getString(KEY_USER_NAME)
+            val repoName = params.inputData.getString(KEY_REPO_NAME)
+
+            if (userName == null || repoName == null) return Result.failure()
+
+            starRequest.starRepository(userName, repoName)
+
             return Result.success()
         }
 
