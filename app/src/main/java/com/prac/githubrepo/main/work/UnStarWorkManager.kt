@@ -20,10 +20,15 @@ class UnStarWorkManager @Inject constructor(
     class UnStarWorker @AssistedInject constructor(
         @Assisted private val context: Context,
         @Assisted private val params: WorkerParameters,
+        private val unStarRequest: UnStarRequest
     ) : CoroutineWorker(context, params) {
         override suspend fun doWork(): Result {
             // TODO doWork
             return Result.success()
+        }
+
+        interface UnStarRequest {
+            suspend fun unStarRepository(userName: String, repoName: String)
         }
     }
 }

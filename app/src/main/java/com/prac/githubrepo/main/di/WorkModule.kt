@@ -6,6 +6,7 @@ import androidx.work.NetworkType
 import androidx.work.WorkManager
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.main.work.StarWorkManager
+import com.prac.githubrepo.main.work.UnStarWorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +35,15 @@ class WorkModule {
     fun provideStarRequest(repoRepository: RepoRepository) : StarWorkManager.StarWorker.StarRequest {
         return object : StarWorkManager.StarWorker.StarRequest {
             override suspend fun starRepository(userName: String, repoName: String) {
+                repoRepository.starRepository(userName, repoName)
+            }
+        }
+    }
+
+    @Provides
+    fun provideUnStarRequest(repoRepository: RepoRepository) : UnStarWorkManager.UnStarWorker.UnStarRequest {
+        return object : UnStarWorkManager.UnStarWorker.UnStarRequest {
+            override suspend fun unStarRepository(userName: String, repoName: String) {
                 repoRepository.starRepository(userName, repoName)
             }
         }
