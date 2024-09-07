@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.WorkManager
+import com.prac.data.repository.RepoRepository
+import com.prac.githubrepo.main.work.StarWorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +28,14 @@ class WorkModule {
         return Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
+    }
+
+    @Provides
+    fun provideStarRequest(repoRepository: RepoRepository) : StarWorkManager.StarWorker.StarRequest {
+        return object : StarWorkManager.StarWorker.StarRequest {
+            override suspend fun starRepository(userName: String, repoName: String) {
+                repoRepository.starRepository(userName, repoName)
+            }
+        }
     }
 }

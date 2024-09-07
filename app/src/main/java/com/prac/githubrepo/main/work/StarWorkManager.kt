@@ -20,10 +20,15 @@ class StarWorkManager @Inject constructor(
     class StarWorker @AssistedInject constructor(
         @Assisted private val context: Context,
         @Assisted private val params: WorkerParameters,
+        private val starRequest: StarRequest
     ) : CoroutineWorker(context, params) {
         override suspend fun doWork(): Result {
             // TODO doWork
             return Result.success()
+        }
+
+        interface StarRequest {
+            suspend fun starRepository(userName: String, repoName: String)
         }
     }
 }
