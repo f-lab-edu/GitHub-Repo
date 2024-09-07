@@ -10,6 +10,7 @@ import androidx.paging.map
 import com.prac.data.entity.RepoEntity
 import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
+import com.prac.githubrepo.main.work.StarWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,12 +22,14 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repoRepository: RepoRepository,
-    private val starStateMediator: StarStateMediator
+    private val starStateMediator: StarStateMediator,
+    private val starWorkManager: StarWorkManager
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -79,13 +82,19 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.starRepository(repoEntity.owner.login, repoEntity.name)
                 .onFailure {
-                    starStateMediator.updateStarState(
-                        id = repoEntity.id,
-                        isStarred = false,
-                        stargazersCount = repoEntity.stargazersCount
-                    )
-
-                    //TODO show alert dialog
+                    when (it) {
+                        is IOException -> {
+                            starWorkManager.enqueueStarWorker(
+                                repoEntity.id.toString(),
+                                repoEntity.owner.login,
+                                repoEntity.name
+                            )
+                        }
+                        else -> {
+                            // 레포지토리가 사라진 경우, 레파지토리 및 사용자 명이 바뀐 경우
+                            // TODO show alert dialog and Refresh PagingData
+                        }
+                    }
                 }
         }
     }
