@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.githubrepo.main.StarStateMediator
+import com.prac.githubrepo.main.work.StarWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,12 +14,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val repoRepository: RepoRepository,
-    private val starStateMediator: StarStateMediator
+    private val starStateMediator: StarStateMediator,
+    private val starWorkManager: StarWorkManager
 ) : ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -96,6 +99,21 @@ class DetailViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
+                .onFailure {
+                    when (it) {
+                        is IOException -> {
+                            starWorkManager.enqueueStarWorker(
+                                repoDetailEntity.id.toString(),
+                                repoDetailEntity.owner.login,
+                                repoDetailEntity.name
+                            )
+                        }
+                        else -> {
+                            // 레포지토리가 사라진 경우, 레파지토리 및 사용자 명이 바뀐 경우
+                            // TODO UiState to Error
+                        }
+                    }
+                }
         }
     }
 
