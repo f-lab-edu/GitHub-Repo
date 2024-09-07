@@ -79,4 +79,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
 
     implementation(libs.androidx.paging)
+
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work.runtime)
+    kapt(libs.androidx.hilt.compiler)
 }
