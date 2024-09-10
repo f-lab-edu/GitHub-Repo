@@ -5,8 +5,8 @@ import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.annotation.AuthRetrofit
 import com.prac.data.di.annotation.BasicRetrofit
-import com.prac.data.source.network.api.GitHubApi
-import com.prac.data.source.network.api.GitHubTokenApi
+import com.prac.data.source.network.service.GitHubService
+import com.prac.data.source.network.service.GitHubAuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,15 +47,15 @@ internal object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideGitHubTokenService(
+    fun provideGitHubAuthService(
         @BasicRetrofit retrofit: Retrofit
-    ): GitHubTokenApi =
-        retrofit.create(GitHubTokenApi::class.java)
+    ): GitHubAuthService =
+        retrofit.create(GitHubAuthService::class.java)
 
     @Provides
     @Singleton
     fun provideGitHubService(
         @AuthRetrofit retrofit: Retrofit
-    ): GitHubApi =
-        retrofit.create(GitHubApi::class.java)
+    ): GitHubService =
+        retrofit.create(GitHubService::class.java)
 }

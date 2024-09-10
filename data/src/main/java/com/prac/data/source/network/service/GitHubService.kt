@@ -1,15 +1,14 @@
-package com.prac.data.source.network.api
+package com.prac.data.source.network.service
 
 import com.prac.data.source.network.dto.RepoDetailDto
 import com.prac.data.source.network.dto.RepoDto
-import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-internal interface GitHubApi {
+internal interface GitHubService {
     @GET("users/{userName}/repos")
     suspend fun getRepos(
         @Path("userName") userName: String,

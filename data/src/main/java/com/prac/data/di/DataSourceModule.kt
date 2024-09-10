@@ -5,8 +5,8 @@ import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.network.TokenApiDataSource
 import com.prac.data.source.local.TokenLocalDataSource
-import com.prac.data.source.network.api.GitHubApi
-import com.prac.data.source.network.api.GitHubTokenApi
+import com.prac.data.source.network.service.GitHubService
+import com.prac.data.source.network.service.GitHubAuthService
 import com.prac.data.source.network.impl.RepoApiDataSourceImpl
 import com.prac.data.source.network.impl.RepoStarApiDataSourceImpl
 import com.prac.data.source.network.impl.TokenApiDataSourceImpl
@@ -21,9 +21,9 @@ import dagger.hilt.components.SingletonComponent
 internal object DataSourceModule {
     @Provides
     fun provideTokenApiDataSource(
-        gitHubTokenApi: GitHubTokenApi
+        gitHubAuthService: GitHubAuthService
     ): TokenApiDataSource =
-        TokenApiDataSourceImpl(gitHubTokenApi)
+        TokenApiDataSourceImpl(gitHubAuthService)
 
     @Provides
     fun provideTokenLocalDataSource(
@@ -33,13 +33,13 @@ internal object DataSourceModule {
 
     @Provides
     fun provideRepoApiDataSource(
-        gitHubApi: GitHubApi
+        gitHubService: GitHubService
     ): RepoApiDataSource =
-        RepoApiDataSourceImpl(gitHubApi)
+        RepoApiDataSourceImpl(gitHubService)
 
     @Provides
     fun provideRepoStarApiDataSource(
-        gitHubApi: GitHubApi
+        gitHubService: GitHubService
     ): RepoStarApiDataSource =
-        RepoStarApiDataSourceImpl(gitHubApi)
+        RepoStarApiDataSourceImpl(gitHubService)
 }

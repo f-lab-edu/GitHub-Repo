@@ -4,7 +4,7 @@ import com.prac.data.BuildConfig
 import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.datastore.TokenDataStoreManager
-import com.prac.data.source.network.api.AuthorizationInterceptor
+import com.prac.data.source.network.service.AuthorizationInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
