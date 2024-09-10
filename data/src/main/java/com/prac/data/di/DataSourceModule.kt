@@ -1,6 +1,6 @@
 package com.prac.data.di
 
-import com.prac.data.di.datastore.TokenDataStoreManager
+import com.prac.data.source.local.datastore.TokenDataStoreManager
 import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.network.TokenApiDataSource

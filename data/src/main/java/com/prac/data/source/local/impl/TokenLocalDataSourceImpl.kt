@@ -1,6 +1,6 @@
 package com.prac.data.source.local.impl
 
-import com.prac.data.di.datastore.TokenDataStoreManager
+import com.prac.data.source.local.datastore.TokenDataStoreManager
 import com.prac.data.repository.model.TokenModel
 import com.prac.data.source.local.TokenLocalDataSource
 import javax.inject.Inject
