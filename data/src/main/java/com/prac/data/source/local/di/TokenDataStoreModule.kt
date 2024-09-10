@@ -1,4 +1,4 @@
-package com.prac.data.di
+package com.prac.data.source.local.di
 
 import android.content.Context
 import com.prac.data.source.local.datastore.TokenDataStoreManager
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object TokenDataStoreModule {
+internal class TokenDataStoreModule {
     @Provides
     @Singleton
     fun provideTokenDataStoreManager(@ApplicationContext context: Context) : TokenDataStoreManager {
