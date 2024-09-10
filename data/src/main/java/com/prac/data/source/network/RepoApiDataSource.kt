@@ -1,4 +1,4 @@
-package com.prac.data.source
+package com.prac.data.source.network
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

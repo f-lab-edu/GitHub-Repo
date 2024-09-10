@@ -1,13 +1,13 @@
 package com.prac.data.di
 
 import com.prac.data.di.datastore.TokenDataStoreManager
-import com.prac.data.source.RepoApiDataSource
+import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.RepoStarApiDataSource
 import com.prac.data.source.network.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import com.prac.data.source.api.GitHubApi
 import com.prac.data.source.api.GitHubTokenApi
-import com.prac.data.source.impl.RepoApiDataSourceImpl
+import com.prac.data.source.network.impl.RepoApiDataSourceImpl
 import com.prac.data.source.impl.RepoStarApiDataSourceImpl
 import com.prac.data.source.network.impl.TokenApiDataSourceImpl
 import com.prac.data.source.impl.TokenLocalDataSourceImpl

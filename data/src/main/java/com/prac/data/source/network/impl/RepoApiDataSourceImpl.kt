@@ -1,10 +1,10 @@
-package com.prac.data.source.impl
+package com.prac.data.source.network.impl
 
 import androidx.paging.PagingState
 import com.prac.data.repository.model.OwnerModel
 import com.prac.data.repository.model.RepoDetailModel
 import com.prac.data.repository.model.RepoModel
-import com.prac.data.source.RepoApiDataSource
+import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.api.GitHubApi
 import javax.inject.Inject
 
