@@ -1,7 +1,7 @@
 package com.prac.data.source.api
 
 import com.prac.data.BuildConfig
-import com.prac.data.source.dto.TokenDto
+import com.prac.data.source.network.dto.TokenDto
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
