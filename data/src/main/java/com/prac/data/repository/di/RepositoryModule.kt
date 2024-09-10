@@ -1,4 +1,4 @@
-package com.prac.data.di
+package com.prac.data.repository.di
 
 import com.prac.data.repository.RepoRepository
 import com.prac.data.repository.TokenRepository
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object RepositoryModule {
+internal class RepositoryModule {
     @Provides
     @Singleton
     fun provideTokenRepository(
