@@ -130,7 +130,9 @@ class DetailViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.unStarRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
-                .onFailure {
+                .onSuccess {
+                    unStarWorkManager.cancelUnStarWorker(repoDetailEntity.id.toString())
+                }.onFailure {
                     when (it) {
                         is IOException -> {
                             unStarWorkManager.enqueueUnStarWorker(

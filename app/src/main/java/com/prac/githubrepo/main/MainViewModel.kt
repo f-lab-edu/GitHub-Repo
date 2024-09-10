@@ -112,7 +112,9 @@ class MainViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
-                .onFailure {
+                .onSuccess {
+                    unStarWorkManager.cancelUnStarWorker(repoEntity.id.toString())
+                }.onFailure {
                     when (it) {
                         is IOException -> {
                             unStarWorkManager.enqueueUnStarWorker(
