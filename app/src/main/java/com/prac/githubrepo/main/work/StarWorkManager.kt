@@ -41,6 +41,10 @@ class StarWorkManager @Inject constructor(
             .enqueue()
     }
 
+    fun cancelStarWorker(id: String) {
+        workManager.cancelUniqueWork(id)
+    }
+
     /**
      * delay 시간이 30초, 60초, 120초인 [OneTimeWorkRequest] 리스트를 생성하는 메서드
      * 리스트의 사이즈는 3개로 고정되어 있음.
