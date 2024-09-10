@@ -1,4 +1,4 @@
-package com.prac.data.source.network.api
+package com.prac.data.source.network.service
 
 import com.prac.data.di.datastore.TokenDataStoreManager
 import kotlinx.coroutines.runBlocking

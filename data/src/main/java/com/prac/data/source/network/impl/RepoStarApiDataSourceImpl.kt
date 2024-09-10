@@ -1,15 +1,15 @@
 package com.prac.data.source.network.impl
 
 import com.prac.data.source.network.RepoStarApiDataSource
-import com.prac.data.source.network.api.GitHubApi
+import com.prac.data.source.network.service.GitHubService
 import javax.inject.Inject
 
 internal class RepoStarApiDataSourceImpl @Inject constructor(
-    private val gitHubApi: GitHubApi
+    private val gitHubService: GitHubService
 ): RepoStarApiDataSource {
     override suspend fun checkRepositoryIsStarred(repoName: String) : Boolean {
         return try {
-            gitHubApi.checkRepositoryIsStarred("GongDoMin", repoName)
+            gitHubService.checkRepositoryIsStarred("GongDoMin", repoName)
             true
         } catch (e: Exception) {
             false
@@ -17,10 +17,10 @@ internal class RepoStarApiDataSourceImpl @Inject constructor(
     }
 
     override suspend fun starRepository(userName: String, repoName: String) {
-        gitHubApi.starRepository(userName, repoName)
+        gitHubService.starRepository(userName, repoName)
     }
 
     override suspend fun unStarRepository(userName: String, repoName: String) {
-        gitHubApi.unStarRepository(userName, repoName)
+        gitHubService.unStarRepository(userName, repoName)
     }
 }
