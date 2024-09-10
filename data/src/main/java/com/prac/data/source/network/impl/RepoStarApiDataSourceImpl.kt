@@ -1,6 +1,6 @@
-package com.prac.data.source.impl
+package com.prac.data.source.network.impl
 
-import com.prac.data.source.RepoStarApiDataSource
+import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.api.GitHubApi
 import javax.inject.Inject
 
