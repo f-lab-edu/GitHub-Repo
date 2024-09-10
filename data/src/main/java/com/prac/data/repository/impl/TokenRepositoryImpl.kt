@@ -2,7 +2,7 @@ package com.prac.data.repository.impl
 
 import com.prac.data.repository.TokenRepository
 import com.prac.data.repository.model.TokenModel
-import com.prac.data.source.TokenApiDataSource
+import com.prac.data.source.network.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import javax.inject.Inject
 
