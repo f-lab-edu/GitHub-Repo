@@ -5,8 +5,8 @@ import com.prac.data.di.annotation.AuthOkHttpClient
 import com.prac.data.di.annotation.BasicOkHttpClient
 import com.prac.data.di.annotation.AuthRetrofit
 import com.prac.data.di.annotation.BasicRetrofit
-import com.prac.data.source.api.GitHubApi
-import com.prac.data.source.api.GitHubTokenApi
+import com.prac.data.source.network.api.GitHubApi
+import com.prac.data.source.network.api.GitHubTokenApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
