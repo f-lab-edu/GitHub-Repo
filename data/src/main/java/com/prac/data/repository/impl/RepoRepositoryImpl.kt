@@ -11,6 +11,7 @@ import com.prac.data.entity.OwnerEntity
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
+import com.prac.data.source.local.room.database.RepositoryDatabase
 import com.prac.data.source.local.room.entity.Repository
 import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 internal class RepoRepositoryImpl @Inject constructor(
     private val repoApiDataSource: RepoApiDataSource,
-    private val repoStarApiDataSource: RepoStarApiDataSource
+    private val repoStarApiDataSource: RepoStarApiDataSource,
+    private val repositoryDatabase: RepositoryDatabase
 ) : RepoRepository() {
     override suspend fun getRepositories(): Flow<PagingData<RepoEntity>> {
         TODO()
