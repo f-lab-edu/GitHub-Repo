@@ -107,6 +107,13 @@ internal class RepoRepositoryImpl @Inject constructor(
             }
     }
 
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Repository>): RemoteKey? {
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
+            ?.let { repo ->
+                repositoryDatabase.remoteKeyDao().remoteKey(repo.id)
+            }
+    }
+
     companion object {
         private const val STARTING_PAGE_INDEX = 1
         private const val PAGE_SIZE = 10
