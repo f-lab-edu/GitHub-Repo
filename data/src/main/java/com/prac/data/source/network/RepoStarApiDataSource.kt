@@ -1,4 +1,4 @@
-package com.prac.data.source
+package com.prac.data.source.network
 
 internal interface RepoStarApiDataSource {
     suspend fun checkRepositoryIsStarred(repoName: String) : Boolean

@@ -5,7 +5,7 @@ import com.prac.data.repository.TokenRepository
 import com.prac.data.repository.impl.RepoRepositoryImpl
 import com.prac.data.repository.impl.TokenRepositoryImpl
 import com.prac.data.source.network.RepoApiDataSource
-import com.prac.data.source.RepoStarApiDataSource
+import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.network.TokenApiDataSource
 import com.prac.data.source.TokenLocalDataSource
 import dagger.Module
