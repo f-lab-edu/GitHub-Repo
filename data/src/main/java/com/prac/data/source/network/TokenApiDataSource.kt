@@ -1,4 +1,4 @@
-package com.prac.data.source
+package com.prac.data.source.network
 
 import com.prac.data.repository.model.TokenModel
 
