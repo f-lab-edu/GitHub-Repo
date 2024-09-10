@@ -1,4 +1,4 @@
-package com.prac.data.di
+package com.prac.data.source.network.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -11,7 +11,7 @@ import retrofit2.Converter
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ConverterModule {
+class ConverterModule {
     @Provides
     fun provideIgnoreUnknownConverter(): Converter.Factory {
         val json = Json { ignoreUnknownKeys = true }
