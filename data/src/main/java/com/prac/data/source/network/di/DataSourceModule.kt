@@ -1,4 +1,4 @@
-package com.prac.data.di
+package com.prac.data.source.network.di
 
 import com.prac.data.source.local.datastore.TokenDataStoreManager
 import com.prac.data.source.network.RepoApiDataSource
@@ -18,7 +18,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object DataSourceModule {
+internal class DataSourceModule {
     @Provides
     fun provideTokenApiDataSource(
         gitHubAuthService: GitHubAuthService

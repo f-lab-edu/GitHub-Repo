@@ -1,4 +1,4 @@
-package com.prac.data.di
+package com.prac.data.source.network.di
 
 import com.prac.data.BuildConfig
 import com.prac.data.source.network.di.annotation.AuthOkHttpClient
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object OkHttpClientModule {
+internal class OkHttpClientModule {
     @Provides
     fun provideAuthorizationInterceptor(tokenDataStoreManager: TokenDataStoreManager) : Interceptor =
         AuthorizationInterceptor(tokenDataStoreManager)
