@@ -2,7 +2,7 @@ package com.prac.data.source.network.impl
 
 import com.prac.data.repository.model.TokenModel
 import com.prac.data.source.network.TokenApiDataSource
-import com.prac.data.source.api.GitHubTokenApi
+import com.prac.data.source.network.api.GitHubTokenApi
 import java.time.ZonedDateTime
 import javax.inject.Inject
 

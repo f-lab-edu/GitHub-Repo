@@ -1,7 +1,7 @@
 package com.prac.data.source.network.impl
 
 import com.prac.data.source.network.RepoStarApiDataSource
-import com.prac.data.source.api.GitHubApi
+import com.prac.data.source.network.api.GitHubApi
 import javax.inject.Inject
 
 internal class RepoStarApiDataSourceImpl @Inject constructor(

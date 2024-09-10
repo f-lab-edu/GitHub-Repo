@@ -5,8 +5,8 @@ import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.network.TokenApiDataSource
 import com.prac.data.source.local.TokenLocalDataSource
-import com.prac.data.source.api.GitHubApi
-import com.prac.data.source.api.GitHubTokenApi
+import com.prac.data.source.network.api.GitHubApi
+import com.prac.data.source.network.api.GitHubTokenApi
 import com.prac.data.source.network.impl.RepoApiDataSourceImpl
 import com.prac.data.source.network.impl.RepoStarApiDataSourceImpl
 import com.prac.data.source.network.impl.TokenApiDataSourceImpl

@@ -5,7 +5,7 @@ import com.prac.data.repository.model.OwnerModel
 import com.prac.data.repository.model.RepoDetailModel
 import com.prac.data.repository.model.RepoModel
 import com.prac.data.source.network.RepoApiDataSource
-import com.prac.data.source.api.GitHubApi
+import com.prac.data.source.network.api.GitHubApi
 import javax.inject.Inject
 
 internal class RepoApiDataSourceImpl @Inject constructor(

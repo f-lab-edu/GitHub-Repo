@@ -1,4 +1,4 @@
-package com.prac.data.source.api
+package com.prac.data.source.network.api
 
 import com.prac.data.source.network.dto.RepoDetailDto
 import com.prac.data.source.network.dto.RepoDto
