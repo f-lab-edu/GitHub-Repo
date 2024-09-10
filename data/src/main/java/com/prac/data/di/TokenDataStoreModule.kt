@@ -1,8 +1,7 @@
 package com.prac.data.di
 
 import android.content.Context
-import com.prac.data.di.datastore.TokenDataStoreManager
-import dagger.Binds
+import com.prac.data.source.local.datastore.TokenDataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

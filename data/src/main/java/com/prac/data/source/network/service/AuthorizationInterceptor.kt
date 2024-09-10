@@ -1,6 +1,6 @@
 package com.prac.data.source.network.service
 
-import com.prac.data.di.datastore.TokenDataStoreManager
+import com.prac.data.source.local.datastore.TokenDataStoreManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
