@@ -1,10 +1,10 @@
 package com.prac.data.di
 
 import com.prac.data.BuildConfig
-import com.prac.data.di.annotation.AuthOkHttpClient
-import com.prac.data.di.annotation.BasicOkHttpClient
-import com.prac.data.di.annotation.AuthRetrofit
-import com.prac.data.di.annotation.BasicRetrofit
+import com.prac.data.source.network.di.annotation.AuthOkHttpClient
+import com.prac.data.source.network.di.annotation.BasicOkHttpClient
+import com.prac.data.source.network.di.annotation.AuthRetrofit
+import com.prac.data.source.network.di.annotation.BasicRetrofit
 import com.prac.data.source.network.service.GitHubService
 import com.prac.data.source.network.service.GitHubAuthService
 import dagger.Module
