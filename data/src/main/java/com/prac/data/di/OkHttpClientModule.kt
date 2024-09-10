@@ -1,8 +1,8 @@
 package com.prac.data.di
 
 import com.prac.data.BuildConfig
-import com.prac.data.di.annotation.AuthOkHttpClient
-import com.prac.data.di.annotation.BasicOkHttpClient
+import com.prac.data.source.network.di.annotation.AuthOkHttpClient
+import com.prac.data.source.network.di.annotation.BasicOkHttpClient
 import com.prac.data.source.local.datastore.TokenDataStoreManager
 import com.prac.data.source.network.service.AuthorizationInterceptor
 import dagger.Module

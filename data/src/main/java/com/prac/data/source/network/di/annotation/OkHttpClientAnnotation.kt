@@ -1,11 +1,11 @@
-package com.prac.data.di.annotation
+package com.prac.data.source.network.di.annotation
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class BasicRetrofit
+annotation class BasicOkHttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AuthRetrofit
+annotation class AuthOkHttpClient
