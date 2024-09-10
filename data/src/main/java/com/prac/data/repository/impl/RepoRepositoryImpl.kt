@@ -24,8 +24,22 @@ internal class RepoRepositoryImpl @Inject constructor(
     private val repoStarApiDataSource: RepoStarApiDataSource,
     private val repositoryDatabase: RepositoryDatabase
 ) : RepoRepository() {
+
+    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getRepositories(): Flow<PagingData<RepoEntity>> {
-        TODO()
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            remoteMediator = this,
+            pagingSourceFactory = { repositoryDatabase.repositoryDao().getRepositories() }
+        ).flow
+            .map { pagingData ->
+                pagingData.map { repository ->
+                    RepoEntity(repository.id, repository.name, OwnerEntity(repository.owner.login, repository.owner.avatarUrl), repository.stargazersCount, repository.updatedAt, repository.isStarred)
+                }
+            }
     }
 
     override suspend fun getRepository(userName: String, repoName: String): Result<RepoDetailEntity> {
