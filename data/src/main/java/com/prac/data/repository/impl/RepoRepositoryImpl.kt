@@ -7,11 +7,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingState
 import androidx.paging.map
+import androidx.room.withTransaction
 import com.prac.data.entity.OwnerEntity
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.data.source.local.room.database.RepositoryDatabase
+import com.prac.data.source.local.room.entity.Owner
 import com.prac.data.source.local.room.entity.RemoteKey
 import com.prac.data.source.local.room.entity.Repository
 import com.prac.data.source.network.RepoApiDataSource
@@ -108,7 +110,29 @@ internal class RepoRepositoryImpl @Inject constructor(
             }
         }
 
-        TODO("Not yet implemented")
+        try {
+            val response = repoApiDataSource.getRepositories("GongDoMin", PAGE_SIZE, page)
+
+            repositoryDatabase.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    repositoryDatabase.remoteKeyDao().clearRemoteKeys()
+                    repositoryDatabase.repositoryDao().clearRepositories()
+                }
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
+                val nextKey = if (response.size < 10) null else page + 1
+                val keys = response.map {
+                    RemoteKey(it.id, prevKey, nextKey)
+                }
+                val repositories = response.map {
+                    Repository(it.id, it.name, Owner(it.owner.login, it.owner.avatarUrl), it.stargazersCount, it.updatedAt, null)
+                }
+                repositoryDatabase.remoteKeyDao().insertRemoteKeys(keys)
+                repositoryDatabase.repositoryDao().insertRepositories(repositories)
+            }
+            return MediatorResult.Success(endOfPaginationReached = response.size < 10)
+        } catch (exception: Exception) {
+            return MediatorResult.Error(exception)
+        }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Repository>): RemoteKey? {
