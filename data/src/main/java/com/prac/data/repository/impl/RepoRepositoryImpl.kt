@@ -14,7 +14,6 @@ import com.prac.data.repository.RepoRepository
 import com.prac.data.source.local.room.entity.Repository
 import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
-import com.prac.data.source.network.impl.RepoApiDataSourceImpl.Companion.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,19 +22,9 @@ internal class RepoRepositoryImpl @Inject constructor(
     private val repoApiDataSource: RepoApiDataSource,
     private val repoStarApiDataSource: RepoStarApiDataSource
 ) : RepoRepository() {
-    override suspend fun getRepositories(): Flow<PagingData<RepoEntity>> =
-        Pager(
-            config = PagingConfig(
-                pageSize = PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { repoApiDataSource }
-        ).flow
-            .map { pagingData ->
-                pagingData.map { repoModel ->
-                    RepoEntity(repoModel.id, repoModel.name, OwnerEntity(repoModel.owner.login, repoModel.owner.avatarUrl), repoModel.stargazersCount, repoModel.updatedAt, null)
-                }
-            }
+    override suspend fun getRepositories(): Flow<PagingData<RepoEntity>> {
+        TODO()
+    }
 
     override suspend fun getRepository(userName: String, repoName: String): Result<RepoDetailEntity> {
         return try {

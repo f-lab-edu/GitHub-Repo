@@ -1,14 +1,10 @@
 package com.prac.data.source.network
 
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import com.prac.data.repository.model.RepoDetailModel
 import com.prac.data.repository.model.RepoModel
 
-internal abstract class RepoApiDataSource : PagingSource<Int, RepoModel>() {
-    abstract override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RepoModel>
+internal interface RepoApiDataSource {
+    suspend fun getRepositories(userName: String, perPage:Int, page: Int) : List<RepoModel>
 
-    abstract override fun getRefreshKey(state: PagingState<Int, RepoModel>): Int?
-
-    abstract suspend fun getRepository(userName: String, repoName: String) : RepoDetailModel
+    suspend fun getRepository(userName: String, repoName: String) : RepoDetailModel
 }
