@@ -74,5 +74,10 @@ internal class RepoRepositoryImpl @Inject constructor(
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repository>): MediatorResult {
         TODO("Not yet implemented")
     }
+
+    companion object {
+        private const val STARTING_PAGE_INDEX = 1
+        private const val PAGE_SIZE = 10
+    }
 }
 
