@@ -1,7 +1,7 @@
 package com.prac.data.source.api
 
-import com.prac.data.source.dto.RepoDetailDto
-import com.prac.data.source.dto.RepoDto
+import com.prac.data.source.network.dto.RepoDetailDto
+import com.prac.data.source.network.dto.RepoDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
