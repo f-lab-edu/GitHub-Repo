@@ -1,13 +1,17 @@
 package com.prac.data.repository.impl
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingState
 import androidx.paging.map
 import com.prac.data.entity.OwnerEntity
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
+import com.prac.data.source.local.room.entity.Repository
 import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
 import com.prac.data.source.network.impl.RepoApiDataSourceImpl.Companion.PAGE_SIZE
@@ -18,7 +22,7 @@ import javax.inject.Inject
 internal class RepoRepositoryImpl @Inject constructor(
     private val repoApiDataSource: RepoApiDataSource,
     private val repoStarApiDataSource: RepoStarApiDataSource
-) : RepoRepository {
+) : RepoRepository() {
     override suspend fun getRepositories(): Flow<PagingData<RepoEntity>> =
         Pager(
             config = PagingConfig(
@@ -75,6 +79,11 @@ internal class RepoRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Repository>): MediatorResult {
+        TODO("Not yet implemented")
     }
 }
 
