@@ -12,6 +12,7 @@ import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
 import com.prac.data.source.local.room.database.RepositoryDatabase
+import com.prac.data.source.local.room.entity.RemoteKey
 import com.prac.data.source.local.room.entity.Repository
 import com.prac.data.source.network.RepoApiDataSource
 import com.prac.data.source.network.RepoStarApiDataSource
@@ -89,6 +90,14 @@ internal class RepoRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repository>): MediatorResult {
         TODO("Not yet implemented")
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Repository>): RemoteKey? {
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { repoId ->
+                repositoryDatabase.remoteKeyDao().remoteKey(repoId)
+            }
+        }
     }
 
     companion object {
