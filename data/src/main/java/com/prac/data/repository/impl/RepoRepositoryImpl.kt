@@ -59,6 +59,10 @@ internal class RepoRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getStarStateAndStarCount(id: Int): Flow<Pair<Boolean?, Int?>> {
+        return repositoryDatabase.repositoryDao().getRepository(id).map { Pair(it?.isStarred, it?.stargazersCount) }
+    }
+
     override suspend fun isStarred(id: Int, repoName: String) {
         val result = repoStarApiDataSource.checkRepositoryIsStarred(repoName)
 
