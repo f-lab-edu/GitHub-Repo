@@ -59,6 +59,8 @@ class MainViewModel @Inject constructor(
 
     fun starRepository(repoEntity: RepoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.starLocalRepository(repoEntity.id, repoEntity.stargazersCount + 1)
+
             repoRepository.starRepository(repoEntity.owner.login, repoEntity.name)
         }
     }

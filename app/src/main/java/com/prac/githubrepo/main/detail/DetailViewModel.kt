@@ -62,6 +62,8 @@ class DetailViewModel @Inject constructor(
 
     fun starRepository(repoDetailEntity: RepoDetailEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.starLocalRepository(repoDetailEntity.id, repoDetailEntity.stargazersCount + 1)
+
             repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
         }
     }
