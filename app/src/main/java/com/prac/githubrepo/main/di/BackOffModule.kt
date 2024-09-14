@@ -63,7 +63,9 @@ class BackOffModule {
             }
 
             override fun clearWork() {
-                TODO("Not yet implemented")
+                _workMap.forEach { if (!it.value.isCompleted) it.value.cancel() }
+
+                _workMap.clear()
             }
 
             private fun calculateExponentialBackOffDelay(attemptTime: Int) : Long =
