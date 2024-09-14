@@ -48,7 +48,18 @@ class BackOffModule {
             }
 
             override suspend fun addUnStarWorkWithUniqueID(uniqueID: Int, userName: String, repoName: String) {
-                TODO("Not yet implemented")
+                _workMap[uniqueID]?.cancel()
+
+                val job = coroutineScope.launch {
+                    repeat(attemptTimes) { attemptTime ->
+                        delay(calculateExponentialBackOffDelay(attemptTime))
+
+                        repoRepository.unStarRepository(userName, repoName)
+                            .onSuccess { _workMap[uniqueID]?.cancel() }
+                    }
+                }
+
+                _workMap[uniqueID] = job
             }
 
             override fun clearWork() {
