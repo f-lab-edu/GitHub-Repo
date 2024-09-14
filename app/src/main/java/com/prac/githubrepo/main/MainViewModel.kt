@@ -25,8 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repoRepository: RepoRepository,
-    private val starStateMediator: StarStateMediator
+    private val repoRepository: RepoRepository
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -44,20 +43,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             if (_uiState.value != UiState.Idle) return@launch
 
-            combine(
-                repoRepository.getRepositories().cachedIn(viewModelScope),
-                starStateMediator.starStates
-            ) { pagingData, starStates ->
-                starStates.fold(pagingData) { acc, item ->
-                    acc.map { repoEntity ->
-                        if (repoEntity.id == item.id) repoEntity.copy(isStarred = item.isStarred, stargazersCount = item.stargazersCount)
-                        else repoEntity
-                    }
-                }
-            }.collect { transformedPagingData ->
-                _uiState.update { UiState.ShowPagingData(transformedPagingData) }
+            repoRepository.getRepositories().cachedIn(viewModelScope).collect { pagingData ->
+                _uiState.update { UiState.ShowPagingData(pagingData) }
             }
-
         }
     }
 
@@ -70,44 +58,14 @@ class MainViewModel @Inject constructor(
     }
 
     fun starRepository(repoEntity: RepoEntity) {
-        starStateMediator.updateStarState(
-            id = repoEntity.id,
-            isStarred = true,
-            stargazersCount = repoEntity.stargazersCount + 1
-        )
-
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.starRepository(repoEntity.owner.login, repoEntity.name)
-                .onFailure {
-                    starStateMediator.updateStarState(
-                        id = repoEntity.id,
-                        isStarred = false,
-                        stargazersCount = repoEntity.stargazersCount
-                    )
-
-                    //TODO show alert dialog
-                }
         }
     }
 
     fun unStarRepository(repoEntity: RepoEntity) {
-        starStateMediator.updateStarState(
-            id = repoEntity.id,
-            isStarred = false,
-            stargazersCount = repoEntity.stargazersCount - 1
-        )
-
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
-                .onFailure {
-                    starStateMediator.updateStarState(
-                        id = repoEntity.id,
-                        isStarred = true,
-                        stargazersCount = repoEntity.stargazersCount
-                    )
-
-                    //TODO show alert dialog
-                }
         }
     }
 
