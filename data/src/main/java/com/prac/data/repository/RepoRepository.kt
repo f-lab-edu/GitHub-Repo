@@ -21,4 +21,6 @@ abstract class RepoRepository : RemoteMediator<Int, Repository>() {
     abstract suspend fun unStarRepository(userName: String, repoName: String) : Result<Unit>
 
     abstract suspend fun starLocalRepository(id: Int, updatedStarCount: Int)
+
+    abstract suspend fun unStarLocalRepository(id: Int, updatedStarCount: Int)
 }

@@ -94,6 +94,10 @@ internal class RepoRepositoryImpl @Inject constructor(
         repositoryDatabase.repositoryDao().updateStarStateAndStarCount(id, true, updatedStarCount)
     }
 
+    override suspend fun unStarLocalRepository(id: Int, updatedStarCount: Int) {
+        repositoryDatabase.repositoryDao().updateStarStateAndStarCount(id, false, updatedStarCount)
+    }
+
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repository>): MediatorResult {
         val page: Int = when (loadType) {
