@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
+import kotlin.math.pow
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,6 +42,8 @@ class BackOffModule {
                 TODO("Not yet implemented")
             }
 
+            private fun calculateExponentialBackOffDelay(attemptTime: Int) : Long =
+                multiplier.pow(attemptTime).toLong() * secondsToMillis
         }
     }
 }
