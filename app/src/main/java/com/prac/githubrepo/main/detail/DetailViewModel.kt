@@ -70,6 +70,8 @@ class DetailViewModel @Inject constructor(
 
     fun unStarRepository(repoDetailEntity: RepoDetailEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.unStarLocalRepository(repoDetailEntity.id, repoDetailEntity.stargazersCount - 1)
+
             repoRepository.unStarRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
         }
     }

@@ -67,6 +67,8 @@ class MainViewModel @Inject constructor(
 
     fun unStarRepository(repoEntity: RepoEntity) {
         viewModelScope.launch(Dispatchers.IO) {
+            repoRepository.unStarLocalRepository(repoEntity.id, repoEntity.stargazersCount - 1)
+
             repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
         }
     }
