@@ -14,7 +14,7 @@ abstract class RepoRepository : RemoteMediator<Int, Repository>() {
 
     abstract suspend fun getRepository(userName: String, repoName: String) : Result<RepoDetailEntity>
 
-    abstract suspend fun isStarred(repoName: String) : Result<Boolean>
+    abstract suspend fun isStarred(id: Int, repoName: String)
 
     abstract suspend fun starRepository(userName: String, repoName: String) : Result<Unit>
 

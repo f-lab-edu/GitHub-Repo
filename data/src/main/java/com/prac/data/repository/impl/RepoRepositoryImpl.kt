@@ -59,14 +59,8 @@ internal class RepoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun isStarred(repoName: String): Result<Boolean> {
-        return try {
-            val result = repoStarApiDataSource.checkRepositoryIsStarred(repoName)
-
-            Result.success(result)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun isStarred(id: Int, repoName: String) {
+        // TODO Api call and update Room
     }
 
     override suspend fun starRepository(userName: String, repoName: String): Result<Unit> {

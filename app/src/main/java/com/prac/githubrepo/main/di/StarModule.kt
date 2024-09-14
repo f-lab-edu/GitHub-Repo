@@ -17,12 +17,7 @@ class StarModule {
     ) : StarStateFetcher {
         return object : StarStateFetcher {
             override suspend fun fetchStarState(repoEntity: RepoEntity) {
-                repoRepository.isStarred(repoEntity.name)
-                    .onSuccess {
-                        // TODO ("room")
-                    }.onFailure {
-                        // TODO ("room")
-                    }
+                repoRepository.isStarred(repoEntity.id, repoEntity.name)
             }
 
         }
