@@ -16,8 +16,14 @@ interface RepositoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepositories(repos: List<Repository>)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateRepository(repo: Repository)
+    @Query("UPDATE repository SET isStarred = :isStarred, stargazersCount = :updatedCount WHERE id = :id")
+    suspend fun updateStarStateAndStarCount(id: Int, isStarred: Boolean, updatedCount: Int)
+
+    @Query("UPDATE repository SET isStarred = :isStarred WHERE id = :id")
+    suspend fun updateStarState(id: Int, isStarred: Boolean)
+
+    @Query("UPDATE repository SET stargazersCount = :updatedCount WHERE id = :id")
+    suspend fun updateStarCount(id: Int, updatedCount: Int)
 
     @Query("DELETE FROM repository")
     suspend fun clearRepositories()
