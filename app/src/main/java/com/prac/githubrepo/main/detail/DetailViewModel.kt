@@ -4,19 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.repository.RepoRepository
+import com.prac.githubrepo.main.backoff.BackOffWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repoRepository: RepoRepository
+    private val repoRepository: RepoRepository,
+    private val backOffWorkManager: BackOffWorkManager
 ) : ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -82,6 +84,16 @@ class DetailViewModel @Inject constructor(
             repoRepository.starLocalRepository(repoDetailEntity.id, repoDetailEntity.stargazersCount + 1)
 
             repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
+                .onFailure {
+                    when (it) {
+                        is IOException -> {
+                            backOffWorkManager.addStarWorkWithUniqueID(repoDetailEntity.id, repoDetailEntity.owner.login, repoDetailEntity.name)
+                        }
+                        else -> {
+                            // TODO Show Error Message
+                        }
+                    }
+                }
         }
     }
 
@@ -90,6 +102,16 @@ class DetailViewModel @Inject constructor(
             repoRepository.unStarLocalRepository(repoDetailEntity.id, repoDetailEntity.stargazersCount - 1)
 
             repoRepository.unStarRepository(repoDetailEntity.owner.login, repoDetailEntity.name)
+                .onFailure {
+                    when (it) {
+                        is IOException -> {
+                            backOffWorkManager.addUnStarWorkWithUniqueID(repoDetailEntity.id, repoDetailEntity.owner.login, repoDetailEntity.name)
+                        }
+                        else -> {
+                            // TODO Show Error Message
+                        }
+                    }
+                }
         }
     }
 }
