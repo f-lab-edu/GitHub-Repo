@@ -10,6 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Singleton
 import kotlin.math.pow
 
@@ -31,7 +33,18 @@ class BackOffModule {
             private val secondsToMillis = 1000
 
             override suspend fun addStarWorkWithUniqueID(uniqueID: Int, userName: String, repoName: String) {
-                TODO("Not yet implemented")
+                _workMap[uniqueID]?.cancel()
+
+                val job = coroutineScope.launch {
+                    repeat(attemptTimes) { attemptTime ->
+                        delay(calculateExponentialBackOffDelay(attemptTime))
+
+                        repoRepository.starRepository(userName, repoName)
+                            .onSuccess { _workMap[uniqueID]?.cancel() }
+                    }
+                }
+
+                _workMap[uniqueID] = job
             }
 
             override suspend fun addUnStarWorkWithUniqueID(uniqueID: Int, userName: String, repoName: String) {
