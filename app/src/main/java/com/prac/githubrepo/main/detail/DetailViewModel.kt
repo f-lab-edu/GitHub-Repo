@@ -48,8 +48,25 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repoRepository.getRepository(userName, repoName)
                 .onSuccess { repoDetailEntity ->
-                    _uiState.update {
-                        UiState.ShowRepository(repoDetailEntity)
+                    repoRepository.getStarStateAndStarCount(repoDetailEntity.id).collect { pair ->
+                        val isStarred = pair.first
+                        val stargazersCount = pair.second
+
+                        // Room 에서 repoDetailEntity.id 값이 없을 경우에 null 을 반환한다.
+                        if (stargazersCount == null) {
+                            _uiState.update { UiState.Error("존재하지 않는 레파지토리입니다.") }
+                            return@collect
+                        }
+
+                        // List 화면에서 Star Check 가 완료되기 전에 사용자가 Detail 화면으로 넘어온 경우 null 을 반환한다.
+                        if (isStarred == null) {
+                            repoRepository.isStarred(repoDetailEntity.id, repoDetailEntity.name)
+                            return@collect
+                        }
+
+                        _uiState.update {
+                            UiState.ShowRepository(repoDetailEntity.copy(isStarred = isStarred, stargazersCount = stargazersCount))
+                        }
                     }
                 }
                 .onFailure { throwable ->
