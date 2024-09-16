@@ -15,8 +15,6 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityDetailBinding
-import com.prac.githubrepo.main.MainActivity.Companion.REPO_NAME
-import com.prac.githubrepo.main.MainActivity.Companion.USER_NAME
 import com.prac.githubrepo.main.detail.DetailViewModel.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -98,6 +96,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val USER_NAME = "userName"
+        const val REPO_NAME = "repoName"
+
         fun createIntent(context: Context) : Intent {
             return Intent(context, DetailActivity::class.java)
         }

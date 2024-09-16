@@ -17,6 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 import com.prac.githubrepo.main.detail.DetailActivity
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.REPO_NAME
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.USER_NAME
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -101,10 +103,5 @@ class MainActivity : AppCompatActivity() {
                 mainAdapter.submitData(this.repositories)
             }
         }
-    }
-
-    companion object {
-        const val USER_NAME = "userName"
-        const val REPO_NAME = "repoName"
     }
 }
