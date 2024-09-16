@@ -38,6 +38,12 @@ class MediatorModule {
                     }
                 }
             }
+
+            override fun clearStarState() {
+                _starStates.update {
+                    emptyList()
+                }
+            }
         }
     }
 }
