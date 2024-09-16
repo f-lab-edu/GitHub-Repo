@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             starStateRequestBuilderFactory.create(this.lifecycleScope),
             object : MainAdapter.OnRepositoryClickListener {
                 override fun repository(repoEntity: RepoEntity) {
-                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                    val intent = DetailActivity.createIntent(this@MainActivity)
                     startActivity(intent)
                 }
 
