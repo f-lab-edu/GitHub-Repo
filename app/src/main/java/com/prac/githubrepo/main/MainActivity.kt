@@ -34,12 +34,7 @@ class MainActivity : AppCompatActivity() {
             starStateRequestBuilderFactory.create(this.lifecycleScope),
             object : MainAdapter.OnRepositoryClickListener {
                 override fun clickRepository(repoEntity: RepoEntity) {
-                    val intent = DetailActivity.createIntent(this@MainActivity)
-
-                    intent.apply {
-                        putExtra(USER_NAME, repoEntity.owner.login)
-                        putExtra(REPO_NAME, repoEntity.name)
-                    }
+                    val intent = DetailActivity.createIntent(this@MainActivity, repoEntity.owner.login, repoEntity.name)
 
                     startActivity(intent)
                 }

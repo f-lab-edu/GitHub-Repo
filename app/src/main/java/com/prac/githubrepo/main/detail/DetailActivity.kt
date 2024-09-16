@@ -99,8 +99,11 @@ class DetailActivity : AppCompatActivity() {
         const val USER_NAME = "userName"
         const val REPO_NAME = "repoName"
 
-        fun createIntent(context: Context) : Intent {
-            return Intent(context, DetailActivity::class.java)
+        fun createIntent(context: Context, userName: String, repoName: String) : Intent {
+            return Intent(context, DetailActivity::class.java).apply {
+                putExtra(USER_NAME, userName)
+                putExtra(REPO_NAME, repoName)
+            }
         }
     }
 }
