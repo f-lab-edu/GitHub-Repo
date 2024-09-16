@@ -1,5 +1,7 @@
 package com.prac.githubrepo.main.detail
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -13,8 +15,6 @@ import com.bumptech.glide.Glide
 import com.prac.data.entity.RepoDetailEntity
 import com.prac.githubrepo.R
 import com.prac.githubrepo.databinding.ActivityDetailBinding
-import com.prac.githubrepo.main.MainActivity.Companion.REPO_NAME
-import com.prac.githubrepo.main.MainActivity.Companion.USER_NAME
 import com.prac.githubrepo.main.detail.DetailViewModel.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -106,4 +106,17 @@ class DetailActivity : AppCompatActivity() {
             else viewModel.starRepository(repoDetailEntity)
         }
     }
+
+    companion object {
+        const val USER_NAME = "userName"
+        const val REPO_NAME = "repoName"
+
+        fun createIntent(context: Context, userName: String, repoName: String) : Intent {
+            return Intent(context, DetailActivity::class.java).apply {
+                putExtra(USER_NAME, userName)
+                putExtra(REPO_NAME, repoName)
+            }
+        }
+    }
+
 }

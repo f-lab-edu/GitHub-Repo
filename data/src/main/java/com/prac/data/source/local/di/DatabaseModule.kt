@@ -1,6 +1,7 @@
 package com.prac.data.source.local.di
 
 import android.content.Context
+import androidx.room.Room
 import com.prac.data.source.local.room.database.RepositoryDatabase
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,10 @@ import dagger.hilt.components.SingletonComponent
 internal class DatabaseModule {
     @Provides
     fun provideRepositoryDatabase(@ApplicationContext context: Context) : RepositoryDatabase {
-        return RepositoryDatabase.getInstance(context)
+        return Room.databaseBuilder(
+            context,
+            RepositoryDatabase::class.java,
+            "Repository.db"
+        ).build()
     }
 }
