@@ -1,5 +1,7 @@
 package com.prac.githubrepo.main.detail
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -93,5 +95,11 @@ class DetailActivity : AppCompatActivity() {
         binding.tvTitle.text = repoDetailEntity.name
         binding.tvStarCount.text = getString(R.string.star_count, repoDetailEntity.stargazersCount)
         binding.tvForkCount.text = getString(R.string.fork_count, repoDetailEntity.forksCount)
+    }
+
+    companion object {
+        fun createIntent(context: Context) : Intent {
+            return Intent(context, DetailActivity::class.java)
+        }
     }
 }
