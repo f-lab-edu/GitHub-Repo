@@ -92,7 +92,7 @@ class MainAdapter(
             onRepositoryClickListener: OnRepositoryClickListener
         ) {
             setOnClickListener {
-                onRepositoryClickListener.repository(repoEntity)
+                onRepositoryClickListener.clickRepository(repoEntity)
             }
         }
     }
@@ -120,7 +120,7 @@ class MainAdapter(
     }
 
     interface OnRepositoryClickListener {
-        fun repository(repoEntity: RepoEntity)
+        fun clickRepository(repoEntity: RepoEntity)
         fun star(repoEntity: RepoEntity)
         fun unStar(repoEntity: RepoEntity)
     }

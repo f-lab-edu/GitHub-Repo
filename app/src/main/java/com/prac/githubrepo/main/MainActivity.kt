@@ -17,6 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
 import com.prac.githubrepo.main.detail.DetailActivity
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.REPO_NAME
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.USER_NAME
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -31,13 +33,8 @@ class MainActivity : AppCompatActivity() {
         MainAdapter(
             starStateRequestBuilderFactory.create(this.lifecycleScope),
             object : MainAdapter.OnRepositoryClickListener {
-                override fun repository(repoEntity: RepoEntity) {
-                    val intent = Intent(this@MainActivity, DetailActivity::class.java)
-
-                    intent.apply {
-                        putExtra(USER_NAME, repoEntity.owner.login)
-                        putExtra(REPO_NAME, repoEntity.name)
-                    }
+                override fun clickRepository(repoEntity: RepoEntity) {
+                    val intent = DetailActivity.createIntent(this@MainActivity, repoEntity.owner.login, repoEntity.name)
 
                     startActivity(intent)
                 }
@@ -101,10 +98,5 @@ class MainActivity : AppCompatActivity() {
                 mainAdapter.submitData(this.repositories)
             }
         }
-    }
-
-    companion object {
-        const val USER_NAME = "userName"
-        const val REPO_NAME = "repoName"
     }
 }
