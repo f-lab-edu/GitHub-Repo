@@ -1,5 +1,7 @@
 package com.prac.githubrepo.main.detail
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -23,5 +25,11 @@ class DetailActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    companion object {
+        fun createIntent(context: Context) : Intent {
+            return Intent(context, DetailActivity::class.java)
+        }
     }
 }
