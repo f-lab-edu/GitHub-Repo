@@ -87,7 +87,10 @@ class DetailViewModel @Inject constructor(
                 .onFailure {
                     when (it) {
                         is IOException -> {
-
+                            backOffWorkManager.addWork(
+                                uniqueID = "star_${repoDetailEntity.id}",
+                                work = { repoRepository.starRepository(repoDetailEntity.owner.login, repoDetailEntity.name) }
+                            )
                         }
                         else -> {
                             // TODO Show Error Message
@@ -105,7 +108,10 @@ class DetailViewModel @Inject constructor(
                 .onFailure {
                     when (it) {
                         is IOException -> {
-
+                            backOffWorkManager.addWork(
+                                uniqueID = "star_${repoDetailEntity.id}",
+                                work = { repoRepository.unStarRepository(repoDetailEntity.owner.login, repoDetailEntity.name) }
+                            )
                         }
                         else -> {
                             // TODO Show Error Message
