@@ -60,7 +60,7 @@ class MainViewModel @Inject constructor(
                 .onFailure {
                     when (it) {
                         is IOException -> {
-                            backOffWorkManager.addStarWorkWithUniqueID(repoEntity.id, repoEntity.owner.login, repoEntity.name)
+
                         }
                         else -> {
                             // TODO Show Error Message
@@ -78,7 +78,7 @@ class MainViewModel @Inject constructor(
                 .onFailure {
                     when (it) {
                         is IOException -> {
-                            backOffWorkManager.addUnStarWorkWithUniqueID(repoEntity.id, repoEntity.owner.login, repoEntity.name)
+
                         }
                         else -> {
                             // TODO Show Error Message
