@@ -1,31 +1,26 @@
 package com.prac.githubrepo.main
 
-import android.util.SparseArray
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.prac.data.entity.RepoEntity
-import com.prac.data.exception.GitHubApiException
 import com.prac.data.repository.RepoRepository
+import com.prac.githubrepo.main.backoff.BackOffWorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repoRepository: RepoRepository
+    private val repoRepository: RepoRepository,
+    private val backOffWorkManager: BackOffWorkManager
 ): ViewModel() {
     sealed class UiState {
         data object Idle : UiState()
@@ -62,6 +57,19 @@ class MainViewModel @Inject constructor(
             repoRepository.starLocalRepository(repoEntity.id, repoEntity.stargazersCount + 1)
 
             repoRepository.starRepository(repoEntity.owner.login, repoEntity.name)
+                .onFailure {
+                    when (it) {
+                        is IOException -> {
+                            backOffWorkManager.addWork(
+                                uniqueID = "star_${repoEntity.id}",
+                                work = { repoRepository.starRepository(repoEntity.owner.login, repoEntity.name) }
+                            )
+                        }
+                        else -> {
+                            // TODO Show Error Message
+                        }
+                    }
+                }
         }
     }
 
@@ -70,6 +78,19 @@ class MainViewModel @Inject constructor(
             repoRepository.unStarLocalRepository(repoEntity.id, repoEntity.stargazersCount - 1)
 
             repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name)
+                .onFailure {
+                    when (it) {
+                        is IOException -> {
+                            backOffWorkManager.addWork(
+                                uniqueID = "star_${repoEntity.id}",
+                                work = { repoRepository.unStarRepository(repoEntity.owner.login, repoEntity.name) }
+                            )
+                        }
+                        else -> {
+                            // TODO Show Error Message
+                        }
+                    }
+                }
         }
     }
 
