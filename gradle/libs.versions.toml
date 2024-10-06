@@ -23,6 +23,7 @@ datastore = "1.0.0"
 datastore-preferences = "1.0.0"
 protobuf-javalite = "3.18.0"
 paging = "3.3.1"
+room = "2.6.1"
 
 # plugins
 kapt = "1.5.30"
@@ -57,6 +58,10 @@ androidx-datastore = { group = "androidx.datastore", name = "datastore", version
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
 protobuf = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobuf-javalite" }
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
