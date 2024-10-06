@@ -65,6 +65,7 @@ class DetailActivity : AppCompatActivity() {
                 binding.includeProgressBar.root.isVisible = false
 
                 bindRepositoryDetail(this.repository)
+                setOnStarClickListener(this.repository)
             }
             is UiState.Error -> {
                 binding.includeProgressBar.root.isVisible = false
@@ -91,8 +92,19 @@ class DetailActivity : AppCompatActivity() {
 
         binding.tvName.text = repoDetailEntity.owner.login
         binding.tvTitle.text = repoDetailEntity.name
+        binding.ivStar.setImageResource(
+            if (repoDetailEntity.isStarred == true) R.drawable.img_star
+            else R.drawable.img_unstar
+        )
         binding.tvStarCount.text = getString(R.string.star_count, repoDetailEntity.stargazersCount)
         binding.tvForkCount.text = getString(R.string.fork_count, repoDetailEntity.forksCount)
+    }
+
+    private fun setOnStarClickListener(repoDetailEntity: RepoDetailEntity) {
+        binding.ivStar.setOnClickListener {
+            if (repoDetailEntity.isStarred == true) viewModel.unStarRepository(repoDetailEntity)
+            else viewModel.starRepository(repoDetailEntity)
+        }
     }
 
     companion object {
@@ -106,4 +118,5 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
+
 }
