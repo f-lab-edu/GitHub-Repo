@@ -7,11 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.prac.data.source.local.room.entity.Repository
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RepositoryDao {
     @Query("SELECT * FROM repository")
     fun getRepositories(): PagingSource<Int, Repository>
+
+    @Query("SELECT * FROM repository WHERE id = :id")
+    fun getRepository(id: Int): Flow<Repository?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepositories(repos: List<Repository>)

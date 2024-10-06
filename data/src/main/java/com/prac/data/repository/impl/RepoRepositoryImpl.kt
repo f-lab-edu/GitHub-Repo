@@ -49,6 +49,9 @@ internal class RepoRepositoryImpl @Inject constructor(
         return try {
             val model = repoApiDataSource.getRepository(userName, repoName)
 
+            // 디테일 화면에 들어오는 동안 Star Count 가 변경될 수 있기 때문에 Star Count update
+            repositoryDatabase.repositoryDao().updateStarCount(model.id, model.stargazersCount)
+
             Result.success(
                 RepoDetailEntity(
                     model.id, model.name, OwnerEntity(model.owner.login, model.owner.avatarUrl), model.stargazersCount, model.forksCount, null
@@ -57,6 +60,10 @@ internal class RepoRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun getStarStateAndStarCount(id: Int): Flow<Pair<Boolean?, Int?>> {
+        return repositoryDatabase.repositoryDao().getRepository(id).map { Pair(it?.isStarred, it?.stargazersCount) }
     }
 
     override suspend fun isStarred(id: Int, repoName: String) {
