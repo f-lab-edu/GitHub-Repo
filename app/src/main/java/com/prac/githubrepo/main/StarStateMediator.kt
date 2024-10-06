@@ -9,6 +9,8 @@ interface StarStateMediator {
 
     fun updateStarState(id: Int, isStarred: Boolean, stargazersCount: Int)
 
+    fun clearStarState()
+
     data class StarState(
         val id: Int,
         val isStarred: Boolean,

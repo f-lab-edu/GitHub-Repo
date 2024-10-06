@@ -31,10 +31,9 @@ class MainViewModel @Inject constructor(
     sealed class UiState {
         data object Idle : UiState()
 
-        data object Loading : UiState()
-
         data class ShowPagingData(
-            val repositories : PagingData<RepoEntity>
+            val repositories : PagingData<RepoEntity>,
+            val loadState: LoadState? = null
         ) : UiState()
     }
 
@@ -59,6 +58,14 @@ class MainViewModel @Inject constructor(
                 _uiState.update { UiState.ShowPagingData(transformedPagingData) }
             }
 
+        }
+    }
+
+    fun updateLoadState(loadState: LoadState) {
+        if (_uiState.value !is UiState.ShowPagingData) return
+
+        _uiState.update {
+            (it as UiState.ShowPagingData).copy(loadState = loadState)
         }
     }
 

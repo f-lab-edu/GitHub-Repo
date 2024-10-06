@@ -1,5 +1,6 @@
 package com.prac.githubrepo.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,9 @@ import com.prac.githubrepo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.prac.githubrepo.main.MainViewModel.UiState
+import com.prac.githubrepo.main.detail.DetailActivity
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.REPO_NAME
+import com.prac.githubrepo.main.detail.DetailActivity.Companion.USER_NAME
 import com.prac.githubrepo.main.request.StarStateRequestBuilder
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -28,7 +32,21 @@ class MainActivity : AppCompatActivity() {
     private val mainAdapter: MainAdapter by lazy {
         MainAdapter(
             starStateRequestBuilderFactory.create(this.lifecycleScope),
-            OnStarClickListenerImpl(viewModel)
+            object : MainAdapter.OnRepositoryClickListener {
+                override fun clickRepository(repoEntity: RepoEntity) {
+                    val intent = DetailActivity.createIntent(this@MainActivity, repoEntity.owner.login, repoEntity.name)
+
+                    startActivity(intent)
+                }
+
+                override fun star(repoEntity: RepoEntity) {
+                    viewModel.starRepository(repoEntity)
+                }
+
+                override fun unStar(repoEntity: RepoEntity) {
+                    viewModel.unStarRepository(repoEntity)
+                }
+            }
         )
     }
     private val retryFooterAdapter: RetryFooterAdapter by lazy { RetryFooterAdapter { mainAdapter.retry() } }
@@ -64,38 +82,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun CombinedLoadStates.handleLoadStates() {
         if (source.refresh is LoadState.Error || source.refresh is LoadState.Loading) {
-            retryFooterAdapter.loadState = source.refresh
+            viewModel.updateLoadState(source.refresh)
             return
         }
 
-        retryFooterAdapter.loadState = source.append
+        viewModel.updateLoadState(source.append)
     }
 
     private suspend fun UiState.handleUiState() {
         when (this) {
             is UiState.Idle -> { }
-            is UiState.Loading -> {
-                // TODO Not yet implemented
-//                binding.includeProgressBar.root.isVisible = true
-            }
             is UiState.ShowPagingData -> {
-                // TODO Not yet implemented
-//                binding.includeProgressBar.root.isVisible = false
+                this.loadState?.let { retryFooterAdapter.loadState = it }
 
                 mainAdapter.submitData(this.repositories)
             }
-        }
-    }
-
-    private class OnStarClickListenerImpl(
-         private val mainViewModel: MainViewModel
-    ) : MainAdapter.OnStarClickListener {
-        override fun star(repoEntity: RepoEntity) {
-            mainViewModel.starRepository(repoEntity)
-        }
-
-        override fun unStar(repoEntity: RepoEntity) {
-            mainViewModel.unStarRepository(repoEntity)
         }
     }
 }

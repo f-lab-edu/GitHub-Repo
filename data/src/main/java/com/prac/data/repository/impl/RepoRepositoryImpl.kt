@@ -5,11 +5,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.prac.data.entity.OwnerEntity
+import com.prac.data.entity.RepoDetailEntity
 import com.prac.data.entity.RepoEntity
 import com.prac.data.repository.RepoRepository
-import com.prac.data.source.RepoApiDataSource
-import com.prac.data.source.RepoStarApiDataSource
-import com.prac.data.source.impl.RepoApiDataSourceImpl.Companion.PAGE_SIZE
+import com.prac.data.source.network.RepoApiDataSource
+import com.prac.data.source.network.RepoStarApiDataSource
+import com.prac.data.source.network.impl.RepoApiDataSourceImpl.Companion.PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -31,6 +32,20 @@ internal class RepoRepositoryImpl @Inject constructor(
                     RepoEntity(repoModel.id, repoModel.name, OwnerEntity(repoModel.owner.login, repoModel.owner.avatarUrl), repoModel.stargazersCount, repoModel.updatedAt, null)
                 }
             }
+
+    override suspend fun getRepository(userName: String, repoName: String): Result<RepoDetailEntity> {
+        return try {
+            val model = repoApiDataSource.getRepository(userName, repoName)
+
+            Result.success(
+                RepoDetailEntity(
+                    model.id, model.name, OwnerEntity(model.owner.login, model.owner.avatarUrl), model.stargazersCount, model.forksCount, null
+                )
+            )
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     override suspend fun isStarred(repoName: String): Result<Boolean> {
         return try {
