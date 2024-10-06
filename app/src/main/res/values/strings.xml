@@ -10,4 +10,7 @@
     <string name="main_title">Repository</string>
 
     <string name="requestID">requestID</string>
+
+    <string name="star_count">별 %d개</string>
+    <string name="fork_count">포크 %d개</string>
 </resources>

@@ -38,6 +38,9 @@
             android:name=".main.MainActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".main.detail.DetailActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
